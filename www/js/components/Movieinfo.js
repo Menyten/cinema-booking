@@ -8,10 +8,10 @@ class MovieInfo extends Component {
     }
 
     /**
-    *
-    * Get the id from the route and get the movie with that id
-    *
-    */
+     *
+     * Get the id from the route and get the movie with that id
+     *
+     */
 
     async mount() {
         let id = this.routeParts[0];

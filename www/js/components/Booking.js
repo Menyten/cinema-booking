@@ -1,6 +1,6 @@
 class Booking extends Component {
     constructor(props) {
-            super(props)
+            super(props);
             this.addRoute('/showtime', 'Showtimes');
             this.movies = [];
             this.getShowtimes();

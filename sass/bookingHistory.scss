@@ -7,15 +7,9 @@ h2 {
     float: left;
 }
 
-
-
 @media screen and (max-width: 361px) {
-
-.historyTable > .table {
-    
-    width:80%;
-    padding:20px;
-}
-
-
+    .historyTable>.table {
+        width: 80%;
+        padding: 20px;
+    }
 }
