@@ -1,3 +1,4 @@
-{ "passwordSalt": "weareawesome1!",
+{
+    "passwordSalt": "weareawesome1!",
     "cookieSecret": "YoHoHello?!?!"
 }

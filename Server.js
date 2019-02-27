@@ -47,8 +47,6 @@ module.exports = class Server {
   startWebServer() {
 
     const app = express();
-
-
     // Add body-parser to our requests
     app.use(bodyParser.json());
 

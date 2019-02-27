@@ -47,5 +47,4 @@ module.exports = class LoginHandler {
       res.json({ loggedOut: true });
     });
   }
-
 }

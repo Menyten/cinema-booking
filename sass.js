@@ -38,11 +38,9 @@ module.exports = class Sass {
 
   startWatch() {
     let throttleId;
-
     fs.watch(this.config.arguments.watchFolder, { recursive: true }, (eventType, filename) => {
       if (throttleId) { clearTimeout(throttleId); }
-
-      throttleId = setTimeout(() => {
+        throttleId = setTimeout(() => {
         throttleId = null;
         this.compile();
       }, 50);

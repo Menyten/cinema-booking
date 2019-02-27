@@ -10,9 +10,7 @@ module.exports = class CreateRestRoutes {
   }
 
   createRoutes(baseRoute, Model) {
-
     baseRoute = '/json/' + baseRoute + '/';
-
     // create a new instance
     this.app.post(baseRoute, async (req, res) => {
       let err, instance = new Model(req.body);
@@ -82,7 +80,5 @@ module.exports = class CreateRestRoutes {
       );
       res.json(err || result);
     });
-
   }
-
 }
