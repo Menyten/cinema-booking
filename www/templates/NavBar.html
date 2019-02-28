@@ -7,8 +7,8 @@
         <ul class="navbar-nav mx-auto">
             ${this.navItems}
         </ul>
-        ${App.loggedInUserEmail === undefined ? '
-        <div class="dropdown loggedInDiv">Inte inloggad</button><i class="fas fa-info-circle popsi" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content="Du är inte inloggad just nu, du kan fortfarande göra en bokning men du kommer endast kunna se din bokningshistorik om du har ett konto på vår sida."></i></div>'
+        ${App.loggedInUserEmail === undefined ? `
+        <div class="dropdown loggedInDiv">Inte inloggad</button><i class="fas fa-info-circle popsi" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content="Du är inte inloggad just nu, du kan fortfarande göra en bokning men du kommer endast kunna se din bokningshistorik om du har ett konto på vår sida."></i></div> `
         : `
         <div class="dropdown loggedInDiv"><button class="btn btn-secondary dropdown-toggle user-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${App.loggedInUserEmail}<i class="fas fa-user userX"></i></button>
             <div class="dropdown-menu"
