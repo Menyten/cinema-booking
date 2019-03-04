@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Startpage from './components/Startpage';
-import './App.css';
+import './App.scss';
 
 class App extends Component {
   render() {

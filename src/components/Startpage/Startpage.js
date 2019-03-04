@@ -2,6 +2,7 @@ import React from 'react';
 import FrontpageCarousel from '../FrontpageCarousel';
 import { Container, Row, Col} from 'reactstrap';
 import './startpage.scss';
+import auditoriumSeatImage from '../../images/testaudii.jpg';
 
 const Startpage = () => {
   return (
@@ -14,7 +15,13 @@ const Startpage = () => {
         </div>
         <FrontpageCarousel />
         </Col>
-        
+        <Col xs="12" lg="5">
+        <h1 className=" frontHeadline auditoriumInfo text-center">Våra salonger</h1>
+        <img src={auditoriumSeatImage} className="audi-image mx-auto d-block" alt=""/>
+        <p className="frontParagraph infoAudiText text-center">Stora Salongen: 81st <i className="fas fa-couch "></i> - IMAX</p>
+        <p className="frontParagraph infoAudiText text-center">Lilla Salongen: 55st <i className="fas fa-couch "></i> - IMAX</p>
+        <p className="frontParagraph infoAudiText text-center">VIP Salongen: 15st <i className="fas fa-couch "></i> - IMAX</p>
+        </Col>
       </Row>
     </Container>
   )
@@ -23,13 +30,6 @@ const Startpage = () => {
 export default Startpage;
 
 /*
-        <div class="col-12 col-lg-5">
-            <h1 class=" frontHeadline auditoriumInfo text-center">Våra salonger</h1>
-            <img src="/images/testaudii.jpg " class="audi-image mx-auto d-block">
-            <p class="frontParagraph infoAudiText text-center">Stora Salongen: 81st <i class="fas fa-couch "></i> - IMAX</p>
-            <p class="frontParagraph infoAudiText text-center">Lilla Salongen: 55st <i class="fas fa-couch "></i> - IMAX</p>
-            <p class="frontParagraph infoAudiText text-center">VIP Salongen: 15st <i class="fas fa-couch "></i> - IMAX</p>
-        </div>
     </div>
     <div class="row ">
         <div class="col-12 col-lg-6 ">
