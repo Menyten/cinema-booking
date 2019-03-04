@@ -12,7 +12,7 @@ const Carousel = () => {
       </ol>
       <div className="carousel-inner">
         <div className="carousel-item active">
-        <img src="/images/armageddonCarousel.jpg" class="d-block w-100" alt="..."/>
+        <img src="/images/armageddonCarousel.jpg" className="d-block w-100" alt="..."/>
         </div>
       </div>
     </div>
