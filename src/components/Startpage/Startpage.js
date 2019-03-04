@@ -1,5 +1,5 @@
 import React from 'react';
-import Carousel from '../Carousel';
+import FrontpageCarousel from '../FrontpageCarousel';
 import { Container, Row, Col} from 'reactstrap';
 import './startpage.scss';
 
@@ -12,7 +12,7 @@ const Startpage = () => {
           <h1 className="frontHeadline">Filmvisarna AB</h1>
           <p className="frontParagraph">Våra nuvarande filmer:</p>
         </div>
-        <Carousel />
+        <FrontpageCarousel />
         </Col>
         
       </Row>
@@ -23,47 +23,6 @@ const Startpage = () => {
 export default Startpage;
 
 /*
-
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active currentClick"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1" class="currentClick"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2" class="currentClick"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="3" class="currentClick"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="4" class="currentClick"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="/images/armageddonCarousel.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/images/astarisbornCarousel.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/images/birdboxCarousel.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/images/mebeforeyouCarousel.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/images/thegreatestshowmanCarousel.jpg" class="d-block w-100" alt="...">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-        </div>
-
-
-
-
-
         <div class="col-12 col-lg-5">
             <h1 class=" frontHeadline auditoriumInfo text-center">Våra salonger</h1>
             <img src="/images/testaudii.jpg " class="audi-image mx-auto d-block">
