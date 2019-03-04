@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
 import  Login from './components/Login';
+import Startpage from './components/Startpage';
+import { BrowserRouter as Router, Route} from "react-router-dom";
+import Header from './components/Header';
+import MyBookings from './components/MyBookings';
+import CurrentShowsPage from './components/CurrentShowsPage';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
+      <Router>
       <div className="App">
-        
-        <Login />
+        <Header />
+        <MyBookings />
+        <Route exact path='/' component={Startpage} />
+        <Route exact path='/login' component={Login}
+        <Route exact path='/showtime' component={CurrentShowsPage} />
       </div>
+      </Router>
     );
   }
 }
