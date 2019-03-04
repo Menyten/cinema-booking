@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import  Login from './components/Login';
 import Startpage from './components/Startpage';
+import './App.scss';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import Header from './components/Header';
 import MyBookings from './components/MyBookings';
 import CurrentShowsPage from './components/CurrentShowsPage';
 import MovieInfo from './components/MovieInfo';
-import './App.css';
 
 class App extends Component {
   render() {
