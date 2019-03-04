@@ -3,9 +3,16 @@ import Movie from '../Movie';
 import './currentshowspage.scss';
 
 class CurrentShowsPage extends Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+  }
   render() {
+    const { movies } = this.props;
     return (
-      <Movie />
+      movies.map(movie => (
+        <Movie movieInfo={movie} key={movie.id}/>
+      ))
     );
   }
 }

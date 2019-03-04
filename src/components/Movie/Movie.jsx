@@ -5,15 +5,16 @@ import './movie.scss';
 import MovieInfo from '../MovieInfo/MovieInfo';
 
 class Movie extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    const { movieInfo: { title, image } } = this.props;
     return (
       <Row>
         <Col>
           <h3 className='movie-title'>
-
-            {/* <Link to={'/film/' + this.filmId}>
-              Här kommer film namn var som länkar till movie info
-            </Link> */}
+            {title}
           </h3>
         </Col>
 
@@ -23,7 +24,7 @@ class Movie extends Component {
 
         <Col lg='4'>
           <MovieInfo />
-          {/* <img src={this.image[1]} /> */}
+          <img src={image[1]} />
         </Col>
       </Row>
     );
