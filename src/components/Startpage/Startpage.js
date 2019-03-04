@@ -1,32 +1,28 @@
 import React from 'react';
+import Carousel from '../Carousel';
+import { Container, Row, Col} from 'reactstrap';
 import './startpage.scss';
 
 const Startpage = () => {
   return (
-    <div>
+    <Container>
       <div className="row">
         <div className="col-12 col-lg-7">
           <div>
             <h1 className="frontHeadline">Filmvisarna AB</h1>
             <p className="frontParagraph">Våra nuvarande filmer:</p>
           </div>
-
+          <Carousel />
         </div>
       </div>
-    </div>
+    </Container>
   )
 }
 
 export default Startpage;
 
 /*
-<div>
-    <div class="row">
-        <div class="col-12 col-lg-7">
-            <div>
-                <h1 class="frontHeadline">Filmvisarna AB</h1>
-                <p class="frontParagraph">Våra nuvarande filmer:</p>
-            </div>
+
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active currentClick"></li>
@@ -62,6 +58,11 @@ export default Startpage;
                 </a>
             </div>
         </div>
+
+
+
+
+
         <div class="col-12 col-lg-5">
             <h1 class=" frontHeadline auditoriumInfo text-center">Våra salonger</h1>
             <img src="/images/testaudii.jpg " class="audi-image mx-auto d-block">
