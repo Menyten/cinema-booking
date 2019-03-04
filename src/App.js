@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Mainpage from './components/Mainpage';
+import  Login from './components/Login';
 import './App.css';
 
 class App extends Component {
@@ -7,7 +7,7 @@ class App extends Component {
     return (
       <div className="App">
         
-        <Mainpage />
+        <Login />
       </div>
     );
   }
