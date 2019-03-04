@@ -1,8 +1,9 @@
 import React from 'react';
+import Startpage from '../Startpage';
 
 const Mainpage = () => {
   return (
-    <div>Här ska sub komponenter vara till mainpage</div>
+    <Startpage></Startpage>
   )
 }
 
