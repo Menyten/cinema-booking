@@ -11,7 +11,6 @@ import {
   CarouselIndicators,
 } from 'reactstrap';
 
-console.log(armageddon)
 const items = [
   {
     src: armageddon
