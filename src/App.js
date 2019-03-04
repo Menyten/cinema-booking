@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 import Header from './components/Header';
 import MyBookings from './components/MyBookings';
 import CurrentShowsPage from './components/CurrentShowsPage';
+import MovieInfo from './components/MovieInfo';
 import './App.css';
 
 class App extends Component {
@@ -16,6 +17,7 @@ class App extends Component {
         <Route exact path='/' component={Startpage} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/showtime' component={CurrentShowsPage} />
+        <Route exact path= '/film/id' component= {MovieInfo} />
       </div>
       </Router>
     );
