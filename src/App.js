@@ -6,7 +6,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+      <Router>
         <Header />
+        <Route exact path='/' component={Startpage} />
+      </Router>
       </div>
     );
   }
