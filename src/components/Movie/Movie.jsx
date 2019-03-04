@@ -9,13 +9,13 @@ class Movie extends Component {
       <Row>
         <Col>
           <h3 className='movie-title'>
-            <Link to={'/film/' + this.filmId}>
+            {/* <Link to={'/film/' + this.filmId}>
               Här kommer film namn var som länkar till movie info
-            </Link>
+            </Link> */}
           </h3>
         </Col>
         <Col lg='4'>
-          <img src={this.image[1]} />
+          {/* <img src={this.image[1]} /> */}
         </Col>
         <Col lg='8'>
           <p>Visningar för en film kommer här</p>

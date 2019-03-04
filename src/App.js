@@ -12,7 +12,7 @@ class App extends Component {
       <div className="App">
         <Header />
         <Route exact path='/' component={Startpage} />
-        <CurrentShowsPage />
+        <Route exact path='/showtime' component={CurrentShowsPage} />
       </div>
       </Router>
     );
