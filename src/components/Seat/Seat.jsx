@@ -1,5 +1,5 @@
 import React from 'react';
-import './HistoryBookings.scss';
+import './Seat.scss';
 
 const Seat = () => {
   return (
