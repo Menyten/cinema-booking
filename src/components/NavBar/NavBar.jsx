@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -6,12 +7,10 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
-} from 'reactstrap';
+  DropdownItem } from 'reactstrap';
 import './navbar.scss';
 
 class NavBar extends Component {
@@ -37,13 +36,13 @@ class NavBar extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="mx-auto" navbar>
               <NavItem>
-                <NavLink className='headlines'>Start</NavLink>
+                <NavLink to='/' className='nav-link headlines'>Start</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className='headlines'>Logga In</NavLink>
+                <NavLink to='/login' className='nav-link headlines'>Logga In</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className='headlines'>Boka Biljetter</NavLink>
+                <NavLink to='/showtime' className='nav-link headlines'>Boka Biljetter</NavLink>
               </NavItem>
             </Nav>
           </Collapse>
