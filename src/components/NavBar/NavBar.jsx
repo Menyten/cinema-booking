@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
+import './navbar.scss';
 
 class NavBar extends Component {
   constructor(props) {
@@ -30,19 +31,19 @@ class NavBar extends Component {
   render() {
     return (
       <div>
-        <Navbar color="light" light expand="md">
+        <Navbar className='nav-design' light expand="lg">
           <NavbarBrand href="/"></NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="mx-auto" navbar>
               <NavItem>
-                <NavLink>Start</NavLink>
+                <NavLink className='headlines'>Start</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink>Logga In</NavLink>
+                <NavLink className='headlines'>Logga In</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink>Boka Biljetter</NavLink>
+                <NavLink className='headlines'>Boka Biljetter</NavLink>
               </NavItem>
             </Nav>
           </Collapse>
