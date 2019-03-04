@@ -3,7 +3,8 @@ import Startpage from '../Startpage';
 
 const Mainpage = () => {
   return (
-    <Startpage></Startpage>
+    <Startpage />
+
   )
 }
 
