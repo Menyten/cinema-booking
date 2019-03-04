@@ -13,9 +13,8 @@ class App extends Component {
       <Router>
       <div className="App">
         <Header />
-        <MyBookings />
         <Route exact path='/' component={Startpage} />
-        <Route exact path='/login' component={Login}
+        <Route exact path='/login' component={Login} />
         <Route exact path='/showtime' component={CurrentShowsPage} />
       </div>
       </Router>
