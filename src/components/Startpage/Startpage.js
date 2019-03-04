@@ -6,15 +6,16 @@ import './startpage.scss';
 const Startpage = () => {
   return (
     <Container>
-      <div className="row">
-        <div className="col-12 col-lg-7">
-          <div>
-            <h1 className="frontHeadline">Filmvisarna AB</h1>
-            <p className="frontParagraph">Våra nuvarande filmer:</p>
-          </div>
-          <Carousel />
+      <Row>
+        <Col xs="12" lg="7">
+        <div>
+          <h1 className="frontHeadline">Filmvisarna AB</h1>
+          <p className="frontParagraph">Våra nuvarande filmer:</p>
         </div>
-      </div>
+        <Carousel />
+        </Col>
+        
+      </Row>
     </Container>
   )
 }
