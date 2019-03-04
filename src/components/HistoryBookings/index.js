@@ -1,2 +1,2 @@
-import HistoryBookings from './Mybookings';
+import HistoryBookings from './HistoryBookings';
 export default HistoryBookings;

@@ -4,11 +4,9 @@ import CurrentBookings from '../CurrentBookings/index';
 
 const MyBookings = () => {
     return <div>
-      <HistoryBookings />
-</div>;
-<div>
-  <CurrentBookings />
-  </div>
+        <HistoryBookings />
+        <CurrentBookings />
+      </div>;
 };
 
-export default Mainpage;
+export default MyBookings;
