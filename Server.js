@@ -18,14 +18,14 @@ module.exports = class Server {
     await this.startWebServer();
   }
 
-  connectToDb() {
-    return new Promise((resolve, reject) => {
-      mongoose.connect(connectionString, { useNewUrlParser: true });
-      global.db = mongoose.connection;
-      db.on('error', () => reject('Could not connect to DB'));
-      db.once('open', () => resolve('Connected to DB'));
-    });
-  }
+  // connectToDb() {
+  //   return new Promise((resolve, reject) => {
+  //     mongoose.connect(connectionString, { useNewUrlParser: true });
+  //     global.db = mongoose.connection;
+  //     db.on('error', () => reject('Could not connect to DB'));
+  //     db.once('open', () => resolve('Connected to DB'));
+  //   });
+  // }
 
   connectToDb() {
     return new Promise((resolve, reject) => {
