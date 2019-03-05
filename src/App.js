@@ -10,18 +10,23 @@ import MovieInfo from './components/MovieInfo';
 import REST from './REST'
 
 class Movie extends REST { }
+class Showtime extends REST { }
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       movies: [],
+      showtimes: [],
     }
-    this.getMovies();
+    this.getMoviesAndShowtimes();
   }
 
-  async getMovies() {
-    this.setState({ movies: await Movie.find() });
+  async getMoviesAndShowtimes() {
+    this.setState({
+      movies: await Movie.find(),
+      showtimes: await Showtime.find()
+    });
   }
 
   render() {
@@ -31,9 +36,7 @@ class App extends Component {
           <Header />
           <Route exact path='/' component={Startpage} />
           <Route exact path='/login' component={Login} />
-          <Route exact path='/showtime'>
-            <CurrentShowsPage movies={this.state.movies}/>
-          </Route>
+          <Route exact path='/showtime' render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />
           <Route exact path='/film/id' component={MovieInfo} />
         </div>
       </Router>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Container } from 'reactstrap';
 import Movie from '../Movie';
 import './currentshowspage.scss';
 
@@ -8,12 +9,12 @@ class CurrentShowsPage extends Component {
     console.log(this.props);
   }
   render() {
-    const { movies } = this.props;
+    const { movies, showtimes } = this.props;
     return (
-      movies.map(movie => (
-        <Movie movieInfo={movie} key={movie.id}/>
-      ))
-    );
+      <Container>
+        {movies.map(movie => (<Movie movieInfo={movie} showtimes={showtimes} key={movie.id} />))}
+      </Container>
+    )
   }
 }
 
