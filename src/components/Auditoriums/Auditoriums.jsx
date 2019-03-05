@@ -1,5 +1,5 @@
 import React from 'react';
-import Seat from '../Seat.index';
+import Seat from '../Seat';
 
 const Auditoriums = () => {
   return (
