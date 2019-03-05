@@ -20,9 +20,9 @@ class Movie extends Component {
         <Col xs='12' lg='4'>
           <img className='img-fluid' src={require(`../../../public${image[1]}`)} />
         </Col>
-        <Col xs='12' lg='8'>
+        <Col className='mt-3 mt-sm-3 mt-md-0' xs='12' lg='8'>
           {showtimes.filter(showtime => showtime.film.toLowerCase().includes(title.toLowerCase())).map(showtime => (
-            <p key={showtime._id}>{showtime.date}</p>
+            <p className='mr-3' key={showtime._id}>{showtime.date}</p>
           ))}
         </Col>
       </Row>
