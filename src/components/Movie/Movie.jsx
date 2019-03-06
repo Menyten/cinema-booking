@@ -9,13 +9,15 @@ class Movie extends Component {
     super(props);
   }
   render() {
-    const { movieInfo: { title, image }, showtimes } = this.props;
+    const { movieInfo: { title, image, _id }, showtimes } = this.props;
     return (
       <Row className='movie mt-5'>
         <Col xs='12'>
-          <h3 className='movie-title'>
-            {title}
-          </h3>
+          <Link to={`/film/${_id}`} >
+            <h3 className='movie-title'>
+              {title}
+            </h3>
+          </ Link>
         </Col>
         <Col xs='12' lg='4'>
           <img className='img-fluid' src={require(`../../../public${image[1]}`)} />
