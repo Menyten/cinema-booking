@@ -38,6 +38,10 @@ class App extends Component {
           <Route exact path='/login' component={Login} />
           <Route exact path='/showtime' render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />
           <Route exact path='/film/id' component={MovieInfo} />
+          {this.state.movies.map(movie => (
+            <Route exact path={`/film/${movie._id}`} render={() => <MovieInfo movie={movie} />} key={movie._id} />
+            ))}
+            
         </div>
       </Router>
     );
