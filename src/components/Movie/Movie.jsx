@@ -24,7 +24,7 @@ class Movie extends Component {
         </Col>
         <Col className='mt-3 mt-sm-3 mt-md-0' xs='12' lg='8'>
           {showtimes.filter(showtime => showtime.film.toLowerCase().includes(title.toLowerCase())).map(showtime => (
-            <p className='mr-3' key={showtime._id}>{showtime.date}</p>
+            <Link to={`/showing/${showtime._id}`}><p className='mr-3' key={showtime._id}>{showtime.date}</p></Link>
           ))}
         </Col>
       </Row>
