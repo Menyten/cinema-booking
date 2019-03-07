@@ -50,6 +50,7 @@ class NavBar extends Component {
               <NavItem>
                 <NavLink to='/showtime' className='nav-link headlines'>Boka Biljetter</NavLink>
               </NavItem>
+              {this.state.loggedIn ? '' : <div className="loggedInDiv">Inte inloggad<i class="fas fa-info-circle popsi"></i> </div>}
             </Nav>
           </Collapse>
         </Navbar>
