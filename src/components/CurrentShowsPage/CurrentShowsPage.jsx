@@ -12,7 +12,9 @@ class CurrentShowsPage extends Component {
     const { movies, showtimes } = this.props;
     return (
       <Container>
-        {movies.map(movie => (<Movie movieInfo={movie} showtimes={showtimes} key={movie.id} />))}
+         {/* {(!this.props.movie || !this.props.movie.title) ? <h1> Ingen film med detta id </h1> : */}
+          {/* movies.map(movie => (<Movie movieInfo={movie} showtimes={showtimes} key={movie.id} />))}  */}
+          {movies.map(movie => (<Movie movieInfo={movie} showtimes={showtimes} key={movie.id} />))}
       </Container>
     )
   }
