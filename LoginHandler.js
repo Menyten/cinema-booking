@@ -11,7 +11,7 @@ module.exports = class LoginHandler {
   }
 
   createLoginRoute() {
-    this.app.post('/json/login', async (req, res) => {
+    this.app.post('/json/logins', async (req, res) => {
       let data = req.body;
       let user = await this.User.findOne({ email: data.email });
       if (!user) {
@@ -31,7 +31,7 @@ module.exports = class LoginHandler {
   }
 
   createCheckIfLoggedInRoute() {
-    this.app.get('/json/login', (req, res) => {
+    this.app.get('/json/logins', (req, res) => {
       if (!req.session.user) {
         res.json({ error: 'Not logged in!' });
         return;
@@ -41,7 +41,7 @@ module.exports = class LoginHandler {
   }
 
   createLogoutRoute() {
-    this.app.delete('/json/login/*', (req, res) => {
+    this.app.delete('/json/logins/*', (req, res) => {
       delete req.session.user;
       req.session.save();
       res.json({ loggedOut: true });

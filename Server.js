@@ -48,7 +48,7 @@ module.exports = class Server {
       resave: true,
       saveUninitialized: true,
       store: new MongoStore({
-        mongooseConnection: db
+        mongooseConnection: global.db
       })
     }));
 
@@ -65,7 +65,7 @@ module.exports = class Server {
 
 
     // create all necessary rest routes for the models
-    new CreateRestRoutes(app, db, models);
+    new CreateRestRoutes(app, global.db, models);
 
     new LoginHandler(app, models.users);
 

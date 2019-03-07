@@ -38,6 +38,7 @@ class App extends Component {
           <Route exact path='/login' component={Login} />
           <Route exact path='/showtime' render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />
           <Route exact path='/film/id' component={MovieInfo} />
+          <Route exact path='/my-bookings' component={MyBookings} />
         </div>
       </Router>
     );

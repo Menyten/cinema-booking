@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
+import REST from '../../REST';
 import {
   Collapse,
   Navbar,
@@ -21,7 +22,12 @@ class NavBar extends Component {
     this.state = {
       isOpen: false
     };
+
+    setInterval( () => {
+      this.setState({loggedIn: REST.getUser()})
+    }, 1000)
   }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
@@ -39,7 +45,7 @@ class NavBar extends Component {
                 <NavLink to='/' className='nav-link headlines'>Start</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to='/login' className='nav-link headlines'>Logga In</NavLink>
+                <NavLink to={this.state.loggedIn ? '/my-bookings' : '/login'} className='nav-link headlines'>{this.state.loggedIn ? 'Mina bokningar' : 'Logga In'}</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink to='/showtime' className='nav-link headlines'>Boka Biljetter</NavLink>
