@@ -3,24 +3,16 @@ import NavBar from '../NavBar';
 
 
 class Header extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-
   }
+
   render() {
-
-
-    let userInfo = this.props.users;
-    console.log(userInfo)
-    console.log(this.props.users)
-
-    
-    const {users} = this.props
-    console.log(users)
-
+    const { user } = this.props
     return (
       <header className="App-header">
-        <NavBar users={users} />
+        {console.log('this.props.user', this.props.user)}
+        <NavBar user={user} />
       </header>
     );
   }

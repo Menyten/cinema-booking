@@ -21,11 +21,9 @@ class App extends Component {
     this.state = {
       movies: [],
       showtimes: [],
-      users: []
+      user: {}
     }
-
-    App.lastInstance = this;
-
+    this.setUser = this.setUser.bind(this);
     this.getMoviesAndShowtimes();
   }
 
@@ -36,13 +34,12 @@ class App extends Component {
     });
   }
 
-   async setUser(username) {
+  async setUser(username) {
     let user = await Login.find();
-   console.log('tja')
-   App.lastInstance.setState({
+    console.log('tja')
+    this.setState({
       user: user
     });
-    console.log(App.lastInstance.state.user)
   }
 
   /*async getUsers() {
@@ -56,7 +53,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <Header users={App.lastInstance.state.users} />
+          <Header user={this.state.user} />
           <Route exact path='/' component={Startpage} />
           <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} />} />
           <Route exact path='/showtime' render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />
