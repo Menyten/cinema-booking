@@ -52,7 +52,8 @@ export default class REST {
     let response = await fetch('/json/' + this.baseRoute + query, {
       method: "GET",
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        
       }
     });
     let found = await response.json();

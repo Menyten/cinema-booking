@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Login from './components/Login';
+import LoginPage from './components/LoginPage';
 import Startpage from './components/Startpage';
 import './App.scss';
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -11,14 +11,21 @@ import REST from './REST'
 
 class Movie extends REST { }
 class Showtime extends REST { }
+class User extends REST { }
+class Login extends REST { }
 
 class App extends Component {
   constructor() {
     super();
+    this.setUser.bind(this);
     this.state = {
       movies: [],
       showtimes: [],
+      users: []
     }
+
+    App.lastInstance = this;
+
     this.getMoviesAndShowtimes();
   }
 
@@ -29,13 +36,29 @@ class App extends Component {
     });
   }
 
+   async setUser(username) {
+    let user = await Login.find();
+   console.log('tja')
+   App.lastInstance.setState({
+      user: user
+    });
+    console.log(App.lastInstance.state.user)
+  }
+
+  /*async getUsers() {
+    this.setState({
+      users: await User.find()
+    });
+    console.log(this.state.users);
+  } */
+
   render() {
     return (
       <Router>
         <div className="App">
-          <Header />
+          <Header users={App.lastInstance.state.users} />
           <Route exact path='/' component={Startpage} />
-          <Route exact path='/login' component={Login} />
+          <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} />} />
           <Route exact path='/showtime' render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />
           <Route exact path='/film/id' component={MovieInfo} />
           <Route exact path='/my-bookings' component={MyBookings} />

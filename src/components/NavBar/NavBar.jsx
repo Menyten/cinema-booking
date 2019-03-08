@@ -11,28 +11,56 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
+  DropdownItem,
+  Dropdown,
+  Button,
+  Popover,
+  PopoverBody
+} from 'reactstrap';
 import './navbar.scss';
 
 class NavBar extends Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
+    this.toggleUser = this.toggleUser.bind(this);
     this.state = {
       isOpen: false
     };
 
-    setInterval( () => {
-      this.setState({loggedIn: REST.getUser()})
-    }, 1000)
-  }
+    this.toggleUserInfo = this.toggleUserInfo.bind(this);
+    this.state = {
+      popoverOpen: false
+    };
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      dropdownOpen: false
+    };
+
+    setInterval(() => {
+      this.setState({ loggedIn: REST.getUser() })
+    }, 1000) 
+  } 
 
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
+
+  toggleUser() {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
+  }
+
+  toggleUserInfo() {
+    this.setState({
+      popoverOpen: !this.state.popoverOpen
+    });
+  }
+
   render() {
     return (
       <div>
@@ -50,7 +78,17 @@ class NavBar extends Component {
               <NavItem>
                 <NavLink to='/showtime' className='nav-link headlines'>Boka Biljetter</NavLink>
               </NavItem>
-              {this.state.loggedIn ? '' : <div className="loggedInDiv">Inte inloggad<i class="fas fa-info-circle popsi"></i> </div>}
+              {this.state.loggedIn ? <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleUser}>
+                <DropdownToggle caret>
+                {this.props.users}
+                  </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem header>Logga ut</DropdownItem>
+                </DropdownMenu>
+              </Dropdown> : <div className="loggedInDiv">Inte inloggad<i className="fas fa-info-circle icon-BC" id="Popover1" type="button">
+              <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggleUserInfo}>
+          <PopoverBody>OBS! Tänk på att om du inte är inloggad kommer du inte kunna se din bokningshistorik, registrera dig gärna för att kunna se detta samt att du kan ta del av exklusiva erbjudanden! </PopoverBody>
+        </Popover></i></div>}
             </Nav>
           </Collapse>
         </Navbar>
