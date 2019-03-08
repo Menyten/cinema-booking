@@ -9,6 +9,12 @@ class Header extends Component {
   }
   render() {
 
+
+    let userInfo = this.props.users;
+    console.log(userInfo)
+    console.log(this.props.users)
+
+    
     const {users} = this.props
     console.log(users)
 
