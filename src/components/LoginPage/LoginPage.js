@@ -1,13 +1,13 @@
 import React from 'react';
 import { Container, Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import './loginstyle.scss'
 import REST from '../../REST';
 
 class Login extends REST { }
 class User extends REST { }
 
- class LoginPage extends React.Component {
+class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.loggedIn = false;
@@ -62,9 +62,9 @@ class User extends REST { }
   render() {
     return (
       <Container>
-        <Form className="Container">
-          <h3 className="frontParagraph mt-3">Logga in</h3>
+        <Form className="Container mt-4">
           <Row form>
+            <Col md={3} />
             <Col md={6}>
               <FormGroup className="mt-3">
                 <Label className="emailColor">Email</Label>
@@ -75,9 +75,10 @@ class User extends REST { }
                   placeholder="..." />
               </FormGroup>
             </Col>
-            <Col md={6} />
+            <Col md={3} />
           </Row>
           <Row form>
+            <Col md={3} />
             <Col md={6}>
               <FormGroup className="mt-3">
                 <Label className="passwordColor">Password</Label>
@@ -88,10 +89,16 @@ class User extends REST { }
                   placeholder="..." />
               </FormGroup>
             </Col>
-            <Col md={6} />
+            <Col md={3} />
           </Row>
-          <Button onClick={this.login} className="submit-btn individualButton" type="button"> Logga in </Button>
-          <Button onClick={this.register} className="register-btn individualButton ml-1"> Registrera </Button>
+          <Row>
+            <Col className='text-md-right' md={6}>
+              <Button onClick={this.login} className="submit-btn individualButton" type="button"> Logga in </Button>
+            </Col>
+            <Col className='text-md-left' md={6}>
+              <Button onClick={this.register} className="register-btn individualButton"> Registrera </Button>
+            </Col>
+          </Row>
         </Form>
       </Container>
 
