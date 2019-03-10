@@ -40,8 +40,8 @@ class NavBar extends Component {
 
     setInterval(() => {
       this.setState({ loggedIn: REST.getUser() })
-    }, 1000) 
-  } 
+    }, 1000)
+  }
 
   toggle() {
     this.setState({
@@ -80,15 +80,15 @@ class NavBar extends Component {
               </NavItem>
               {this.state.loggedIn ? <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleUser}>
                 <DropdownToggle caret>
-                {this.props.users}
-                  </DropdownToggle>
+                  {this.props.user.email}
+                </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem header>Logga ut</DropdownItem>
                 </DropdownMenu>
               </Dropdown> : <div className="loggedInDiv">Inte inloggad<i className="fas fa-info-circle icon-BC" id="Popover1" type="button">
-              <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggleUserInfo}>
-          <PopoverBody>OBS! Tänk på att om du inte är inloggad kommer du inte kunna se din bokningshistorik, registrera dig gärna för att kunna se detta samt att du kan ta del av exklusiva erbjudanden! </PopoverBody>
-        </Popover></i></div>}
+                <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggleUserInfo}>
+                  <PopoverBody>OBS! Tänk på att om du inte är inloggad kommer du inte kunna se din bokningshistorik, registrera dig gärna för att kunna se detta samt att du kan ta del av exklusiva erbjudanden! </PopoverBody>
+                </Popover></i></div>}
             </Nav>
           </Collapse>
         </Navbar>

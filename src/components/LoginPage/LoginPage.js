@@ -33,7 +33,6 @@ class LoginPage extends React.Component {
       password: this.state.password,
     });
     let result = await login.save();
-    console.log(result)
     if (result.error) {
       alert(result.error);
       return;

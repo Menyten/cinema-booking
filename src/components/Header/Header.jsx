@@ -11,7 +11,6 @@ class Header extends Component {
     const { user } = this.props
     return (
       <header className="App-header">
-        {console.log('this.props.user', this.props.user)}
         <NavBar user={user} />
       </header>
     );

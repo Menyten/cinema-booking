@@ -36,7 +36,6 @@ class App extends Component {
 
   async setUser(username) {
     let user = await Login.find();
-    console.log('tja')
     this.setState({
       user: user
     });
