@@ -19,6 +19,21 @@ import {
 } from 'reactstrap';
 import './navbar.scss';
 
+class Login extends REST { 
+  static get baseRoute() {
+    return 'login/';
+  }
+
+  async delete() {
+    this._id = 1;
+    // we set an id here, because the REST class
+    // will complain if we try to call delete on an object without _id
+    // - and we use delete to logout (see test.js)
+ 
+    return super.delete();
+  }
+}
+
 class NavBar extends Component {
   constructor(props) {
     super(props);
@@ -61,6 +76,11 @@ class NavBar extends Component {
     });
   }
 
+  async logout() {
+    let logout = new Login();
+    await logout.delete();
+  }
+
   render() {
     return (
       <div>
@@ -83,7 +103,7 @@ class NavBar extends Component {
                   {this.props.user.email}
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem header>Logga ut</DropdownItem>
+                  <DropdownItem header><Button onClick={this.logout}>Logga Ut</Button></DropdownItem>
                 </DropdownMenu>
               </Dropdown> : <div className="loggedInDiv">Inte inloggad<i className="fas fa-info-circle icon-BC" id="Popover1" type="button">
                 <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggleUserInfo}>
@@ -98,3 +118,13 @@ class NavBar extends Component {
 }
 
 export default NavBar;
+
+/*
+
+async logout() {
+    let logout = new Login();
+    await logout.delete();
+    App.app.checkIfLoggedIn();
+  }
+
+*/
