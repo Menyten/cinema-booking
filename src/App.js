@@ -30,6 +30,7 @@ class App extends Component {
       user: {}
     }
     this.setUser = this.setUser.bind(this);
+    this.logout = this.logout.bind(this);
     this.getMoviesAndShowtimes();
   }
 
@@ -51,7 +52,7 @@ class App extends Component {
     let logout = new Login();
     await logout.delete();
     this.setState({
-      user: null
+      user: ''
     });
   }
 
