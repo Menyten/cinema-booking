@@ -4,6 +4,7 @@ import astarisborn from '../../images/astarisbornCarousel.jpg';
 import birdbox from '../../images/birdboxCarousel.jpg';
 import mebeforeyou from '../../images/mebeforeyouCarousel.jpg';
 import thegreatestshowman from '../../images/thegreatestshowmanCarousel.jpg';
+import './frontpagecarousel.scss';
 import {
   Carousel,
   CarouselItem,
