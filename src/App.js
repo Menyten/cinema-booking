@@ -12,11 +12,17 @@ import REST from './REST'
 class Movie extends REST { }
 class Showtime extends REST { }
 class User extends REST { }
-class Login extends REST { }
+class Login extends REST {
+  async delete() {
+    this._id = 1;
+    return super.delete();
+  }
+ }
 
 class App extends Component {
   constructor() {
     super();
+    this.logout.bind(this);
     this.setUser.bind(this);
     this.state = {
       movies: [],
@@ -41,18 +47,19 @@ class App extends Component {
     });
   }
 
-  /*async getUsers() {
+  async logout() {
+    let logout = new Login();
+    await logout.delete();
     this.setState({
-      users: await User.find()
+      user: null
     });
-    console.log(this.state.users);
-  } */
+  }
 
   render() {
     return (
       <Router>
         <div className="App">
-          <Header user={this.state.user} />
+          <Header user={this.state.user} logout={this.logout} />
           <Route exact path='/' component={Startpage} />
           <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} />} />
           <Route exact path='/showtime' render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />

@@ -19,13 +19,6 @@ import {
 } from 'reactstrap';
 import './navbar.scss';
 
-class Login extends REST { 
-  async delete() {
-    this._id = 1;
-    return super.delete();
-  }
-}
-
 class NavBar extends Component {
   constructor(props) {
     super(props);
@@ -68,10 +61,6 @@ class NavBar extends Component {
     });
   }
 
-  async logout() {
-    let logout = new Login();
-    await logout.delete();
-  }
 
   render() {
     return (
@@ -95,7 +84,7 @@ class NavBar extends Component {
                   {this.props.user.email}
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem header><Button onClick={this.logout}>Logga Ut</Button></DropdownItem>
+                  <DropdownItem header><Button onClick={this.props.logout}>Logga Ut</Button></DropdownItem>
                 </DropdownMenu>
               </Dropdown> : <div className="loggedInDiv">Inte inloggad<i className="fas fa-info-circle icon-BC" id="Popover1" type="button">
                 <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggleUserInfo}>

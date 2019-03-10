@@ -7,11 +7,15 @@ class Header extends Component {
     super(props);
   }
 
+
   render() {
+
     const { user } = this.props
+    const logout = this.props.logout
+
     return (
       <header className="App-header">
-        <NavBar user={user} />
+        <NavBar user={user} logout={logout} />
       </header>
     );
   }
