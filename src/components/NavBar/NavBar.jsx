@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 import REST from '../../REST';
 import {
   Collapse,
@@ -23,6 +24,7 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
 
+    this.logoutRoute = this.logoutRoute.bind(this);
     this.toggleUser = this.toggleUser.bind(this);
     this.state = {
       isOpen: false
@@ -40,7 +42,6 @@ class NavBar extends Component {
 
     setInterval(() => {
       this.setState({ loggedIn: REST.getUser() })
-      console.log(REST.getUser())
     }, 1000)
   }
 
@@ -60,6 +61,10 @@ class NavBar extends Component {
     this.setState({
       popoverOpen: !this.state.popoverOpen
     });
+  }
+
+  logoutRoute() {
+    this.props.history.push('/login');
   }
 
 
@@ -85,7 +90,7 @@ class NavBar extends Component {
                   {this.props.user.email}
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem header><Button onClick={this.props.logout}>Logga Ut</Button></DropdownItem>
+                  <DropdownItem header><Button onClick={(event) => { this.props.logout(); this.logoutRoute();}}>Logga Ut</Button></DropdownItem>
                 </DropdownMenu>
               </Dropdown> : <div className="loggedInDiv">Inte inloggad<i className="fas fa-info-circle icon-BC" id="Popover1" type="button">
                 <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggleUserInfo}>
@@ -99,7 +104,7 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+export default withRouter(NavBar);
 
 /*
 

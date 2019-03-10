@@ -55,7 +55,8 @@ class App extends Component {
     this.setState({
       user: user
     });
-    REST.setUser('false');
+    REST.setUser(false);
+    
   }
 
   render() {
