@@ -10,7 +10,6 @@ class User extends REST { }
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
-    this.loggedIn = false;
     this.createAccount = false;
     this.state = { email: '', password: '' }
 

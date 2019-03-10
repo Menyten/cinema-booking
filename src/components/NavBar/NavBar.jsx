@@ -40,6 +40,7 @@ class NavBar extends Component {
 
     setInterval(() => {
       this.setState({ loggedIn: REST.getUser() })
+      console.log(REST.getUser())
     }, 1000)
   }
 
