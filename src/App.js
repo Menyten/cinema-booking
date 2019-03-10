@@ -51,10 +51,6 @@ class App extends Component {
   async logout() {
     let logout = new Login();
     await logout.delete();
-    let user = await Login.find();
-    this.setState({
-      user: user
-    });
     REST.setUser(false);
     
   }
