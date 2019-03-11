@@ -21,9 +21,12 @@ import {
 import './navbar.scss';
 
 class NavBar extends Component {
+
+  static lastInstance;
   constructor(props) {
     super(props);
-
+    window.NavBarInstance = this;
+    NavBar.lastInstance = this;
     this.logoutRoute = this.logoutRoute.bind(this);
     this.toggleUser = this.toggleUser.bind(this);
     this.state = {

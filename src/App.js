@@ -8,7 +8,10 @@ import MyBookings from './components/MyBookings';
 import CurrentShowsPage from './components/CurrentShowsPage';
 import MovieInfo from './components/MovieInfo';
 import Showing from './components/Showing';
+import NavBar from './components/NavBar';
 import REST from './REST'
+
+console.log(NavBar);
 
 class Movie extends REST { }
 class Showtime extends REST { }
@@ -21,8 +24,10 @@ class Login extends REST {
  }
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    window.AppInstance = this;
+    this.setUser();
     this.logout.bind(this);
     this.setUser.bind(this);
     this.state = {
@@ -46,6 +51,9 @@ class App extends Component {
     let user = await Login.find();
     this.setState({
       user: user
+    }); console.log('denna staten', this.state)
+    NavBar.WrappedComponent.lastInstance.setState({
+      loggedIn: user.email?true:false
     });
   }
 
