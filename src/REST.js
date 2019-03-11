@@ -1,7 +1,9 @@
 // Base class for other classes
 // that are front end representations
 // of Mongoose models
-var user = false;
+
+
+
 export default class REST {
 
   static get baseRoute() {
@@ -10,14 +12,6 @@ export default class REST {
 
   constructor(settings) {
     Object.assign(this, settings);
-  }
-
-  static setUser(u){
-    user = u;
-  }
-
-  static getUser(){
-    return user;
   }
 
   async save() {
@@ -52,7 +46,8 @@ export default class REST {
     let response = await fetch('/json/' + this.baseRoute + query, {
       method: "GET",
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        
       }
     });
     let found = await response.json();

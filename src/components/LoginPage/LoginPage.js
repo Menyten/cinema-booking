@@ -1,26 +1,28 @@
 import React from 'react';
 import { Container, Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
 import './loginstyle.scss'
-import REST from './../../REST';
+import REST from '../../REST';
 
-class Login extends REST {}
+class Login extends REST { }
+class User extends REST { }
 
-export default class LoginPage extends React.Component {
-  constructor(props){
+class LoginPage extends React.Component {
+  constructor(props) {
     super(props);
-    this.loggedIn = false;
     this.createAccount = false;
-    this.state = {email: '', password: ''}
+    this.state = { email: '', password: '' }
 
     this.login = this.login.bind(this);
+    this.register = this.register.bind(this);
   }
 
-  emailValidation(e){
-    this.setState({email:  e.target.value})
+  emailValidation(e) {
+    this.setState({ email: e.target.value })
   }
 
-  passwordValidation(e){
-    this.setState({password:  e.target.value})
+  passwordValidation(e) {
+    this.setState({ password: e.target.value })
   }
 
   async login(e) {
@@ -35,23 +37,31 @@ export default class LoginPage extends React.Component {
       return;
     }
 
-    REST.setUser('true');
+    this.props.setUser(result.email);
+
+    //REST.setUser(true);
     this.props.history.push('/my-bookings');
+  }
 
-    /*App.app.checkIfLoggedIn();
-    this.loggedIn = true;
-  
-    
-    Router.goto('/mybookings'); */
-  } 
+  async register(e) {
+    e.preventDefault();
+    let user = new User({
+      email: this.state.email,
+      password: this.state.password,
+    });
+    //let validateEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    //let validatePasswordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    let test = await user.save();
+    console.log(test)
 
+  }
 
   render() {
     return (
       <Container>
-        <Form className="Container">
-          <h3 className="frontParagraph mt-3">Logga in</h3>
+        <Form className="Container mt-4">
           <Row form>
+            <Col md={3} />
             <Col md={6}>
               <FormGroup className="mt-3">
                 <Label className="emailColor">Email</Label>
@@ -62,23 +72,30 @@ export default class LoginPage extends React.Component {
                   placeholder="..." />
               </FormGroup>
             </Col>
-            <Col md={6} />
+            <Col md={3} />
           </Row>
           <Row form>
+            <Col md={3} />
             <Col md={6}>
               <FormGroup className="mt-3">
                 <Label className="passwordColor">Password</Label>
-                <Input onChange={this.passwordValidation.bind(this)} 
+                <Input onChange={this.passwordValidation.bind(this)}
                   type="password"
                   className="form-control password"
                   name="password" id="examplePassword"
                   placeholder="..." />
               </FormGroup>
             </Col>
-            <Col md={6} />
+            <Col md={3} />
           </Row>
-          <Button onClick={this.login} className="submit-btn individualButton" type="button"> Logga in </Button>
-          <Button className="register-btn individualButton ml-1"> Registrera </Button>
+          <Row>
+            <Col className='text-md-right' md={6}>
+              <Button onClick={this.login} className="submit-btn individualButton" type="button"> Logga in </Button>
+            </Col>
+            <Col className='text-md-left' md={6}>
+              <Button onClick={this.register} className="register-btn individualButton"> Registrera </Button>
+            </Col>
+          </Row>
         </Form>
       </Container>
 
@@ -86,6 +103,7 @@ export default class LoginPage extends React.Component {
   }
 }
 
+export default withRouter(LoginPage);
 /*
 
 class Login extends Component {
@@ -104,7 +122,7 @@ class Login extends Component {
     return 'login/';
   }
 
-  
+
 
  mount() {
   this.createAccount = false;
@@ -158,7 +176,7 @@ async login() {
   App.app.checkIfLoggedIn();
   this.loggedIn = true;
 
-  
+
   Router.goto('/mybookings');
 }
 }

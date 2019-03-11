@@ -15,7 +15,6 @@
   transition: .3s !important;
   position: relative !important;
   cursor: pointer !important;
-  margin-right: 14px !important;
 
   &:before {
     content: '' !important;
@@ -135,3 +134,7 @@
   color: #761818 !important;
 }
 
+.icon-BC {
+  background-color: #761818 !important;
+  margin-left: 5px;
+}
