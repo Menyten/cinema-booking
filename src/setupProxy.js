@@ -1,6 +1,8 @@
 const proxy = require('http-proxy-middleware');
- 
+
 module.exports = function(app) {
-  app.use(proxy('/json/*', { target: 'HTTP://localhost:3001/' 
-    }));
+ let filter = function(pathname, req) {
+   return pathname.startsWith('/json')
+ }
+ app.use(proxy(filter, { target: 'http://localhost:3001/' }));
 };
