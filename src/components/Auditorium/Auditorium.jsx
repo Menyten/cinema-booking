@@ -12,7 +12,7 @@ const Auditorium = () => {
         <Col className='mb-1' sm='12' md='4'>
           <h4>Vuxna (85kr)</h4>
           <button type="button" class="btn btn remove-adult remove-one selectButton selectButton1">-</button>
-          <span class="adult"></span>
+          <span className="adult"></span>
           <button type="button" class="btn btn add-adult add-one selectButton selectButton2">+</button>
         </Col>
       </Row>
