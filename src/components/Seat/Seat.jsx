@@ -1,11 +1,18 @@
 import React from 'react';
 import './Seat.scss';
 
-const Seat = () => {
+const Seat = (props) => {
+  let row;
+  let seatNum;
+  let booked;
+  let toBeBooked;
+
   return (
-    <div>
-      Heres gonna be some seats
-    </div>
+    <div
+      className="seat ${this.toBeBooked ? 'active' : ''} ${this.booked ? 'alreadyBooked' : ''}"
+      data-row="${this.row}"
+      data-seat="${this.seatNum}"
+    />
   );
 };
 

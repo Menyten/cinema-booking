@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import Auditorium from '../Auditorium';
 import './showing.scss';
 
 export default class Showing extends Component {
@@ -45,7 +46,7 @@ export default class Showing extends Component {
         </Row>
 
         <Row className='mt-5'>
-
+          <Auditorium />
         </Row>
 
       </Container>
