@@ -49,7 +49,7 @@ class App extends Component {
     let user = await Login.find();
     this.setState({
       user: user
-    }); console.log('denna staten', this.state)
+    }); 
     NavBar.WrappedComponent.lastInstance.setState({
       loggedIn: user.email?true:false
     });
