@@ -71,6 +71,7 @@ class App extends Component {
           <Header user={this.state.user} logout={this.logout} />
           <Route exact path='/' component={Startpage} />
           <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} />} />
+          <Route exact path='/my-bookings' render={() => <MyBookings historyBooking={this.state.historyBooking} currentBooking={this.state.currentBooking}/>} />
           <Route exact path="/showtime" render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />
           {this.state.showtimes.map(showtime => (
             <Route
