@@ -58,7 +58,7 @@ class App extends Component {
   }
 
   filterAuditoriums(showtime) {
-    let auditorium = this.state.auditoriums.filter(auditorium => auditorium._id === showtime._id);
+    let auditorium = this.state.auditoriums.filter(auditorium => auditorium._id === showtime.auditorium);
     console.log(auditorium);
   };
 
