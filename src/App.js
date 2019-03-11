@@ -11,8 +11,6 @@ import Showing from './components/Showing';
 import NavBar from './components/NavBar';
 import REST from './REST'
 
-console.log(NavBar);
-
 class Movie extends REST { }
 class Showtime extends REST { }
 class User extends REST { }
