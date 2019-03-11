@@ -60,7 +60,10 @@ class App extends Component {
   async logout() {
     let logout = new Login();
     await logout.delete();
-    REST.setUser(false);
+    let user = await Login.find();
+    NavBar.WrappedComponent.lastInstance.setState({
+      loggedIn: user.email = false
+    });
     
   }
 
