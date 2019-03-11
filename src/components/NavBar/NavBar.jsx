@@ -43,9 +43,6 @@ class NavBar extends Component {
       dropdownOpen: false
     };
 
-    /*setInterval(() => {
-      this.setState({ loggedIn: REST.getUser() })
-    }, 1000)*/
   }
 
   toggle() {
