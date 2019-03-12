@@ -8,6 +8,7 @@ import CurrentShowsPage from './components/CurrentShowsPage';
 import MovieInfo from './components/MovieInfo';
 import Showing from './components/Showing';
 import NavBar from './components/NavBar';
+import MyBookings from './components/MyBookings';
 import REST from './REST'
 
 class Movie extends REST { }
@@ -23,18 +24,20 @@ class Login extends REST {
 }
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       movies: [],
       showtimes: [],
       user: {},
       auditoriums: [],
-      booking: {}
+      bookings: {}
     }
     this.setUser = this.setUser.bind(this);
     this.logout = this.logout.bind(this);
+    this.getBookings = this.getBookings.bind(this);
     this.getMoviesShowtimesAuditoriumUserAndBooking();
+    this.getBookings();
   }
 
   async getMoviesShowtimesAuditoriumUserAndBooking() {
@@ -42,18 +45,27 @@ class App extends Component {
       movies: await Movie.find(),
       showtimes: await Showtime.find(),
       auditoriums: await Auditorium.find(),
-      users: await User.find(),
-      bookings: await Booking.find()
+      users: await User.find(),      
+      //bookings: await Booking.find(`.find({userId: "${this.state.user._id}"}).populate('showTimeDetails').exec()`)
+     
     });
+        
+
   }
+
+  
+
+   
 
   async setUser(username) {
     let user = await Login.find();
+    console.log(user._id);
     this.setState({
       user: user
     }); 
     NavBar.WrappedComponent.lastInstance.setState({
-      loggedIn: user.email?true:false
+      loggedIn: user.email ? this.getBookings(user._id) : false
+      
     });
   }
 
@@ -69,12 +81,22 @@ class App extends Component {
     return auditorium;
   };
 
+  async getBookings(id) {
+   // console.log('id',id);
+    this.bookings = await Booking.find(`.find({userId: "${id}"}).populate('showTimeDetails').exec()`);
+    console.log(this.bookings);
+    
+
+
+  }
+
   render() {
     return <Router>
         <div className="App">
           <Header user={this.state.user} logout={this.logout} />
           <Route exact path='/' component={Startpage} />
           <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} />} />
+          <Route exact path='/my-bookings' render={() => <MyBookings bookings={this.state.bookings} currentBooking={this.state.currentBooking}/>} />
           <Route exact path="/showtime" render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />
           {this.state.showtimes.map(showtime => (
             <Route
@@ -85,7 +107,7 @@ class App extends Component {
             />
           ))
         }
-        < Route exact path='/film/id' component={MovieInfo} />
+        <Route exact path='/film/id' component={MovieInfo} />
         {
           this.state.movies.map(movie => (
             <Route exact path={`/film/${movie._id}`} render={() => <MovieInfo movie={movie} />} key={movie._id} />

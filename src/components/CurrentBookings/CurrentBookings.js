@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Col, Table } from 'reactstrap';
 
-const CurrentBookings = () => {
+const CurrentBookings = (props) => {
     return (
     <Container>
         <Col>

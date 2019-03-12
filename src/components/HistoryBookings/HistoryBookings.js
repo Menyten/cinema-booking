@@ -2,10 +2,30 @@ import React from "react";
 import { Container, Col, Table } from "reactstrap";
 import "./HistoryBookings.scss";
 
+
+
+
 class HistoryBookings extends React.Component {
+  constructor(props){
+    super(props);
+     this.state = {
+       user: {},
+       bookings: {}
+     }
+     
+  }
+
+  
   render() {
+    
+    
+        
     return (
+     
+      
+      
       <Container>
+          
           <Col>
             <h1 className="text-light mt-4">Bokningshistorik</h1>
             <Table dark>
