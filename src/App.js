@@ -4,7 +4,6 @@ import Startpage from './components/Startpage';
 import './App.scss';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from './components/Header';
-import MyBookings from './components/MyBookings';
 import CurrentShowsPage from './components/CurrentShowsPage';
 import MovieInfo from './components/MovieInfo';
 import Showing from './components/Showing';
@@ -15,6 +14,7 @@ class Movie extends REST { }
 class Showtime extends REST { }
 class Auditorium extends REST { }
 class User extends REST { }
+class Booking extends REST {}
 class Login extends REST {
   async delete() {
     this._id = 1;
@@ -29,18 +29,21 @@ class App extends Component {
       movies: [],
       showtimes: [],
       user: {},
-      auditoriums: []
+      auditoriums: [],
+      booking: {}
     }
     this.setUser = this.setUser.bind(this);
     this.logout = this.logout.bind(this);
-    this.getMoviesShowtimesAndAuditorium();
+    this.getMoviesShowtimesAuditoriumUserAndBooking();
   }
 
-  async getMoviesShowtimesAndAuditorium() {
+  async getMoviesShowtimesAuditoriumUserAndBooking() {
     this.setState({
       movies: await Movie.find(),
       showtimes: await Showtime.find(),
-      auditoriums: await Auditorium.find()
+      auditoriums: await Auditorium.find(),
+      users: await User.find(),
+      bookings: await Booking.find()
     });
   }
 
