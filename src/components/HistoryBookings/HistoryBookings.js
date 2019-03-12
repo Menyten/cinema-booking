@@ -5,7 +5,7 @@ import "./HistoryBookings.scss";
 class HistoryBookings extends React.Component {
   render() {
     return (
-      <Container md="6">
+      <Container>
           <Col>
             <h1 className="text-light mt-4">Bokningshistorik</h1>
             <Table dark>

@@ -15,15 +15,22 @@ class MyBookings extends React.Component {
 
     async getUser() {
       //let users = await User.find();
-       let users = await User.find(`.find({Email:"siko"})`);
+       let users = await User.find();
       console.log(users);
     }
+
+
+    // async getBookings(history) {
+    //     let user = await Login.find();
+    //     this.bookings = await Booking.find(
+    //       `.find({userId: "${user._id}"}).populate('showTimeDetails').exec()`
+    //     );
 
     render() {
     return(
       <Row>
-           <Col md="6"><HistoryBookings/></Col> 
-           <Col md="6"><CurrentBookings /></Col>
+           <Col md="6" sm="12"><HistoryBookings/></Col> 
+           <Col md="6" sm="12"><CurrentBookings /></Col>
        </Row>);
   } 
 };
