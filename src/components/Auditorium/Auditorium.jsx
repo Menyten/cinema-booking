@@ -3,7 +3,7 @@ import './auditorium.scss';
 import React from 'react';
 import Seat from '../Seat'
 
-const Auditorium = ({ auditorium }) => {
+const Auditorium = ({ auditorium, seatClick }) => {
 
   const createSeatLayout = () => {
     let seats = [];
@@ -15,7 +15,7 @@ const Auditorium = ({ auditorium }) => {
     for (let numberOfSeatsInTheRow of auditorium[0].seatsPerRow) {
       let seatsInRow = [];
       while (seatsInRow.length < numberOfSeatsInTheRow) {
-        let seat = <Seat row={row} seatNum={seatNum} key={seatNum} />
+        let seat = <Seat row={row} seatNum={seatNum} seatClick={seatClick} key={seatNum} />
         console.log('seat', seat)
         seatsInRow.push(seat);
         seatsBySeatNumber[seatNum] = seat;

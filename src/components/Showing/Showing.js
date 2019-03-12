@@ -6,7 +6,22 @@ import './showing.scss';
 export default class Showing extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      chosenSeats: [],
+    }
   }
+
+  seatClick(e) {
+    console.log(e.currentTarget);
+    /* let seat = e.currentTarget;
+    let myIndex = seats.index(e.currentTarget);
+    for (let i = myIndex; i < myIndex + this.currentShowing.countAll; i++) {
+      let seat = this.seatsBySeatNumber[seats.eq(i).attr('data-seat')];
+      seat.toBeBooked = seat.toBeBooked ? false : true;
+      this.currentShowing.chosenSeats.push(seat); */
+    // }
+  }
+
   render() {
     const { auditorium } = this.props;
     return (
@@ -51,7 +66,7 @@ export default class Showing extends Component {
 
         <Row className='mt-5'>
           <Col sm='12'>
-            <Auditorium auditorium={auditorium} />
+            <Auditorium seatClick={this.seatClick} auditorium={auditorium} />
           </Col>
         </Row>
 
