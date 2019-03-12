@@ -1,6 +1,7 @@
+import { Container, Row, Col } from 'reactstrap';
+import './auditorium.scss';
 import React from 'react';
 import Seat from '../Seat'
-import { Container, Row, Col } from 'reactstrap';
 
 const Auditorium = ({ auditorium }) => {
 
@@ -23,8 +24,8 @@ const Auditorium = ({ auditorium }) => {
       seats.push(<div key={row}>{seatsInRow}</div>);
       /**
       *
-      * Sort the seat numbers in a row from high to low
-      *
+      * Sort the seat numbers in a row from high to low 
+      * NOTE! NOT WORKI
       */
       /* seats[rowIndex].sort((a, b) => b.seatNum - a.seatNum); */
       rowIndex++;

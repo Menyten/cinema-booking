@@ -50,7 +50,9 @@ export default class Showing extends Component {
         </Row>
 
         <Row className='mt-5'>
-          <Auditorium auditorium={auditorium} />
+          <Col sm='12'>
+            <Auditorium auditorium={auditorium} />
+          </Col>
         </Row>
 
       </Container>
