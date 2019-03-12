@@ -13,35 +13,34 @@ import REST from './REST'
 
 class Movie extends REST { }
 class Showtime extends REST { }
+class Auditorium extends REST { }
 class User extends REST { }
 class Login extends REST {
   async delete() {
     this._id = 1;
     return super.delete();
   }
- }
+}
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    window.AppInstance = this;
-    this.setUser();
-    this.logout.bind(this);
-    this.setUser.bind(this);
+  constructor() {
+    super();
     this.state = {
       movies: [],
       showtimes: [],
-      user: {}
+      user: {},
+      auditoriums: []
     }
     this.setUser = this.setUser.bind(this);
     this.logout = this.logout.bind(this);
-    this.getMoviesAndShowtimes();
+    this.getMoviesShowtimesAndAuditorium();
   }
 
-  async getMoviesAndShowtimes() {
+  async getMoviesShowtimesAndAuditorium() {
     this.setState({
       movies: await Movie.find(),
-      showtimes: await Showtime.find()
+      showtimes: await Showtime.find(),
+      auditoriums: await Auditorium.find()
     });
   }
 
@@ -58,12 +57,14 @@ class App extends Component {
   async logout() {
     let logout = new Login();
     await logout.delete();
-    let user = await Login.find();
-    NavBar.WrappedComponent.lastInstance.setState({
-      loggedIn: user.email = false
-    });
+    REST.setUser(false);
     
   }
+
+  filterAuditoriums(showtime) {
+    let auditorium = this.state.auditoriums.filter(auditorium => auditorium._id === showtime.auditorium);
+    return auditorium;
+  };
 
   render() {
     return <Router>
@@ -71,22 +72,24 @@ class App extends Component {
           <Header user={this.state.user} logout={this.logout} />
           <Route exact path='/' component={Startpage} />
           <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} />} />
-          <Route exact path='/my-bookings' render={() => <MyBookings historyBooking={this.state.historyBooking} currentBooking={this.state.currentBooking}/>} />
           <Route exact path="/showtime" render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />
           {this.state.showtimes.map(showtime => (
             <Route
               exact
               path={`/showing/${showtime._id}`}
-              render={() => <Showing showtime={showtime} />}
+              render={() => <Showing showtime={showtime} auditorium={this.filterAuditoriums(showtime)} />}
               key={showtime._id}
             />
-          ))}
-          <Route exact path='/film/id' component={MovieInfo} />
-          {this.state.movies.map(movie => (
+          ))
+        }
+        < Route exact path='/film/id' component={MovieInfo} />
+        {
+          this.state.movies.map(movie => (
             <Route exact path={`/film/${movie._id}`} render={() => <MovieInfo movie={movie} />} key={movie._id} />
-            ))}
-        </div>
-      </Router>;
+          ))
+        }
+      </div >
+    </Router >;
   }
 }
 
