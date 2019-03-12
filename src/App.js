@@ -59,7 +59,7 @@ class App extends Component {
 
   filterAuditoriums(showtime) {
     let auditorium = this.state.auditoriums.filter(auditorium => auditorium._id === showtime.auditorium);
-    console.log(auditorium);
+    return auditorium;
   };
 
   render() {
@@ -74,7 +74,7 @@ class App extends Component {
             <Route
               exact
               path={`/showing/${showtime._id}`}
-              render={() => <Showing showtime={showtime} auditoriums={this.filterAuditoriums(showtime)} />}
+              render={() => <Showing showtime={showtime} auditorium={this.filterAuditoriums(showtime)} />}
               key={showtime._id}
             />
           ))
