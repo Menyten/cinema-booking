@@ -10,8 +10,8 @@ class Header extends Component {
 
   render() {
 
-    const { user } = this.props
-    const logout = this.props.logout
+    let { user } = this.props
+    let logout = this.props.logout
 
     return (
       <header className="App-header">

@@ -39,7 +39,7 @@ class LoginPage extends React.Component {
 
     this.props.setUser(result.email);
 
-    REST.setUser('true');
+    //REST.setUser(true);
     this.props.history.push('/my-bookings');
   }
 

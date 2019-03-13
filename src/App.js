@@ -8,6 +8,7 @@ import MyBookings from './components/MyBookings';
 import CurrentShowsPage from './components/CurrentShowsPage';
 import MovieInfo from './components/MovieInfo';
 import Showing from './components/Showing';
+import NavBar from './components/NavBar';
 import REST from './REST'
 
 class Movie extends REST { }
@@ -24,6 +25,7 @@ class Login extends REST {
 class App extends Component {
   constructor() {
     super();
+    window.AppInstance = this;
     this.state = {
       movies: [],
       showtimes: [],
@@ -47,14 +49,20 @@ class App extends Component {
     let user = await Login.find();
     this.setState({
       user: user
+    }); 
+    NavBar.WrappedComponent.lastInstance.setState({
+      loggedIn: user.email?true:false
     });
   }
 
   async logout() {
     let logout = new Login();
     await logout.delete();
-    REST.setUser(false);
-
+    let user = await Login.find();
+    NavBar.WrappedComponent.lastInstance.setState({
+      loggedIn: user.email = false
+    });
+    
   }
 
   filterAuditoriums(showtime) {
