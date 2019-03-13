@@ -6,6 +6,7 @@ const MyBookings = () => {
     return <div>
         <HistoryBookings />
         <CurrentBookings />
+        
       </div>;
 };
 

@@ -36,6 +36,7 @@ class App extends Component {
     this.setUser = this.setUser.bind(this);
     this.logout = this.logout.bind(this);
     this.getMoviesAndShowtimes();
+    this.getAllUsers();
   }
 
   async getMoviesAndShowtimes() {
@@ -62,7 +63,12 @@ class App extends Component {
     NavBar.WrappedComponent.lastInstance.setState({
       loggedIn: user.email = false
     });
-    
+
+  }
+
+  async getAllUsers() {
+    let admin = await User.find(`.findOne({email: "admin@grupp5.se"})`);
+    console.log(admin)
   }
 
   render() {
