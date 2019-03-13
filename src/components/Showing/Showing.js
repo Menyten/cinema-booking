@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import Auditorium from '../Auditorium';
 import './showing.scss';
 
 export default class Showing extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    const { auditorium } = this.props;
     return (
       <Container className='text-center'>
 
@@ -45,7 +50,7 @@ export default class Showing extends Component {
         </Row>
 
         <Row className='mt-5'>
-
+          <Auditorium auditorium={auditorium} />
         </Row>
 
       </Container>
