@@ -1,4 +1,3 @@
-import { Container, Row, Col } from 'reactstrap';
 import './auditorium.scss';
 import React from 'react';
 import Seat from '../Seat'
@@ -16,7 +15,7 @@ const Auditorium = ({ auditorium, seatClick }) => {
       let seatsInRow = [];
       while (seatsInRow.length < numberOfSeatsInTheRow) {
         let seat = <Seat row={row} seatNum={seatNum} seatClick={seatClick} key={seatNum} />
-        console.log('seat', seat)
+        //console.log('seat', seat)
         seatsInRow.push(seat);
         seatsBySeatNumber[seatNum] = seat;
         seatNum++;
