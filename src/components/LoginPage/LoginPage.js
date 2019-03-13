@@ -37,6 +37,7 @@ class LoginPage extends React.Component {
       return;
     }
 
+    console.log('DETTA ÄR RESULT', result)
     this.props.setUser(result.email);
 
     //REST.setUser(true);
