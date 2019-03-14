@@ -1,4 +1,3 @@
-import { Container, Row, Col } from 'reactstrap';
 import './auditorium.scss';
 import React from 'react';
 import Seat from '../Seat'
