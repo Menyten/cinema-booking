@@ -11,6 +11,7 @@ import NavBar from './components/NavBar';
 import MyBookings from './components/MyBookings';
 import REST from './REST'
 import AdminPage from './components/AdminPage';
+import { Container, Row, Col } from 'reactstrap';
 
 class Movie extends REST { }
 class Showtime extends REST { }
@@ -35,6 +36,8 @@ class App extends Component {
       bookings: {},
       userAdmin: {}
     }
+    this.setUser()
+    window.AppInstance = this;
     this.setUser = this.setUser.bind(this);
     this.logout = this.logout.bind(this);
     this.getMoviesShowtimesAuditoriumUserAndBooking();
@@ -61,7 +64,7 @@ class App extends Component {
       user: user
     }); 
     NavBar.WrappedComponent.lastInstance.setState({
-      loggedIn: user.email ? this.getBookings(user._id) : false
+      loggedIn: user.email ? true:false
       
     });
     this.setState({
