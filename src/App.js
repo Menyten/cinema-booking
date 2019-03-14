@@ -11,6 +11,8 @@ import NavBar from './components/NavBar';
 import MyBookings from './components/MyBookings';
 // import CurrentBookings from './components/CurrentBookings';
 import REST from './REST'
+import AdminPage from './components/AdminPage';
+import { Container, Row, Col } from 'reactstrap';
 
 class Movie extends REST { }
 class Showtime extends REST { }
@@ -32,7 +34,10 @@ class App extends Component {
       showtimes: [],
       user: {},
       auditoriums: [],
+      userAdmin: {}
     }
+    this.setUser()
+    window.AppInstance = this;
     this.setUser = this.setUser.bind(this);
     this.logout = this.logout.bind(this);
     this.getMoviesShowtimesAuditoriumAndUser();
@@ -48,41 +53,51 @@ class App extends Component {
     });
   }
 
-  
-
-   
-
   async setUser(username) {
     let user = await Login.find();
-    console.log(user._id);
     this.setState({
       user: user
     }); 
     NavBar.WrappedComponent.lastInstance.setState({
-      loggedIn: user.email ? true: false
+      loggedIn: user.email ? true:false
       
     });
+    this.setState({
+      userAdmin: user
+    })
+    
   }
 
   async logout() {
     let logout = new Login();
     await logout.delete();
-    REST.setUser(false);
-  
+    let user = await Login.find();
+    NavBar.WrappedComponent.lastInstance.setState({
+      loggedIn: user.email = false
+    });
+
   }
+
 
   filterAuditoriums(showtime) {
     let auditorium = this.state.auditoriums.filter(auditorium => auditorium._id === showtime.auditorium);
     return auditorium;
   };
 
+  async getBookings(id) {
+   // console.log('id',id);
+    this.bookings = await Booking.find(`.find({userId: "${id}"}).populate('showTimeDetails').exec()`);
+
+  }
+
   render() {
     return <Router>
         <div className="App">
           <Header user={this.state.user} logout={this.logout} />
           <Route exact path='/' component={Startpage} />
-          <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} />} />
-          <Route exact path='/my-bookings' render={() => <MyBookings />} />
+          <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} allUsers={this.state.userAdmin} />} />
+          <Route exact path='/AdminPage' render={() => <AdminPage />} />
+          <Route exact path='/my-bookings' render={() => <MyBookings allUsers={this.state.userAdmin} bookings={this.state.bookings} currentBooking={this.state.currentBooking}/>} />
           <Route exact path="/showtime" render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />
           
           {this.state.showtimes.map(showtime => (
