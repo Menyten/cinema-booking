@@ -12,20 +12,8 @@ export default class Showing extends Component {
     this.pushChosenSeats = this.pushChosenSeats.bind(this);
   }
 
-  seatClick(e) {
-    console.log(e.currentTarget);
-    /* let seat = e.currentTarget;
-    let myIndex = seats.index(e.currentTarget);
-    for (let i = myIndex; i < myIndex + this.currentShowing.countAll; i++) {
-      let seat = this.seatsBySeatNumber[seats.eq(i).attr('data-seat')];
-      seat.toBeBooked = seat.toBeBooked ? false : true;
-      this.currentShowing.chosenSeats.push(seat); */
-    // }
-  }
-
-  pushChosenSeats(seat){
+  pushChosenSeats(seat) {
     this.setState({ chosenSeats: [...this.state.chosenSeats, seat] })
-    console.log('this.state', this.state.chosenSeats);
   }
 
   render() {
@@ -72,7 +60,7 @@ export default class Showing extends Component {
 
         <Row className='mt-5'>
           <Col sm='12'>
-            <Auditorium pushChosenSeats={this.pushChosenSeats}  auditorium={auditorium} />
+            <Auditorium pushChosenSeats={this.pushChosenSeats} auditorium={auditorium} />
           </Col>
         </Row>
 

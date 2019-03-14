@@ -12,7 +12,6 @@ class Seat extends Component {
   }
 
   toggleChosenSeat(e) {
-    console.log('heej', e.currentTarget);
     this.setState({ toBeBooked: !this.state.toBeBooked ? true : false });
     return e.currentTarget.getAttribute('data-seat')
   }
