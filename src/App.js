@@ -10,6 +10,7 @@ import Showing from './components/Showing';
 import NavBar from './components/NavBar';
 import MyBookings from './components/MyBookings';
 import REST from './REST'
+import AdminPage from './components/AdminPage';
 
 class Movie extends REST { }
 class Showtime extends REST { }
@@ -96,7 +97,8 @@ class App extends Component {
         <div className="App">
           <Header user={this.state.user} logout={this.logout} />
           <Route exact path='/' component={Startpage} />
-          <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} />} />
+          <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} allUsers={this.state.userAdmin} />} />
+          <Route exact path='/AdminPage' render={() => <AdminPage />} />
           <Route exact path='/my-bookings' render={() => <MyBookings allUsers={this.state.userAdmin} bookings={this.state.bookings} currentBooking={this.state.currentBooking}/>} />
           <Route exact path="/showtime" render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />
           {this.state.showtimes.map(showtime => (

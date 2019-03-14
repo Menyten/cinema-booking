@@ -37,11 +37,13 @@ class LoginPage extends React.Component {
       return;
     }
 
-    console.log('DETTA ÄR RESULT', result)
-    this.props.setUser(result.email);
+    await this.props.setUser(result.email);
 
-    //REST.setUser(true);
-    this.props.history.push('/my-bookings');
+    if(this.props.allUsers.admin === true){
+      this.props.history.push('/AdminPage');
+    } else {
+      this.props.history.push('/my-bookings');
+    }
   }
 
   async register(e) {
