@@ -6,7 +6,7 @@ import './showing.scss';
 export default class Showing extends Component {
   constructor(props) {
     super(props);
-       
+
     this.state = {
       chosenSeats: [],
       countAdult: 0,
@@ -16,16 +16,18 @@ export default class Showing extends Component {
     this.pushChosenSeats = this.pushChosenSeats.bind(this);
   }
 
-  pushChosenSeats(seat) {
-    this.setState({ chosenSeats: [...this.state.chosenSeats, seat] })
- get countAll() {
-  return this.state.countAdult + this.state.countKid + this.state.countRetired;
-}
   /**
   *
   * Function that counts adult, kid and retired together.
   *
   */
+
+  get countAll() {
+    return this.state.countAdult + this.state.countKid + this.state.countRetired;
+  }
+
+  pushChosenSeats(seat) {
+    this.setState({ chosenSeats: [...this.state.chosenSeats, seat] })
   }
 
   /**
@@ -39,12 +41,12 @@ export default class Showing extends Component {
     if (this.state.countAdult + this.state.countKid + this.state.countRetired >= 8) {
       alert('You can not choose more than 8 tickets');
       return;
-    }if (e.target.className.includes('add-adult')) {
-      this.setState({ countAdult : this.state.countAdult + 1  });
+    } if (e.target.className.includes('add-adult')) {
+      this.setState({ countAdult: this.state.countAdult + 1 });
     } else if (e.target.className.includes('add-kid')) {
-      this.setState({ countKid : this.state.countKid + 1});
+      this.setState({ countKid: this.state.countKid + 1 });
     } else if (e.target.className.includes('add-retired')) {
-      this.setState({ countRetired : this.state.countRetired + 1});
+      this.setState({ countRetired: this.state.countRetired + 1 });
     }
     if (this.countAll > 0) {
       this.bookButton = true;
@@ -63,12 +65,12 @@ export default class Showing extends Component {
       return;
     }
     if (e.target.className.includes('remove-adult') && this.state.countAdult > 0) {
-      this.setState({countAdult : this.state.countAdult - 1});
+      this.setState({ countAdult: this.state.countAdult - 1 });
     } else if (e.target.className.includes('remove-kid') && this.state.countKid > 0) {
-      this.setState({countKid : this.state.countKid - 1});
+      this.setState({ countKid: this.state.countKid - 1 });
     } else if (e.target.className.includes('remove-retired') && this.state.countRetired > 0) {
-        this.setState({countRetired : this.state.countRetired - 1});
-      
+      this.setState({ countRetired: this.state.countRetired - 1 });
+
     }
     if (this.countAll === 0) {
       this.bookButton = false;
@@ -94,13 +96,13 @@ export default class Showing extends Component {
           </Col>
           <Col className='mb-1' sm='12' md='4'>
             <h4>Barn (65kr)</h4>
-            <button type="button" className="btn btn remove-kid remove-one selectButton selectButton1"onClick={this.removeOne}>-</button>
+            <button type="button" className="btn btn remove-kid remove-one selectButton selectButton1" onClick={this.removeOne}>-</button>
             <span className="adult">{this.state.countKid}</span>
             <button type="button" className="btn btn add-kid add-one selectButton selectButton2" onClick={this.addOne}>+</button>
           </Col>
           <Col className='mb-1' sm='12' md='4'>
             <h4>Pensionär (85kr)</h4>
-            <button type="button" className="btn btn remove-retired remove-one selectButton selectButton1"onClick={this.removeOne}>-</button>
+            <button type="button" className="btn btn remove-retired remove-one selectButton selectButton1" onClick={this.removeOne}>-</button>
             <span className="adult">{this.state.countRetired}</span>
             <button type="button" className="btn btn add-retired add-one selectButton selectButton2" onClick={this.addOne}>+</button>
           </Col>
