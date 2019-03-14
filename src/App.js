@@ -9,6 +9,7 @@ import CurrentShowsPage from './components/CurrentShowsPage';
 import MovieInfo from './components/MovieInfo';
 import Showing from './components/Showing';
 import NavBar from './components/NavBar';
+import MovieToplist from './components/MovieToplist';
 import REST from './REST'
 
 class Movie extends REST { }
@@ -49,7 +50,7 @@ class App extends Component {
     let user = await Login.find();
     this.setState({
       user: user
-    }); 
+    });
     NavBar.WrappedComponent.lastInstance.setState({
       loggedIn: user.email?true:false
     });
@@ -62,7 +63,7 @@ class App extends Component {
     NavBar.WrappedComponent.lastInstance.setState({
       loggedIn: user.email = false
     });
-    
+
   }
 
   filterAuditoriums(showtime) {
@@ -93,6 +94,7 @@ class App extends Component {
             <Route exact path={`/film/${movie._id}`} render={() => <MovieInfo movie={movie} />} key={movie._id} />
           ))
         }
+        < Route exact path='/movie-toplist' component={MovieToplist} />
       </div >
     </Router >;
   }
