@@ -67,12 +67,12 @@ class App extends Component {
 
   filterAuditoriums(showtime) {
     let auditorium = this.state.auditoriums.filter(auditorium => auditorium._id === showtime.auditorium);
-    return auditorium;
+    return auditorium[0];
   };
 
   render() {
     return <Router>
-      < div className="App" >
+      <div className="App">
         <Header user={this.state.user} logout={this.logout} />
         <Route exact path='/' component={Startpage} />
         <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} />} />
