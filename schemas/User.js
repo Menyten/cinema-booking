@@ -6,7 +6,8 @@ let userSchema = Schema({
   "email": { type: String, required: true, unique: true },
   "password": { type: String, required: true },
   "currentBookings": [{ type: Schema.Types.ObjectId, ref: 'Booking' }],
-  "bookingHistory": [{ type: Schema.Types.ObjectId, ref: 'Booking' }]
+  "bookingHistory": [{ type: Schema.Types.ObjectId, ref: 'Booking' }],
+  "admin": { type: Boolean, default: false}
 });
 
 userSchema.pre('save', async function () {

@@ -106,13 +106,3 @@ class NavBar extends Component {
 }
 
 export default withRouter(NavBar);
-
-/*
-
-async logout() {
-    let logout = new Login();
-    await logout.delete();
-    App.app.checkIfLoggedIn();
-  }
-
-*/
