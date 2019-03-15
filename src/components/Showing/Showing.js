@@ -27,16 +27,15 @@ export default class Showing extends Component {
 
   seatClick(e) {
     let clickedSeat = e.currentTarget.getAttribute('data-seat');
-    if (this.state.chosenSeats.includes(clickedSeat)){
+    if (this.state.chosenSeats.includes(clickedSeat)) {
+      this.setState(prevState => { return { chosenSeats: prevState.chosenSeats.filter(seat => seat !== clickedSeat) } })
+    } else {
+      console.log('currentTarget', e.currentTarget);
+      console.log(clickedSeat)
       this.setState(prevState => {
-        return { chosenSeats: prevState.chosenSeats.filter( seat => clickedSeat !== seat )}
+        return { chosenSeats: prevState.chosenSeats.concat([clickedSeat]) }
       })
     }
-    console.log('currentTarget', e.currentTarget);
-    console.log(clickedSeat)
-    this.setState(prevState => {
-      return { chosenSeats: prevState.chosenSeats.concat([clickedSeat]) }
-    })
   }
 
   /**
@@ -87,6 +86,12 @@ export default class Showing extends Component {
     this.emptyChosenSeats();
   }
 
+  emptyChosenSeats() {
+    this.setState({ chosenSeats: [] });
+    this.setState({ toBeBooked: false });
+    this.forceUpdate();
+  }
+
   render() {
     const { auditorium } = this.props;
     return (
@@ -131,7 +136,7 @@ export default class Showing extends Component {
 
         <Row className='mt-5'>
           <Col sm='12'>
-            <Auditorium auditorium={auditorium} seatClick={this.seatClick} />
+            <Auditorium auditorium={auditorium} seatClick={this.seatClick} countAll={this.countAll} chosenSeats={this.state.chosenSeats} />
           </Col>
         </Row>
 
