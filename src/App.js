@@ -84,11 +84,6 @@ class App extends Component {
     return auditorium;
   };
 
-  async getBookings(id) {
-   // console.log('id',id);
-    this.bookings = await Booking.find(`.find({userId: "${id}"}).populate('showTimeDetails').exec()`);
-
-  }
 
   render() {
     return <Router>
@@ -97,7 +92,7 @@ class App extends Component {
           <Route exact path='/' component={Startpage} />
           <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} allUsers={this.state.userAdmin} />} />
           <Route exact path='/AdminPage' render={() => <AdminPage />} />
-          <Route exact path='/my-bookings' render={() => <MyBookings allUsers={this.state.userAdmin} bookings={this.state.bookings} currentBooking={this.state.currentBooking}/>} />
+          <Route exact path='/my-bookings' render={() => <MyBookings />} />
           <Route exact path="/showtime" render={() => <CurrentShowsPage movies={this.state.movies} showtimes={this.state.showtimes} />} />
           
           {this.state.showtimes.map(showtime => (
