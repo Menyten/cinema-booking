@@ -36,7 +36,7 @@ module.exports = class LoginHandler {
         res.json({ error: 'Not logged in!' });
         return;
       }
-      res.json({ email: req.session.user.email, _id: req.session.user._id });
+      res.json({ email: req.session.user.email, _id: req.session.user._id, admin: req.session.user.admin });
     });
   }
 
