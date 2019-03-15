@@ -6,14 +6,13 @@ import './showing.scss';
 export default class Showing extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       chosenSeats: [],
       countAdult: 0,
       countKid: 0,
       countRetired: 0,
     }
-    this.pushChosenSeats = this.pushChosenSeats.bind(this);
+    this.seatClick = this.seatClick.bind(this);
   }
 
   /**
@@ -26,8 +25,18 @@ export default class Showing extends Component {
     return this.state.countAdult + this.state.countKid + this.state.countRetired;
   }
 
-  pushChosenSeats(seat) {
-    this.setState({ chosenSeats: [...this.state.chosenSeats, seat] })
+  seatClick(e) {
+    let clickedSeat = e.currentTarget.getAttribute('data-seat');
+    if (this.state.chosenSeats.includes(clickedSeat)){
+      this.setState(prevState => {
+        return { chosenSeats: prevState.chosenSeats.filter( seat => clickedSeat !== seat )}
+      })
+    }
+    console.log('currentTarget', e.currentTarget);
+    console.log(clickedSeat)
+    this.setState(prevState => {
+      return { chosenSeats: prevState.chosenSeats.concat([clickedSeat]) }
+    })
   }
 
   /**
@@ -75,6 +84,7 @@ export default class Showing extends Component {
     if (this.countAll === 0) {
       this.bookButton = false;
     }
+    this.emptyChosenSeats();
   }
 
   render() {
@@ -121,7 +131,7 @@ export default class Showing extends Component {
 
         <Row className='mt-5'>
           <Col sm='12'>
-            <Auditorium pushChosenSeats={this.pushChosenSeats} auditorium={auditorium} />
+            <Auditorium auditorium={auditorium} seatClick={this.seatClick} />
           </Col>
         </Row>
 

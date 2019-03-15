@@ -2,19 +2,19 @@ import './auditorium.scss';
 import React from 'react';
 import Seat from '../Seat'
 
-const Auditorium = ({ auditorium, pushChosenSeats }) => {
+const Auditorium = ({ auditorium, seatClick }) => {
 
   const createSeatLayout = () => {
     let seats = [];
     let seatsBySeatNumber = {};
-    let rowIndex = 0;
+    // let rowIndex = 0;
     let row = 1;
     let seatNum = 1;
 
     for (let numberOfSeatsInTheRow of auditorium[0].seatsPerRow) {
       let seatsInRow = [];
       while (seatsInRow.length < numberOfSeatsInTheRow) {
-        let seat = <Seat row={row} seatNum={seatNum} pushChosenSeats={pushChosenSeats} key={seatNum} />
+        let seat = <Seat row={row} seatNum={seatNum} key={seatNum} seatClick={seatClick}/>
         seatsInRow.push(seat);
         seatsBySeatNumber[seatNum] = seat;
         seatNum++;
@@ -26,7 +26,7 @@ const Auditorium = ({ auditorium, pushChosenSeats }) => {
       * NOTE! NOT WORKI
       */
       /* seats[rowIndex].sort((a, b) => b.seatNum - a.seatNum); */
-      rowIndex++;
+      // rowIndex++;
       row++;
     }
     console.log(seats);
