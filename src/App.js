@@ -27,8 +27,9 @@ class Login extends REST {
 }
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+    window.AppInstance = this;
     this.state = {
       movies: [],
       showtimes: [],
@@ -75,7 +76,7 @@ class App extends Component {
     NavBar.WrappedComponent.lastInstance.setState({
       loggedIn: user.email = false
     });
-
+    
   }
 
 
