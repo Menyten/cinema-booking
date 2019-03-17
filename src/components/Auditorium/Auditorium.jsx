@@ -1,44 +1,44 @@
 import './auditorium.scss';
-import React from 'react';
+import React, { Component } from 'react';
 import Seat from '../Seat'
 
-const Auditorium = ({ auditorium, seatClick, countAll, chosenSeats }) => {
+class Auditorium extends Component {
+  constructor(props) {
+    super(props);
+    this.createSeatLayout = this.createSeatLayout.bind(this);
+  }
 
-  const createSeatLayout = () => {
+  createSeatLayout() {
     let seats = [];
     let seatsBySeatNumber = {};
-    // let rowIndex = 0;
     let row = 1;
     let seatNum = 1;
 
-    for (let numberOfSeatsInTheRow of auditorium[0].seatsPerRow) {
+    for (let numberOfSeatsInTheRow of this.props.auditorium[0].seatsPerRow) {
       let seatsInRow = [];
       while (seatsInRow.length < numberOfSeatsInTheRow) {
-        let seat = <Seat row={row} seatNum={seatNum} key={seatNum} seatClick={seatClick} countAll={countAll} chosenSeats={chosenSeats} />
+        let seat = <Seat row={row} seatNum={seatNum} key={seatNum} seatClick={this.props.seatClick} countAll={this.props.countAll} />
         seatsInRow.push(seat);
         seatsBySeatNumber[seatNum] = seat;
         seatNum++;
       }
       seats.push(<div key={row}>{seatsInRow}</div>);
-      /**
-      *
-      * Sort the seat numbers in a row from high to low 
-      * NOTE! NOT WORKI
-      */
-      /* seats[rowIndex].sort((a, b) => b.seatNum - a.seatNum); */
-      // rowIndex++;
       row++;
     }
     console.log(seats);
     return seats;
   }
 
-  return (
-    <div>
-      <h5>{auditorium[0].name}</h5>
-      {createSeatLayout()}
-    </div>
-  )
+  render() {
+    const { auditorium } = this.props;
+    return (
+      <div>
+        <h5>{auditorium[0].name}</h5>
+        {this.createSeatLayout()}
+      </div>
+    )
+  }
+  
 };
 
 export default Auditorium;

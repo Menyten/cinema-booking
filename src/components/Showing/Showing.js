@@ -15,12 +15,6 @@ export default class Showing extends Component {
     this.seatClick = this.seatClick.bind(this);
   }
 
-  /**
-  *
-  * Function that counts adult, kid and retired together.
-  *
-  */
-
   get countAll() {
     return this.state.countAdult + this.state.countKid + this.state.countRetired;
   }
@@ -38,12 +32,6 @@ export default class Showing extends Component {
     }
   }
 
-  /**
-  *
-  * Function that runs when u click on adding a ticket for adult, kid or retired.
-  *
-  */
-
   addOne = e => {
     console.log("heeej")
     if (this.state.countAdult + this.state.countKid + this.state.countRetired >= 8) {
@@ -60,12 +48,6 @@ export default class Showing extends Component {
       this.bookButton = true;
     }
   }
-
-  /**
-  *
-  * Function that removes a ticket on kid adult or retired when clicked.
-  *
-  */
 
   removeOne = e => {
     if (this.countAll <= 0) {
@@ -143,4 +125,5 @@ export default class Showing extends Component {
       </Container>
     )
   }
+
 }

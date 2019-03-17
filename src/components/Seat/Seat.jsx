@@ -21,7 +21,6 @@ class Seat extends Component {
   click(e) {
     this.toggleChosen();
     this.props.seatClick(e);
-    console.log('this', this);
   }
 
   render() {
@@ -35,6 +34,7 @@ class Seat extends Component {
       />
     );
   }
+
 };
 
 export default Seat;
