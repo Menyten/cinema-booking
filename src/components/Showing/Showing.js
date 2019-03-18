@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Auditorium from '../Auditorium';
+import Seat from '../Seat';
 import './showing.scss';
 
 export default class Showing extends Component {
@@ -12,14 +13,42 @@ export default class Showing extends Component {
       countKid: 0,
       countRetired: 0,
     }
-    this.seatClick = this.seatClick.bind(this);
+    /* this.seatClick = this.seatClick.bind(this); */
+    /* this.pushSeat = this.pushSeat.bind(this); */
+    this.seatsBySeatNumber = {};
+    this.seatLayout = this.createSeatLayout();
   }
-  
+
+  createSeatLayout() {
+    let seats = [];
+    let row = 1;
+    let seatNum = 1;
+    console.log('this.props.auditorium[0].seatsPerRow', this.props.auditorium[0].seatsPerRow.length)
+    for (let numberOfSeatsInTheRow of this.props.auditorium[0].seatsPerRow) {
+      let seatsInRow = [];
+      while (seatsInRow.length < numberOfSeatsInTheRow) {
+        //let seat = <Seat row={row} seatNum={seatNum} key={seatNum} /* seatClick={this.props.seatClick} */ countAll={this.props.countAll} />
+        let seat = {
+          row: row,
+          seatNum: seatNum,
+        }
+        seatsInRow.push(seat);
+        this.seatsBySeatNumber[seatNum] = seat;
+        seatNum++;
+      }
+      // seats.push(<div key={row}>{seatsInRow}</div>);
+      seats.push(seatsInRow);
+      row++;
+    }
+    console.log('seat', seats)
+    return seats;
+  }
+
   get countAll() {
     return this.state.countAdult + this.state.countKid + this.state.countRetired;
   }
 
-  seatClick(e) {
+  /* seatClick(e) {
     let clickedSeat = e.currentTarget.getAttribute('data-seat');
     if (this.state.chosenSeats.includes(clickedSeat)) {
       this.setState(prevState => { return { chosenSeats: prevState.chosenSeats.filter(seat => seat !== clickedSeat) } })
@@ -30,7 +59,7 @@ export default class Showing extends Component {
         return { chosenSeats: prevState.chosenSeats.concat([clickedSeat]) }
       })
     }
-  }
+  } */
 
   addOne = e => {
     console.log("heeej")
@@ -47,6 +76,25 @@ export default class Showing extends Component {
     if (this.countAll > 0) {
       this.bookButton = true;
     }
+
+    setTimeout(() => this.selectBestSeats(), 0)
+
+  }
+
+  selectBestSeats() {
+    let amount = this.countAll;
+    console.log(amount);
+    let selected = this.props.auditorium[0].bestSeats.slice(0, amount);
+    console.log('selected', selected)
+    console.log('this.seatsBySeatNumber', this.seatsBySeatNumber)
+    for (let number of selected) {
+      this.seatsBySeatNumber[number].toBeBooked = true;
+      console.log('this.audi.seatnumber', this.seatsBySeatNumber)
+      if (!this.state.chosenSeats.includes(this.seatsBySeatNumber[number])) {
+        this.state.chosenSeats.push(this.seatsBySeatNumber[number]);
+      }
+    }
+    this.setState( state => this)
   }
 
   removeOne = e => {
@@ -118,12 +166,16 @@ export default class Showing extends Component {
 
         <Row className='mt-5'>
           <Col sm='12'>
-            <Auditorium auditorium={auditorium} seatClick={this.seatClick} countAll={this.countAll} chosenSeats={this.state.chosenSeats} />
+            <Auditorium auditorium={auditorium} /* seatClick={this.seatClick} */ countAll={this.countAll} chosenSeats={this.state.chosenSeats} seatLayout={this.seatLayout} />
           </Col>
         </Row>
 
       </Container>
     )
+  }
+
+  selectSeat() {
+
   }
 
 }

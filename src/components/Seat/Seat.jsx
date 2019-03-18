@@ -6,22 +6,22 @@ class Seat extends Component {
     super(props);
     this.state = {
       booked: false,
-      toBeBooked: false,
+      toBeBooked: this.props.toBeBooked,
       row: this.props.row,
       seatNum: this.props.seatNum
     }
-    this.toggleChosen = this.toggleChosen.bind(this);
-    this.click = this.click.bind(this);
+    /* this.toggleChosen = this.toggleChosen.bind(this);
+    this.click = this.click.bind(this); */
   }
 
-  toggleChosen() {
+  /* toggleChosen() {
     !this.state.toBeBooked ? this.setState({ toBeBooked: true }) : this.setState({ toBeBooked: false });
-  }
+  } */
 
-  click(e) {
+  /* click(e) {
     this.toggleChosen();
     this.props.seatClick(e);
-  }
+  } */
 
   render() {
     const { row, seatNum } = this.props;
@@ -30,7 +30,7 @@ class Seat extends Component {
         className={`seat ${this.state.toBeBooked ? 'active' : ''}`}
         data-row={row}
         data-seat={seatNum}
-        onClick={this.click}
+        /* onClick={this.click} */
       />
     );
   }
