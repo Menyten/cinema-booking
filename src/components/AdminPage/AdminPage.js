@@ -3,14 +3,21 @@ import './AdminPage.scss';
 import {
   Container,
   Button,
-  Dropdown,
   DropdownToggle,
   DropdownMenu,
   ButtonDropdown,
   DropdownItem,
   Row,
   Col,
-  Table
+  Table,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Input,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from 'reactstrap';
 
 import REST from '../../REST';
@@ -23,33 +30,56 @@ class AdminPage extends Component {
     super(props)
     this.toggle = this.toggle.bind(this);
     this.choseMovie = this.choseMovie.bind(this);
+    this.deleteShowtime = this.deleteShowtime.bind(this);
+    this.changeShowtime = this.changeShowtime.bind(this);
+    this.editingShowtime = this.editingShowtime.bind(this);
+    this.addingNewShowtime = this.addingNewShowtime.bind(this);
+    this.addNewShowtime = this.addNewShowtime.bind(this);
+    this.saveNewShowtime = this.saveNewShowtime.bind(this);
+    this.toggleInput = this.toggleInput.bind(this);
+    this.toggleAddShowtimeModal = this.toggleAddShowtimeModal.bind(this);
+    this.onDismiss = this.onDismiss.bind(this);
+    this.saveEditedShowtime = this.saveEditedShowtime.bind(this);
+
     this.state = {
       isOpen: false,
       movies: [],
       showtimes: [],
       selectedMovie: false,
       selectedValue: "",
+      
 
     }
 
-    console.log('ADMINPAGE PROPS', this.props)
     this.showtimes = [];
     this.movie = [];
+    this.saveShowtime = [];
   }
 
-  
+
 
   async componentDidMount() {
     this.movie = await Movie.find();
 
     this.setState({ movies: this.movie });
-    console.log(this.state.movies);
     await this.render();
   }
 
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
+    });
+  }
+
+  toggleAddShowtimeModal() {
+    this.setState({
+      addModal: !this.state.addModal
+    });
+  }
+
+  toggleInput() {
+    this.setState({
+      inputModal: !this.state.inputModal
     });
   }
 
@@ -61,16 +91,119 @@ class AdminPage extends Component {
       selectedMovie: false
     });
 
-    this.movieShowtime = await Showtime.find(`.find({film:"${this.state.title}"})`);
+    this.movieShowtime = await Showtime.find(`.find({film:"${this.state.title}"}).populate('auditorium.name').exec()`);
+    console.log(this.movieShowtime, 'SHOWTIMESEN INNAN KLICKEVENTET')
     await this.movieSelect(this.movieShowtime);
     console.log(this.movieShowtime, 'FILMERNAS SHOWTIMES')
   };
+
+  onDismiss() {
+    this.setState({ modal: false, inputModal: false, addModal: false });
+  }
+
+  async deleteShowtime(event) {
+    let delShowtime = event.currentTarget.value;
+    this.infoShowtime = await Showtime.find(`.find({_id:"${delShowtime}"})`);
+    console.log(this.infoShowtime)
+
+    this.delShowtimeTitle = this.infoShowtime[0].film;
+    this.delShowtimeDate = this.infoShowtime[0].date;
+    this.delShowtimeTime = this.infoShowtime[0].time;
+
+    this.deletedShowtime = await Showtime.find(
+      `.findOneAndDelete({_id:"${delShowtime}"})`
+    );
+     
+    this.setState({ modal: true });
+    this.getNewData(this.delShowtimeTitle)
+    
+  }
+
+  async changeShowtime(event) {
+    let editShowtime = event.currentTarget.value;
+    this.editThisShowtime = await Showtime.find(`.find({_id:"${editShowtime}"})`);
+    console.log(this.editThisShowtime)
+    let showtimeId = this.editThisShowtime;
+    this.editTitle = this.editThisShowtime[0].film;
+    this.editDate = this.editThisShowtime[0].date;
+    this.editAudit = this.editThisShowtime[0].auditorium;
+    this.editTime = this.editThisShowtime[0].time;
+
+    this.setState({ inputModal: true });
+    this.saveShowtime.push(showtimeId);
+  }
+
+  async editingShowtime(e) {
+    await this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  async saveEditedShowtime() {
+    let { auditorium, time, date } = this.state;
+    console.log(auditorium,'bara auditorium')
+    console.log(this.state.auditorium,'AUDITORIUMET??');
+    console.log(this.state.time, 'TIDen??')
+    console.log(this.state.date, 'DATE???')
+    let showtimeId = this.saveShowtime[0][0]._id;
+    let showtimeTitle = this.saveShowtime[0][0].film;
+
+    let saveThisShowtime = await Showtime.find(`.findOneAndReplace({_id:'${showtimeId}' },
+        {  "$set": {
+          "date": '${date}',
+          "auditorium": '${auditorium}',
+          "time":'${time}' ,
+      }
+    },
+        function(err,result){
+            if (!err) {
+                console.log(result);
+            }
+        })`);
+
+    await this.setState({
+      inputModal: false
+    });
+
+    this.getNewData(showtimeTitle);
+  }
+
+  async addingNewShowtime(e) {
+    await this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  async addNewShowtime() {
+    this.setState({ addModal: true });
+  }
+
+  async saveNewShowtime() {
+    let { title, timeAdd, salongAdd, dateAdd } = this.state;
+    let toBeAdded = await Showtime.find(`.find({film:"${title}"})`);
+
+    let newAddedShowtime = await new Showtime({
+      film: title,
+      auditorium: salongAdd,
+      time: timeAdd,
+      date: dateAdd
+    });
+
+    await newAddedShowtime.save();
+
+    this.setState({
+      addModal: false
+    });
+
+    this.getNewData(title);
+    console.log(newAddedShowtime);
+  }
 
   async getNewData(showtimeTitle) {
     this.showtimes.length = 0;
     let newTitle = showtimeTitle;
     this.newData = await Showtime.find(`.find({film:"${newTitle}"})`);
-    console.log(this.newData);
+    console.log(this.newData, 'NEWDATAAAAA');
     await this.movieSelect(this.newData);
     this.showtimes.push(this.newData);
     this.setState({
@@ -82,9 +215,7 @@ class AdminPage extends Component {
     if (this.showtimes.length < 1) {
       this.showtimes.push(movie);
     }
-    console.log(this.state.selectedMovie, 'hej?')
-    if (this.state.selectedMovie === true ) {
-      console.log(this.state.selectedMovie, 'hej?')
+    if (this.state.selectedMovie === true) {
       return (
         <Container className="viewings-list">
           {this.showtimes[0].map(listitem => (
@@ -92,46 +223,45 @@ class AdminPage extends Component {
               <div className="view-select" />
               <Row className="adminShowtimes">
                 <Col lg="8">
-                <Table className="adminviewings-table">
-                  <tbody>
-                    <tr>
-                      <td>{listitem.film} </td>
-                      <td>{listitem.auditorium} </td>
-                      <td>{listitem.date} </td>
-                      <td>{listitem.time} </td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <div className="admin-box">
-                  <button
-                    value={listitem._id}
-                    onClick={this.deleteView}
-                    role="img"
-                    className="view-delete deleteAndAddButton"
-                  >
-                    ❌
+                  <Table className="adminviewings-table">
+                    <tbody>
+                      <tr>
+                        <td>{listitem.film} </td>
+                        <td>{listitem.auditorium} </td>
+                        <td>{listitem.date} </td>
+                        <td>{listitem.time} </td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                  <div className="admin-box">
+                    <button
+                      value={listitem._id}
+                      onClick={this.deleteShowtime}
+                      role="img"
+                      className="view-delete deleteAndAddButton"
+                    >
+                      ❌
                   </button>
-                  <button
-                    value={listitem._id}
-                    onClick={this.modifyView}
-                    role="img"
-                    className="view-modify deleteAndAddButton"
-                  >
-                    ✎
+                    <button
+                      value={listitem._id}
+                      onClick={this.changeShowtime}
+                      role="img"
+                      className="view-modify deleteAndAddButton"
+                    >
+                      ✎
                   </button>
-                </div>
+                  </div>
                 </Col>
               </Row>
             </React.Fragment>
           ))}
-          <Button onClick={this.addNewView} role="img" className="view-add mt-3 mb-4 adminChoseMovieButton">
+          <Button onClick={this.addNewShowtime} role="img" className="view-add mt-3 mb-4 adminChoseMovieButton">
             Lägg till en visning
           </Button>
         </Container>
       );
     }
     this.setState({ selectedMovie: true });
-    console.log(this.state.selectedMovie, 'hej?2')
   }
 
 
@@ -169,7 +299,162 @@ class AdminPage extends Component {
                 {this.state.selectedMovie === false ? '' : this.movieSelect()}
               </Col>
             </Row>
+            <div>
+              <Modal
+                className="inputmodalstyle"
+                isOpen={this.state.addModal}
+                toggle={this.toggleAddShowtimeModal}
+              >
+                <ModalHeader
+                  className="inputmodalstyle"
+                  toggle={this.toggleAddShowtimeModal}
+                >
+                  Lägg till visning
+            </ModalHeader>
+                <ModalBody className="inputmodalstyle">
+                  <div>
+                    <p className="title-style-modal">
+                      Lägg till en visning för filmen
+                  <br /> {this.state.selectedValue}
+                    </p>
+                    <InputGroup className="input-box">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText className="input-styling">
+                          Salong
+                    </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        onChange={this.addingNewShowtime}
+                        name="salongAdd"
+                        className="underline-styling"
+                        placeholder="T.ex Stora Salongen"
+                      />
+                    </InputGroup>
+                    <InputGroup className="input-box">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText className="input-styling">
+                          Tid
+                    </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        onChange={this.addingNewShowtime}
+                        name="timeAdd"
+                        className="underline-styling"
+                        placeholder="13:00"
+                      />
+                    </InputGroup>
+                    <InputGroup className="input-box">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText className="input-styling">
+                          Datum
+                    </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        onChange={this.addingNewShowtime}
+                        name="dateAdd"
+                        className="underline-styling"
+                        placeholder="2019-01-01"
+                      />
+                    </InputGroup>
+                  </div>
+                </ModalBody>
+                <ModalFooter className="inputmodalstyle">
+                  <Button color="primary" onClick={this.saveNewShowtime}>
+                    Spara
+              </Button>{" "}
+                  <Button color="secondary" onClick={this.onDismiss}>
+                    Cancel
+              </Button>
+                </ModalFooter>
+              </Modal>
+            </div>
 
+            <Modal
+              isOpen={this.state.modal}
+              toggle={this.toggle}
+              className="delete-modal"
+            >
+              <ModalHeader className="delete-modal" toggle={this.toggle}>
+                Raderad visning
+          </ModalHeader>
+              <ModalBody className="delete-modal">
+                <p className="deletedView-text"> Titel: {this.delShowtimeTitle}</p>
+                <p className="deletedView-text"> Datum: {this.delShowtimeDate}</p>
+                <p className="deletedView-text"> Tid: {this.delShowtimeTime}</p>
+              </ModalBody>
+              <ModalFooter className="delete-modal">
+                <Button color="primary" onClick={this.onDismiss}>
+                  Stäng
+            </Button>
+              </ModalFooter>
+            </Modal>
+
+            <div>
+              <Modal
+                className="inputmodalstyle"
+                isOpen={this.state.inputModal}
+                toggle={this.toggleInput}
+              >
+                <ModalHeader className="inputmodalstyle" toggle={this.toggleInput}>
+                  Redigera visning
+            </ModalHeader>
+                <ModalBody className="inputmodalstyle">
+                  <div>
+                    <p className="title-style-modal">
+                      Redigera visning för filmen
+                  <br /> {this.editTitle}
+                    </p>
+                    <InputGroup className="input-box">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText className="input-styling">
+                          Salong
+                    </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        onChange={this.editingShowtime}
+                        name="auditorium"
+                        className="underline-styling"
+                        placeholder={this.editAudit}
+                      />
+                    </InputGroup>
+                    <InputGroup className="input-box">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText className="input-styling">
+                          Tid
+                    </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        onChange={this.editingShowtime}
+                        name="time"
+                        className="underline-styling"
+                        placeholder={this.editTime}
+                      />
+                    </InputGroup>
+                    <InputGroup className="input-box">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText className="input-styling">
+                          Datum
+                    </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        onChange={this.editingShowtime}
+                        name="date"
+                        className="underline-styling"
+                        placeholder={this.editDate}
+                      />
+                    </InputGroup>
+                  </div>
+                </ModalBody>
+                <ModalFooter className="inputmodalstyle">
+                  <Button color="primary" onClick={this.saveEditedShowtime}>
+                    Spara
+              </Button>{" "}
+                  <Button color="secondary" onClick={this.onDismiss}>
+                    Cancel
+              </Button>
+                </ModalFooter>
+              </Modal>
+            </div>
           </Container>
           : <p>Du är inte admin! Bra försök dock!</p>}
       </Container>
@@ -180,456 +465,3 @@ class AdminPage extends Component {
 }
 
 export default AdminPage;
-
-/*
-
-import React, { Component } from "react";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownItem,
-  DropdownMenu
-} from "reactstrap";
-import "./style.scss";
-import "./inputmodal.scss";
-import REST from "../REST.js";
-
-class Film extends REST {}
-class View extends REST {}
-
-class AdminPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      movies: [],
-      views: [],
-      selectedMovie: false,
-      isOpen: false,
-      selectedValue: "",
-      title: "",
-      modal: false,
-      inputModal: false,
-      addModal: false,
-      salong: "",
-      time: "",
-      date: "",
-      showEdited: false,
-      salongAdd: "",
-      dateAdd: "",
-      timeAdd: ""
-    };
-    this.toggle = this.toggle.bind(this);
-    this.toggleInput = this.toggleInput.bind(this);
-    this.toggleAddViewModal = this.toggleAddViewModal.bind(this);
-    this.saveEditedView = this.saveEditedView.bind(this);
-    this.modifyView = this.modifyView.bind(this);
-    this.choseMovie = this.choseMovie.bind(this);
-    this.deleteView = this.deleteView.bind(this);
-    this.addingNewView = this.addingNewView.bind(this);
-    this.addNewView = this.addNewView.bind(this);
-    this.saveNewView = this.saveNewView.bind(this);
-    this.onDismiss = this.onDismiss.bind(this);
-    this.editingView = this.editingView.bind(this);
-    this.viewings = [];
-    this.movie = [];
-    this.saveView = [];
-  }
-
-  async componentDidMount() {
-    this.movie = await Film.find();
-
-    this.setState({ movies: this.movie });
-    console.log(this.state.movies);
-    await this.render();
-  }
-
-  choseMovie = async event => {
-    this.viewings.length = 0;
-    await this.setState({
-      selectedValue: event.target.value,
-      title: event.target.value,
-      selectedMovie: false
-    });
-
-    this.movieView = await View.find(`.find({film:"${this.state.title}"})`);
-    await this.movieSelect(this.movieView);
-  };
-
-  onDismiss() {
-    this.setState({ modal: false, inputModal: false, addModal: false });
-  }
-
-  async deleteView(event) {
-    let delView = event.currentTarget.value;
-    this.infoView = await View.find(`.find({_id:"${delView}"})`);
-
-    this.delViewTitle = this.infoView[0].film;
-    this.delViewDate = this.infoView[0].date;
-    this.delViewTime = this.infoView[0].time;
-
-    // this.deletedView = await View.find(
-    //   `.findOneAndDelete({_id:"${deleteView}"})`
-    // );
-
-    this.setState({ modal: true });
-  }
-
-  async modifyView(event) {
-    let editView = event.currentTarget.value;
-    this.editThisView = await View.find(`.find({_id:"${editView}"})`);
-    let viewId = this.editThisView;
-    this.editTitle = this.editThisView[0].film;
-    this.editDate = this.editThisView[0].date;
-    this.editAudit = this.editThisView[0].auditorium;
-    this.editTime = this.editThisView[0].time;
-
-    this.setState({ inputModal: true });
-    this.saveView.push(viewId);
-  }
-
-  async editingView(e) {
-    await this.setState({
-      [e.target.name]: e.target.value
-    });
-  }
-
-  async saveEditedView() {
-    let { salong, time, date } = this.state;
-    let viewId = this.saveView[0][0]._id;
-    let viewTitle = this.saveView[0][0].film;
-
-    let saveThisView = await View.find(`.findOneAndReplace({_id:'${viewId}' },
-        {  "$set": {
-          "date": '${date}',
-          "auditorium": '${salong}',
-          "time":'${time}' ,
-      }
-    },
-        function(err,result){
-            if (!err) {
-                console.log(result);
-            }
-        })`);
-
-    await this.setState({
-      inputModal: false
-    });
-
-    this.getNewData(viewTitle);
-  }
-
-  async addingNewView(e) {
-    await this.setState({
-      [e.target.name]: e.target.value
-    });
-  }
-
-  async addNewView() {
-    this.setState({ addModal: true });
-  }
-
-  async saveNewView() {
-    let { title, timeAdd, salongAdd, dateAdd } = this.state;
-    let toBeAdded = await View.find(`.find({film:"${title}"})`);
-
-    let newAddedView = await new View({
-      film: title,
-      auditorium: salongAdd,
-      time: timeAdd,
-      date: dateAdd
-    });
-
-    await newAddedView.save();
-
-    this.setState({
-      addModal: false
-    });
-
-    this.getNewData(title);
-    console.log(newAddedView);
-  }
-
-  async getNewData(viewTitle) {
-    this.viewings.length = 0;
-    let newTitle = viewTitle;
-    this.newData = await View.find(`.find({film:"${newTitle}"})`);
-    console.log(this.newData);
-    await this.movieSelect(this.newData);
-    this.viewings.push(this.newData);
-    this.setState({
-      selectedMovie: true
-    });
-  }
-
-  movieSelect(movie) {
-    if (this.viewings.length < 1) {
-      this.viewings.push(movie);
-    }
-
-    if (this.state.selectedMovie === true) {
-      return (
-        <div className="viewings-list">
-          <button onClick={this.addNewView} role="img" className="view-add">
-            Lägg till en visning
-          </button>
-          {this.viewings[0].map(listitem => (
-            <React.Fragment key={listitem._id}>
-              <div className="view-select" />
-              <div className="row-view">
-                <table className="adminviewings-table">
-                  <tbody>
-                    <tr>
-                      <td>{listitem.film} </td>
-                      <td>{listitem.auditorium} </td>
-                      <td>{listitem.date} </td>
-                      <td>{listitem.time} </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div className="admin-box">
-                  <button
-                    value={listitem._id}
-                    onClick={this.deleteView}
-                    role="img"
-                    className="view-delete"
-                  >
-                    ❌
-                  </button>
-                  <button
-                    value={listitem._id}
-                    onClick={this.modifyView}
-                    role="img"
-                    className="view-modify"
-                  >
-                    ✎
-                  </button>
-                </div>
-              </div>
-            </React.Fragment>
-          ))}
-        </div>
-      );
-    }
-    this.setState({ selectedMovie: true });
-  }
-
-  toggleAddViewModal() {
-    this.setState({
-      addModal: !this.state.addModal
-    });
-  }
-
-  toggleInput() {
-    this.setState({
-      inputModal: !this.state.inputModal
-    });
-  }
-
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-
-  render() {
-    return (
-      <section className="adminpage-holder flex-container">
-        <h1> Välj film för att redigera visningar</h1>
-
-        <ButtonDropdown
-          className="dropbutton-style"
-          isOpen={this.state.isOpen}
-          toggle={this.toggle}
-        >
-          <DropdownToggle caret size="lg">
-            {this.state.title ? this.state.selectedValue : "Välj film"}
-          </DropdownToggle>
-
-          <DropdownMenu>
-            {this.state.movies.map(movie => (
-              <DropdownItem
-                value={movie.title}
-                onClick={this.choseMovie}
-                key={movie._id}
-                className="dropdown-item"
-              >
-                {movie.title}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </ButtonDropdown>
-        {this.state.selectedMovie === false ? " " : this.movieSelect()}
-
-        <div>
-          <Modal
-            className="inputmodalstyle"
-            isOpen={this.state.addModal}
-            toggle={this.toggleAddViewModal}
-          >
-            <ModalHeader
-              className="inputmodalstyle"
-              toggle={this.toggleAddViewModal}
-            >
-              Lägg till visning
-            </ModalHeader>
-            <ModalBody className="inputmodalstyle">
-              <div>
-                <p className="title-style-modal">
-                  Lägg till en visning för filmen
-                  <br /> {this.state.selectedValue}
-                </p>
-                <InputGroup className="input-box">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText className="input-styling">
-                      Salong
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    onChange={this.addingNewView}
-                    name="salongAdd"
-                    className="underline-styling"
-                    placeholder="T.ex Stora Salongen"
-                  />
-                </InputGroup>
-                <InputGroup className="input-box">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText className="input-styling">
-                      Tid
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    onChange={this.addingNewView}
-                    name="timeAdd"
-                    className="underline-styling"
-                    placeholder="13:00"
-                  />
-                </InputGroup>
-                <InputGroup className="input-box">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText className="input-styling">
-                      Datum
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    onChange={this.addingNewView}
-                    name="dateAdd"
-                    className="underline-styling"
-                    placeholder="2019-01-01"
-                  />
-                </InputGroup>
-              </div>
-            </ModalBody>
-            <ModalFooter className="inputmodalstyle">
-              <Button color="primary" onClick={this.saveNewView}>
-                Spara
-              </Button>{" "}
-              <Button color="secondary" onClick={this.onDismiss}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </div>
-
-        <Modal
-          isOpen={this.state.modal}
-          toggle={this.toggle}
-          className="delete-modal"
-        >
-          <ModalHeader className="delete-modal" toggle={this.toggle}>
-            Raderad visning
-          </ModalHeader>
-          <ModalBody className="delete-modal">
-            <p className="deletedView-text"> Titel: {this.delViewTitle}</p>
-            <p className="deletedView-text"> Datum: {this.delViewDate}</p>
-            <p className="deletedView-text"> Tid: {this.delViewTime}</p>
-          </ModalBody>
-          <ModalFooter className="delete-modal">
-            <Button color="primary" onClick={this.onDismiss}>
-              Stäng
-            </Button>
-          </ModalFooter>
-        </Modal>
-
-        <div>
-          <Modal
-            className="inputmodalstyle"
-            isOpen={this.state.inputModal}
-            toggle={this.toggleInput}
-          >
-            <ModalHeader className="inputmodalstyle" toggle={this.toggleInput}>
-              Redigera visning
-            </ModalHeader>
-            <ModalBody className="inputmodalstyle">
-              <div>
-                <p className="title-style-modal">
-                  Redigera visning för filmen
-                  <br /> {this.editTitle}
-                </p>
-                <InputGroup className="input-box">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText className="input-styling">
-                      Salong
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    onChange={this.editingView}
-                    name="salong"
-                    className="underline-styling"
-                    placeholder={this.editAudit}
-                  />
-                </InputGroup>
-                <InputGroup className="input-box">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText className="input-styling">
-                      Tid
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    onChange={this.editingView}
-                    name="time"
-                    className="underline-styling"
-                    placeholder={this.editTime}
-                  />
-                </InputGroup>
-                <InputGroup className="input-box">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText className="input-styling">
-                      Datum
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    onChange={this.editingView}
-                    name="date"
-                    className="underline-styling"
-                    placeholder={this.editDate}
-                  />
-                </InputGroup>
-              </div>
-            </ModalBody>
-            <ModalFooter className="inputmodalstyle">
-              <Button color="primary" onClick={this.saveEditedView}>
-                Spara
-              </Button>{" "}
-              <Button color="secondary" onClick={this.onDismiss}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </div>
-      </section>
-    );
-  }
-}
-
-export default AdminPage;
-
-*/
