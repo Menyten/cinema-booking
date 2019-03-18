@@ -272,6 +272,9 @@ class AdminPage extends Component {
           <Container>
             <h1 className="frontParagraph adminText mt-3">Välkommen till Adminsidan</h1>
             <h4 className="frontParagraph adminText mt-1">Här kan du ändra, lägga till eller ta bort visningar</h4>
+            <h4 className="frontParagraph adminText adminTextSize">VIP Salongen (ID): 5c6a8a173a65501db0956332 </h4>
+            <h4 className="frontParagraph adminText adminTextSize">Lilla Salongen (ID): 5c6a8a173a65501db0956331 </h4>
+            <h4 className="frontParagraph adminText adminTextSize">Stora Salongen (ID): 5c6a8a173a65501db0956330 </h4>
             <Row className="adminMovies">
               <Col md="12 mt-3">
                 <ButtonDropdown
@@ -327,7 +330,7 @@ class AdminPage extends Component {
                         onChange={this.addingNewShowtime}
                         name="salongAdd"
                         className="underline-styling"
-                        placeholder="T.ex Stora Salongen"
+                        placeholder="Välj ID på salongen"
                       />
                     </InputGroup>
                     <InputGroup className="input-box">
