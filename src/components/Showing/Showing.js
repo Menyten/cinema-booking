@@ -14,7 +14,7 @@ export default class Showing extends Component {
     }
     this.seatClick = this.seatClick.bind(this);
   }
-
+  
   get countAll() {
     return this.state.countAdult + this.state.countKid + this.state.countRetired;
   }

@@ -38,7 +38,7 @@ class Auditorium extends Component {
       </div>
     )
   }
-  
+
 };
 
 export default Auditorium;
