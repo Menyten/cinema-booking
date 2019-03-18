@@ -1,19 +1,41 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import { Modal, ModalBody,ModalHeader, ModalFooter, Button } from "reactstrap";
 import Auditorium from '../Auditorium';
 import './showing.scss';
+import REST from "../../REST";
+class Booking extends REST { };
+class Login extends REST {
+  async delete() {
+    this._id = 1;
+    return super.delete();
+  }
+}
 
 export default class Showing extends Component {
   constructor(props) {
     super(props);
+    console.log('showing',props);
 
     this.state = {
       chosenSeats: [],
       countAdult: 0,
       countKid: 0,
       countRetired: 0,
-    }
+      modal: false,
+      bookingNum: "",
+      totalPrice: 0,
+      film: "",
+    };
+    this.toggle = this.toggle.bind(this);
     this.pushChosenSeats = this.pushChosenSeats.bind(this);
+  }
+
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
   }
 
   /**
@@ -108,7 +130,7 @@ export default class Showing extends Component {
           </Col>
 
           <Col className='text-md-right' sm='12' md='6'>
-            <button className="bookButton" >Slutför bokning</button>
+            <button className="bookButton" onClick={this.toggle}>Slutför bokning</button>
           </Col>
           <Col className='text-md-left' sm='12' md='6'>
             <button className="individualSeats individualButton">Välj separata stolar</button>
@@ -121,9 +143,23 @@ export default class Showing extends Component {
 
         <Row className='mt-5'>
           <Col sm='12'>
-            <Auditorium pushChosenSeats={this.pushChosenSeats} auditorium={auditorium} />
+            <Auditorium pushChosenSeats={this.pushChosenSeats} auditorium={this.props.auditorium} />
           </Col>
         </Row>
+        {this.state.modal ?
+          <Modal isOpen={this.state.modal} toggle={this.toggle} >
+            <ModalHeader toggle={this.toggle}>Bokningsnummer: {this.state.bookingNum}</ModalHeader>
+          <ModalBody>
+            <p><i className="fas fa-door-open"></i> Salong: {this.props.auditorium.name} </p>
+            <p><i className="fas fa-film"></i> Film: {this.state.film}</p>
+            <p><i className="fas fa-couch"></i> Platser:{this.seatsText} </p>
+            <p><i className="fas fa-coins"></i> Pris: {this.state.totalPrice}kr</p>
+          </ModalBody>
+          <ModalFooter>
+            <Button type="button" onClick={this.toggle}>Close</Button>
+          </ModalFooter>
+        </Modal> : ''}
+ 
 
       </Container>
     )

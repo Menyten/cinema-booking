@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Table, Row, Col } from "reactstrap";
 import REST from "../../REST";
-class Booking extends REST {}
+class Booking extends REST {};
 class Login extends REST {
   async delete() {
     this._id = 1;
@@ -85,7 +85,7 @@ class MyBookings extends React.Component {
                 <td>{booking.showTimeDetails.date}</td>
                 <td>{booking.showTimeDetails.time}</td>
                 <td>{booking.seats.join(",")}</td>
-                <td>{booking.totalPrice}</td>
+                <td>{booking.totalPrice}kr</td>
               </tr>
             );
           })}

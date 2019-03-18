@@ -11,7 +11,7 @@ const Auditorium = ({ auditorium, pushChosenSeats }) => {
     let row = 1;
     let seatNum = 1;
 
-    for (let numberOfSeatsInTheRow of auditorium[0].seatsPerRow) {
+    for (let numberOfSeatsInTheRow of auditorium.seatsPerRow) {
       let seatsInRow = [];
       while (seatsInRow.length < numberOfSeatsInTheRow) {
         let seat = <Seat row={row} seatNum={seatNum} pushChosenSeats={pushChosenSeats} key={seatNum} />
@@ -35,7 +35,7 @@ const Auditorium = ({ auditorium, pushChosenSeats }) => {
 
   return (
     <div>
-      <h5>{auditorium[0].name}</h5>
+      <h5>{auditorium.name}</h5>
       {createSeatLayout()}
     </div>
   )
