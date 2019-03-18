@@ -33,7 +33,8 @@ export default class Showing extends Component {
           seatNum: seatNum,
         }
         seatsInRow.push(seat);
-        this.seatsBySeatNumber[seatNum] = seat;
+        this.seatsBySeatNumber[seatNum] = seat
+        console.log('this.seatsBySeatNumber[seatNum]', this.seatsBySeatNumber[seatNum])
         seatNum++;
       }
       // seats.push(<div key={row}>{seatsInRow}</div>);
@@ -83,18 +84,14 @@ export default class Showing extends Component {
 
   selectBestSeats() {
     let amount = this.countAll;
-    console.log(amount);
     let selected = this.props.auditorium[0].bestSeats.slice(0, amount);
-    console.log('selected', selected)
-    console.log('this.seatsBySeatNumber', this.seatsBySeatNumber)
     for (let number of selected) {
       this.seatsBySeatNumber[number].toBeBooked = true;
-      console.log('this.audi.seatnumber', this.seatsBySeatNumber)
       if (!this.state.chosenSeats.includes(this.seatsBySeatNumber[number])) {
         this.state.chosenSeats.push(this.seatsBySeatNumber[number]);
       }
     }
-    this.setState( state => this)
+    this.setState(state => this)
   }
 
   removeOne = e => {
@@ -104,16 +101,27 @@ export default class Showing extends Component {
     }
     if (e.target.className.includes('remove-adult') && this.state.countAdult > 0) {
       this.setState({ countAdult: this.state.countAdult - 1 });
+      this.removeBookedSeat();
     } else if (e.target.className.includes('remove-kid') && this.state.countKid > 0) {
       this.setState({ countKid: this.state.countKid - 1 });
+      this.removeBookedSeat();
     } else if (e.target.className.includes('remove-retired') && this.state.countRetired > 0) {
       this.setState({ countRetired: this.state.countRetired - 1 });
-
+      this.removeBookedSeat();
     }
     if (this.countAll === 0) {
       this.bookButton = false;
     }
-    this.emptyChosenSeats();
+  }
+
+  removeBookedSeat() {
+    for (let row in this.seatsBySeatNumber) {
+      if (this.seatsBySeatNumber[row].toBeBooked) {
+        this.seatsBySeatNumber[row].toBeBooked = false;
+        this.setState({ chosenSeats: this.state.chosenSeats.slice(1)});
+        return;
+      }
+    }
   }
 
   emptyChosenSeats() {

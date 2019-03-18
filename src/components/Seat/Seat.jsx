@@ -6,7 +6,6 @@ class Seat extends Component {
     super(props);
     this.state = {
       booked: false,
-      toBeBooked: this.props.toBeBooked,
       row: this.props.row,
       seatNum: this.props.seatNum
     }
@@ -24,10 +23,10 @@ class Seat extends Component {
   } */
 
   render() {
-    const { row, seatNum } = this.props;
+    const { row, seatNum, toBeBooked } = this.props;
     return (
       <div
-        className={`seat ${this.state.toBeBooked ? 'active' : ''}`}
+        className={`seat ${toBeBooked ? 'active' : ''}`}
         data-row={row}
         data-seat={seatNum}
         /* onClick={this.click} */
