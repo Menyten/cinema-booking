@@ -43,6 +43,7 @@ class LoginPage extends React.Component {
       this.props.history.push('/AdminPage');
     } else {
       this.props.history.push('/my-bookings');
+      
     }
   }
 
