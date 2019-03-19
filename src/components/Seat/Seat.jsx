@@ -9,8 +9,8 @@ class Seat extends Component {
       row: this.props.row,
       seatNum: this.props.seatNum
     }
-    /* this.toggleChosen = this.toggleChosen.bind(this);
-    this.click = this.click.bind(this); */
+    // this.toggleChosen = this.toggleChosen.bind(this);
+    // this.click = this.click.bind(this);
   }
 
   /* toggleChosen() {
@@ -29,7 +29,7 @@ class Seat extends Component {
         className={`seat ${toBeBooked ? 'active' : ''}`}
         data-row={row}
         data-seat={seatNum}
-        /* onClick={this.click} */
+        onClick={(e) =>   this.props.individualSeats ? this.props.seatClick(e) : '' }
       />
     );
   }

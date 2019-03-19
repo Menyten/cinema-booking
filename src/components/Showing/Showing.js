@@ -12,9 +12,10 @@ export default class Showing extends Component {
       countAdult: 0,
       countKid: 0,
       countRetired: 0,
+      individualSeats: false,
     }
-    /* this.seatClick = this.seatClick.bind(this); */
-    /* this.pushSeat = this.pushSeat.bind(this); */
+    this.seatClick = this.seatClick.bind(this);
+    this.toggleIndividualTrueOrFalse = this.toggleIndividualTrueOrFalse.bind(this);
     this.seatsBySeatNumber = {};
     this.seatLayout = this.createSeatLayout();
   }
@@ -27,7 +28,6 @@ export default class Showing extends Component {
     for (let numberOfSeatsInTheRow of this.props.auditorium[0].seatsPerRow) {
       let seatsInRow = [];
       while (seatsInRow.length < numberOfSeatsInTheRow) {
-        //let seat = <Seat row={row} seatNum={seatNum} key={seatNum} /* seatClick={this.props.seatClick} */ countAll={this.props.countAll} />
         let seat = {
           row: row,
           seatNum: seatNum,
@@ -37,7 +37,6 @@ export default class Showing extends Component {
         console.log('this.seatsBySeatNumber[seatNum]', this.seatsBySeatNumber[seatNum])
         seatNum++;
       }
-      // seats.push(<div key={row}>{seatsInRow}</div>);
       seats.push(seatsInRow);
       row++;
     }
@@ -49,18 +48,58 @@ export default class Showing extends Component {
     return this.state.countAdult + this.state.countKid + this.state.countRetired;
   }
 
-  /* seatClick(e) {
-    let clickedSeat = e.currentTarget.getAttribute('data-seat');
-    if (this.state.chosenSeats.includes(clickedSeat)) {
-      this.setState(prevState => { return { chosenSeats: prevState.chosenSeats.filter(seat => seat !== clickedSeat) } })
-    } else {
-      console.log('currentTarget', e.currentTarget);
-      console.log(clickedSeat)
-      this.setState(prevState => {
-        return { chosenSeats: prevState.chosenSeats.concat([clickedSeat]) }
-      })
+  toggleIndividualTrueOrFalse() {
+    console.log('hej')
+    !this.state.individualSeats ? this.setState({ individualSeats: true }) : this.setState({ individualSeats: false });
+  }
+
+  seatClick(e) {
+    if (this.state.chosenSeats.length >= this.countAll) {
+      this.setState({ chosenSeats: [] })
+      for (let seat in this.seatsBySeatNumber) {
+        this.seatsBySeatNumber[seat].toBeBooked = false;
+      }
     }
-  } */
+    if (this.individualSeats) {
+      return;
+    } else if (this.state.chosenSeats.length < this.countAll) {
+
+      let clickedSeat = {
+        row: e.currentTarget.getAttribute('data-row') * 1,
+        seatNum: e.currentTarget.getAttribute('data-seat') * 1,
+      }
+
+      if (this.state.chosenSeats.length) {
+        for (let seat in this.state.chosenSeats) {
+          if (this.state.chosenSeats[seat].seatNum == clickedSeat.seatNum) {
+            console.log(this.state.chosenSeats[seat].seatNum);
+            this.seatsBySeatNumber[clickedSeat.seatNum].toBeBooked = false;
+            this.setState({ chosenSeats: this.state.chosenSeats.filter(seat => seat.seatNum !== clickedSeat.seatNum) })
+          } else {
+            this.seatsBySeatNumber[clickedSeat.seatNum].toBeBooked = true;
+            this.setState({ chosenSeats: [...this.state.chosenSeats, clickedSeat] });
+          }
+        }
+      } else {
+        this.seatsBySeatNumber[clickedSeat.seatNum].toBeBooked = true;
+        this.setState({ chosenSeats: [...this.state.chosenSeats, clickedSeat] });
+        /* this.setState(prevState => {
+          return { chosenSeats: prevState.chosenSeats.concat([clickedSeat]) }
+        }); */
+      }
+
+
+      /* if (this.state.chosenSeats.includes(clickedSeat)) {
+        this.setState(prevState => { return { chosenSeats: prevState.chosenSeats.filter(seat => seat !== clickedSeat) } })
+      } else {
+        console.log('currentTarget', e.currentTarget);
+        console.log(clickedSeat)
+        this.setState(prevState => {
+          return { chosenSeats: prevState.chosenSeats.concat([clickedSeat]) }
+        })
+      } */
+    }
+  }
 
   addOne = e => {
     console.log("heeej")
@@ -79,13 +118,13 @@ export default class Showing extends Component {
     }
 
     setTimeout(() => this.selectBestSeats(), 0)
-
   }
 
   selectBestSeats() {
     let amount = this.countAll;
     let selected = this.props.auditorium[0].bestSeats.slice(0, amount);
     for (let number of selected) {
+      console.log('number', number)
       this.seatsBySeatNumber[number].toBeBooked = true;
       if (!this.state.chosenSeats.includes(this.seatsBySeatNumber[number])) {
         this.state.chosenSeats.push(this.seatsBySeatNumber[number]);
@@ -118,7 +157,7 @@ export default class Showing extends Component {
     for (let row in this.seatsBySeatNumber) {
       if (this.seatsBySeatNumber[row].toBeBooked) {
         this.seatsBySeatNumber[row].toBeBooked = false;
-        this.setState({ chosenSeats: this.state.chosenSeats.slice(1)});
+        this.setState({ chosenSeats: this.state.chosenSeats.slice(1) });
         return;
       }
     }
@@ -164,7 +203,7 @@ export default class Showing extends Component {
             <button className="bookButton" >Slutför bokning</button>
           </Col>
           <Col className='text-md-left' sm='12' md='6'>
-            <button className="individualSeats individualButton">Välj separata stolar</button>
+            <button className="individualSeats individualButton" onClick={this.toggleIndividualTrueOrFalse} >Välj separata stolar</button>
           </Col>
         </Row>
 
@@ -174,16 +213,19 @@ export default class Showing extends Component {
 
         <Row className='mt-5'>
           <Col sm='12'>
-            <Auditorium auditorium={auditorium} /* seatClick={this.seatClick} */ countAll={this.countAll} chosenSeats={this.state.chosenSeats} seatLayout={this.seatLayout} />
+            <Auditorium
+              auditorium={auditorium}
+              seatClick={this.seatClick}
+              countAll={this.countAll}
+              chosenSeats={this.state.chosenSeats}
+              seatLayout={this.seatLayout}
+              individualSeats={this.state.individualSeats}
+            />
           </Col>
         </Row>
 
       </Container>
     )
-  }
-
-  selectSeat() {
-
   }
 
 }
