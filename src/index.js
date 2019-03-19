@@ -14,4 +14,4 @@ ReactDOM.render(<App />, document.getElementById('root'));
   }
   console.log('window.AppInstance.state.user', window.AppInstance.state.user)
   console.log('window.NavBarInstance.state.loggedIn', window.NavBarInstance.state.loggedIn)
-},5)*/
+},5) */
