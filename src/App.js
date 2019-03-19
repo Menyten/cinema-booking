@@ -79,7 +79,6 @@ class App extends Component {
     
   }
 
-
   filterAuditoriums(showtime) {
     let auditorium = this.state.auditoriums.filter(auditorium => auditorium._id === showtime.auditorium);
     return auditorium[0] || {};
@@ -111,8 +110,8 @@ class App extends Component {
             <Route exact path={`/film/${movie._id}`} render={() => <MovieInfo movie={movie} />} key={movie._id} />
           ))
         }
-      </div >
-    </Router >;
+      </div>
+    </Router>;
   }
 }
 

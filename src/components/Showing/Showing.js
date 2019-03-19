@@ -15,7 +15,7 @@ class Login extends REST {
 export default class Showing extends Component {
   constructor(props) {
     super(props);
-    console.log('showing',props);
+    console.log('showing',props);    
 
     this.state = {
       chosenSeats: [],
@@ -23,16 +23,62 @@ export default class Showing extends Component {
       countKid: 0,
       countRetired: 0,
       modal: false,
+      modalData: '',
       bookingNum: "",
       totalPrice: 0,
       film: "",
     };
     this.toggle = this.toggle.bind(this);
     this.pushChosenSeats = this.pushChosenSeats.bind(this);
+    console.log(this.props.showtime);
+  }
+
+   async createBooking() {
+    console.log("entered booking method")
+    let userId = this.getUserId();
+    console.log('user id', userId);
+    
+    const booking = new Booking({
+      "showTimeDetails": this.id,
+      "userId": this.userId,
+      //"seats": this.chosenSeats.map(seat => seat.seatNum),
+      //"totalPrice": this.countTotalPrice()
+    });
+    let bookingInfo = booking.save();
+
+
+    bookingInfo = Booking.find(".findById('" + bookingInfo._id + "').populate('showTimeDetails').exec()");
+    console.log('booking info', bookingInfo);
+    
+    let auditorium = Auditorium.find(".findById('" + bookingInfo.showTimeDetails.auditorium + "').exec()");
+    let modalData = {
+      bookingNum: bookingInfo.bookingNum,
+      seats: bookingInfo.seats,
+      auditorium: auditorium.name,
+      totalPrice: bookingInfo.totalPrice,
+      film: bookingInfo.showTimeDetails.film
+    }
+
+    /* this.state.modal = new Modal(modalData);
+    this.render();
+    (this.baseEl).find('#bookingModal').modal({
+      show: true
+    }); */
+
+  }
+
+  async getUserId() {
+    let user = await Login.find();
+    
+    return user._id;
   }
 
 
   toggle() {
+    console.log("toggle method");
+    this.createBooking()
+    console.log("toggle method exit");
+
     this.setState(prevState => ({
       modal: !prevState.modal
     }));
@@ -100,7 +146,7 @@ export default class Showing extends Component {
   }
 
   render() {
-    const { auditorium } = this.props;
+    const { auditorium , getUserId} = this.props;
     return (
       <Container className='text-center'>
 
@@ -147,8 +193,8 @@ export default class Showing extends Component {
           </Col>
         </Row>
         {this.state.modal ?
-          <Modal isOpen={this.state.modal} toggle={this.toggle} >
-            <ModalHeader toggle={this.toggle}>Bokningsnummer: {this.state.bookingNum}</ModalHeader>
+          <Modal  id= {this.state.modalData} isOpen={this.state.modal} toggle={this.toggle} >
+            <ModalHeader toggle={this.toggle}> Bokningsnummer: {this.state.bookingNum}</ModalHeader>
           <ModalBody>
             <p><i className="fas fa-door-open"></i> Salong: {this.props.auditorium.name} </p>
             <p><i className="fas fa-film"></i> Film: {this.state.film}</p>
