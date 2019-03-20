@@ -6,27 +6,34 @@ class Seat extends Component {
     super(props);
     this.state = {
       booked: false,
-      toBeBooked: false
+      row: this.props.row,
+      seatNum: this.props.seatNum
     }
-    this.toggleChosenSeat = this.toggleChosenSeat.bind(this);
+    // this.toggleChosen = this.toggleChosen.bind(this);
+    // this.click = this.click.bind(this);
   }
 
-  toggleChosenSeat(e) {
-    this.setState({ toBeBooked: !this.state.toBeBooked ? true : false });
-    return e.currentTarget.getAttribute('data-seat')
-  }
+  /* toggleChosen() {
+    !this.state.toBeBooked ? this.setState({ toBeBooked: true }) : this.setState({ toBeBooked: false });
+  } */
+
+  /* click(e) {
+    this.toggleChosen();
+    this.props.seatClick(e);
+  } */
 
   render() {
-    const { row, seatNum, pushChosenSeats } = this.props;
+    const { row, seatNum, toBeBooked } = this.props;
     return (
       <div
-        className={`seat ${this.state.toBeBooked ? 'active' : ''}`}
+        className={`seat ${toBeBooked ? 'active' : ''}`}
         data-row={row}
         data-seat={seatNum}
-        onClick={(e) => { pushChosenSeats(this.toggleChosenSeat(e)) }}
+        onClick={(e) =>   this.props.individualSeats ? this.props.seatClick(e) : '' }
       />
     );
   }
+
 };
 
 export default Seat;

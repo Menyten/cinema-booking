@@ -1,44 +1,35 @@
 import './auditorium.scss';
-import React from 'react';
-import Seat from '../Seat'
+import Seat from '../Seat';
+import React, { Component } from 'react';
 
-const Auditorium = ({ auditorium, pushChosenSeats }) => {
-
-  const createSeatLayout = () => {
-    let seats = [];
-    let seatsBySeatNumber = {};
-    let rowIndex = 0;
-    let row = 1;
-    let seatNum = 1;
-
-    for (let numberOfSeatsInTheRow of auditorium[0].seatsPerRow) {
-      let seatsInRow = [];
-      while (seatsInRow.length < numberOfSeatsInTheRow) {
-        let seat = <Seat row={row} seatNum={seatNum} pushChosenSeats={pushChosenSeats} key={seatNum} />
-        seatsInRow.push(seat);
-        seatsBySeatNumber[seatNum] = seat;
-        seatNum++;
-      }
-      seats.push(<div key={row}>{seatsInRow}</div>);
-      /**
-      *
-      * Sort the seat numbers in a row from high to low 
-      * NOTE! NOT WORKI
-      */
-      /* seats[rowIndex].sort((a, b) => b.seatNum - a.seatNum); */
-      rowIndex++;
-      row++;
-    }
-    console.log(seats);
-    return seats;
+class Auditorium extends Component {
+  constructor(props) {
+    super(props);
   }
 
-  return (
-    <div>
-      <h5>{auditorium[0].name}</h5>
-      {createSeatLayout()}
-    </div>
-  )
+  render() {
+    const { auditorium, seatLayout, seatClick, individualSeats } = this.props;
+    return (
+      <div>
+        <h5>{auditorium[0].name}</h5>
+        {seatLayout.map((row, index) =>
+          <div key={index}>
+            {row.map(seat =>
+              <Seat
+                row={seat.row}
+                seatNum={seat.seatNum}
+                key={seat.seatNum}
+                toBeBooked={seat.toBeBooked}
+                seatClick={seatClick}
+                individualSeats={individualSeats}
+              />
+            )}
+          </div>
+        )}
+      </div>
+    )
+  }
+
 };
 
 export default Auditorium;
