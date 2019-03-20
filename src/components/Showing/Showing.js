@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Auditorium from '../Auditorium';
 import Seat from '../Seat';
-import { Modal, ModalBody,ModalHeader,ModalFooter,Button }from 'reactstrap';
-import './showing.scss'; 
+import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
+import './showing.scss';
 import REST from "../../REST";
 
-class Booking extends REST {}
+class Booking extends REST { }
 class Login extends REST {
-  async delete(){
+  async delete() {
     this._id = 1;
     return super.delete();
   }
@@ -22,16 +22,17 @@ export default class Showing extends Component {
       countAdult: 0,
       countKid: 0,
       countRetired: 0,
-      
+      bookingInfo: {},
       individualSeats: false,
     }
     this.fullPriceAdult = 0;
-    this.fullPriceChild= 0;
-    this.fullPriceOld= 0;
+    this.fullPriceChild = 0;
+    this.fullPriceOld = 0;
     this.ticketPriceAdult = 85;
     this.ticketPriceKid = 65;
     this.ticketPriceSenior = 75;
     this.seatClick = this.seatClick.bind(this);
+    this.createBooking = this.createBooking.bind(this);
     this.toggleIndividualTrueOrFalse = this.toggleIndividualTrueOrFalse.bind(this);
     this.toggle = this.toggle.bind(this);
     this.countTotalPrice();
@@ -126,7 +127,7 @@ export default class Showing extends Component {
   async createBooking() {
 
     let userId = await Login.find();
-    console.log("user Id",userId);
+    console.log("user Id", userId);
     const booking = await new Booking({
       "showTimeDetails": this.props.showtime._id,
       "userId": userId,
@@ -134,20 +135,25 @@ export default class Showing extends Component {
       "totalPrice": this.countTotalPrice()
     });
     let bookingInfo = await booking.save();
-    console.log("booking info",bookingInfo);
+    this.setState({ bookingInfo });
+    this.toggle();
+    console.log("booking info", bookingInfo);
 
 
-    bookingInfo = await Booking.find(".findById('" + bookingInfo._id + "').populate('showTimeDetails').exec()");
-    // let auditorium = await Auditorium.find(".findById('" + bookingInfo.showTimeDetails.auditorium + "').exec()");
-    let modalData = {
-      bookingNum: bookingInfo.bookingNum,
-      seats: bookingInfo.seats,
-      auditorium: this.props.auditorium[0].name,
-      totalPrice: bookingInfo.totalPrice,
-      film: bookingInfo.showTimeDetails.film
-    }
+    /* let modalData = {
+       ({
+        bookingNum: bookingInfo.bookingNum,
+        seats: bookingInfo.seats,
+        auditorium: this.props.auditorium[0].name,
+        totalPrice: bookingInfo.totalPrice,
+        film: bookingInfo.showTimeDetails.film
+      })
+     
+    } */
 
-    console.log(modalData);
+    //console.log(modalData);
+    //this.state.modal = new Modal(modalData);
+
 
     /* this.modal = new Modal(modalData);
     this.render();
@@ -222,15 +228,10 @@ export default class Showing extends Component {
     let fullPriceChild = this.state.countKid * this.ticketPriceKid;
     let fullPriceOld = this.state.countRetired * this.ticketPriceSenior;
     let totalPrice = fullPriceAdult + fullPriceChild + fullPriceOld;
-    console.log(totalPrice);
     return totalPrice;
   }
 
   toggle() {
-    console.log("toggle method");
-    this.createBooking()
-    console.log("toggle method exit");
- 
     this.setState(prevState => ({
       modal: !prevState.modal
     }));
@@ -273,7 +274,7 @@ export default class Showing extends Component {
           </Col>
 
           <Col className='text-md-right' sm='12' md='6'>
-            <button className="bookButton" onClick = {this.toggle}> Slutför bokning</button>
+            <button className="bookButton" onClick={this.createBooking}> Slutför bokning</button>
           </Col>
 
 
@@ -295,24 +296,23 @@ export default class Showing extends Component {
               chosenSeats={this.state.chosenSeats}
               seatLayout={this.seatLayout}
               individualSeats={this.state.individualSeats}
-              createBooking=  {this.createBooking}
+
             />
           </Col>
         </Row>
 
-        {this.state.modal ?
-         <Modal  id= {this.state.modalData} isOpen={this.state.modal} toggle={this.toggle} >
-           <ModalHeader toggle={this.toggle}> Bokningsnummer: {this.state.bookingNum}</ModalHeader>
-         <ModalBody>
-           <p><i className="fas fa-door-open"></i> Salong: {this.props.auditorium.name} </p>
-           <p><i className="fas fa-film"></i> Film: {this.state.film}</p>
-           <p><i className="fas fa-couch"></i> Platser:{this.seatsText} </p>
-           <p><i className="fas fa-coins"></i> Pris: {this.state.totalPrice}kr</p>
-         </ModalBody>
-         <ModalFooter>
-           <Button type="button" onClick={this.toggle}>Close</Button>
-         </ModalFooter>
-       </Modal> : ''}
+          <Modal className = "text-light"isOpen={this.state.modal} toggle={this.toggle} >
+            <ModalHeader toggle={this.toggle}> Bokningsnummer: {this.state.bookingInfo.bookingNum}</ModalHeader>
+            <ModalBody>
+              <p><i className="fas fa-door-open"></i> Salong: {this.props.auditorium[0].name} </p>
+              <p><i className="fas fa-film"></i> Film: {this.props.showtime.film}</p>
+              <p><i className="fas fa-couch"></i> Platser:{this.state.bookingInfo.seats} </p>
+              <p><i className="fas fa-coins"></i> Pris: {this.state.bookingInfo.totalPrice}kr</p>
+            </ModalBody>
+            <ModalFooter>
+              <Button type="button" onClick={this.toggle}>Close</Button>
+            </ModalFooter>
+          </Modal>
 
       </Container>
     )
