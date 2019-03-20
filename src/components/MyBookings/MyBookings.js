@@ -36,6 +36,7 @@ class MyBookings extends React.Component {
 
     function convertDate(booking) {
       let s = booking.showTimeDetails.date;
+     
       let date = s.split("/")[0];
       let month = parseInt(s.split("/")[1]);
       let year = new Date().getFullYear();
@@ -49,6 +50,7 @@ class MyBookings extends React.Component {
     this.setState({
       currentBookings: bookings.filter(booking => {
         let date = convertDate(booking);
+        console.log("the converted date",date)
         return date > new Date();
       })
     });
@@ -56,6 +58,7 @@ class MyBookings extends React.Component {
     this.setState({
       bookingHistory: bookings.filter(booking => {
         let date = convertDate(booking);
+        console.log("the another converted date",date)
         return date < new Date();
       })
     });

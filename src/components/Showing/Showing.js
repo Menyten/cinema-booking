@@ -2,7 +2,17 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Auditorium from '../Auditorium';
 import Seat from '../Seat';
+import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
 import './showing.scss';
+import REST from "../../REST";
+
+class Booking extends REST { }
+class Login extends REST {
+  async delete() {
+    this._id = 1;
+    return super.delete();
+  }
+}
 
 export default class Showing extends Component {
   constructor(props) {
@@ -12,13 +22,26 @@ export default class Showing extends Component {
       countAdult: 0,
       countKid: 0,
       countRetired: 0,
+      bookingInfo: {},
       individualSeats: false,
     }
+    this.fullPriceAdult = 0;
+    this.fullPriceChild = 0;
+    this.fullPriceOld = 0;
+    this.ticketPriceAdult = 85;
+    this.ticketPriceKid = 65;
+    this.ticketPriceSenior = 75;
     this.seatClick = this.seatClick.bind(this);
+    this.createBooking = this.createBooking.bind(this);
     this.toggleIndividualTrueOrFalse = this.toggleIndividualTrueOrFalse.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.countTotalPrice();
     this.seatsBySeatNumber = {};
     this.seatLayout = this.createSeatLayout();
   }
+
+
+
 
   createSeatLayout() {
     let seats = [];
@@ -101,6 +124,43 @@ export default class Showing extends Component {
     }
   }
 
+  async createBooking() {
+
+    let userId = await Login.find();
+    console.log("user Id", userId);
+    const booking = await new Booking({
+      "showTimeDetails": this.props.showtime._id,
+      "userId": userId,
+      "seats": this.state.chosenSeats.map(seat => seat.seatNum),
+      "totalPrice": this.countTotalPrice()
+    });
+    let bookingInfo = await booking.save();
+    this.setState({ bookingInfo });
+    this.toggle();
+    console.log("booking info", bookingInfo);
+
+
+    /* let modalData = {
+       ({
+        bookingNum: bookingInfo.bookingNum,
+        seats: bookingInfo.seats,
+        auditorium: this.props.auditorium[0].name,
+        totalPrice: bookingInfo.totalPrice,
+        film: bookingInfo.showTimeDetails.film
+      })
+     
+    } */
+
+    //console.log(modalData);
+    //this.state.modal = new Modal(modalData);
+
+
+    /* this.modal = new Modal(modalData);
+    this.render();
+    $(this.baseEl).find('#bookingModal').modal({ show: true }); */
+
+  }
+
   addOne = e => {
     console.log("heeej")
     if (this.state.countAdult + this.state.countKid + this.state.countRetired >= 8) {
@@ -163,6 +223,20 @@ export default class Showing extends Component {
     }
   }
 
+  countTotalPrice() {
+    let fullPriceAdult = this.state.countAdult * this.ticketPriceAdult;
+    let fullPriceChild = this.state.countKid * this.ticketPriceKid;
+    let fullPriceOld = this.state.countRetired * this.ticketPriceSenior;
+    let totalPrice = fullPriceAdult + fullPriceChild + fullPriceOld;
+    return totalPrice;
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+
   emptyChosenSeats() {
     this.setState({ chosenSeats: [] });
     this.setState({ toBeBooked: false });
@@ -200,8 +274,10 @@ export default class Showing extends Component {
           </Col>
 
           <Col className='text-md-right' sm='12' md='6'>
-            <button className="bookButton" >Slutför bokning</button>
+            <button className="bookButton" onClick={this.createBooking}> Slutför bokning</button>
           </Col>
+
+
           <Col className='text-md-left' sm='12' md='6'>
             <button className="individualSeats individualButton" onClick={this.toggleIndividualTrueOrFalse} >Välj separata stolar</button>
           </Col>
@@ -220,9 +296,23 @@ export default class Showing extends Component {
               chosenSeats={this.state.chosenSeats}
               seatLayout={this.seatLayout}
               individualSeats={this.state.individualSeats}
+
             />
           </Col>
         </Row>
+
+          <Modal className = "text-light"isOpen={this.state.modal} toggle={this.toggle} >
+            <ModalHeader toggle={this.toggle}> Bokningsnummer: {this.state.bookingInfo.bookingNum}</ModalHeader>
+            <ModalBody>
+              <p><i className="fas fa-door-open"></i> Salong: {this.props.auditorium[0].name} </p>
+              <p><i className="fas fa-film"></i> Film: {this.props.showtime.film}</p>
+              <p><i className="fas fa-couch"></i> Platser:{this.state.bookingInfo.seats} </p>
+              <p><i className="fas fa-coins"></i> Pris: {this.state.bookingInfo.totalPrice}kr</p>
+            </ModalBody>
+            <ModalFooter>
+              <Button type="button" onClick={this.toggle}>Close</Button>
+            </ModalFooter>
+          </Modal>
 
       </Container>
     )
