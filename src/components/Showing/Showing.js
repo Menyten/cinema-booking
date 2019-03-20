@@ -22,8 +22,11 @@ export default class Showing extends Component {
       countAdult: 0,
       countKid: 0,
       countRetired: 0,
-      bookingInfo: {},
+      // bookingInfo: {},
       individualSeats: false,
+      bookingInfo: {
+        seats: [],
+      }
     }
     this.fullPriceAdult = 0;
     this.fullPriceChild = 0;
@@ -36,6 +39,7 @@ export default class Showing extends Component {
     this.toggleIndividualTrueOrFalse = this.toggleIndividualTrueOrFalse.bind(this);
     this.toggle = this.toggle.bind(this);
     this.countTotalPrice();
+    this.seatsText();
     this.seatsBySeatNumber = {};
     this.seatLayout = this.createSeatLayout();
   }
@@ -127,7 +131,7 @@ export default class Showing extends Component {
   async createBooking() {
 
     let userId = await Login.find();
-    console.log("user Id", userId);
+    
     const booking = await new Booking({
       "showTimeDetails": this.props.showtime._id,
       "userId": userId,
@@ -138,28 +142,22 @@ export default class Showing extends Component {
     this.setState({ bookingInfo });
     this.toggle();
     console.log("booking info", bookingInfo);
-
-
-    /* let modalData = {
-       ({
-        bookingNum: bookingInfo.bookingNum,
-        seats: bookingInfo.seats,
-        auditorium: this.props.auditorium[0].name,
-        totalPrice: bookingInfo.totalPrice,
-        film: bookingInfo.showTimeDetails.film
-      })
-     
-    } */
-
-    //console.log(modalData);
-    //this.state.modal = new Modal(modalData);
-
-
-    /* this.modal = new Modal(modalData);
-    this.render();
-    $(this.baseEl).find('#bookingModal').modal({ show: true }); */
-
   }
+
+  toggle() {
+    this.seatsText();
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+
+  seatsText() {
+    let seatsss = this.state.bookingInfo.seats;
+    /* console.log(seatsss);
+    let seats = seatsss.join(',');
+    console.log(seats); */
+    //return seatsss.join(',');
+  } 
 
   addOne = e => {
     console.log("heeej")
@@ -231,12 +229,6 @@ export default class Showing extends Component {
     return totalPrice;
   }
 
-  toggle() {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
-  }
-
   emptyChosenSeats() {
     this.setState({ chosenSeats: [] });
     this.setState({ toBeBooked: false });
@@ -306,7 +298,7 @@ export default class Showing extends Component {
             <ModalBody>
               <p><i className="fas fa-door-open"></i> Salong: {this.props.auditorium[0].name} </p>
               <p><i className="fas fa-film"></i> Film: {this.props.showtime.film}</p>
-              <p><i className="fas fa-couch"></i> Platser:{this.state.bookingInfo.seats} </p>
+              <p><i className="fas fa-couch"></i> Platser:{this.state.bookingInfo.seats.join(',')} </p>
               <p><i className="fas fa-coins"></i> Pris: {this.state.bookingInfo.totalPrice}kr</p>
             </ModalBody>
             <ModalFooter>
