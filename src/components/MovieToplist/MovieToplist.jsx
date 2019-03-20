@@ -58,6 +58,7 @@ class MovieTopList extends Component {
     return <Container className="container-toplist">
         {this.toplist.map((movie, index) => {
           console.log(movie);
+          console.log(movie);
           return <Row key={index+342786}>
               <Col key={index+10}>
                 <Row key={index+67326}>
