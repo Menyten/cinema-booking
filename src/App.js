@@ -13,6 +13,8 @@ import MyBookings from './components/MyBookings';
 import REST from './REST'
 import AdminPage from './components/AdminPage';
 import { Container, Row, Col } from 'reactstrap';
+import io from 'socket.io-client';
+const socket = io('localhost:3001/');
 
 class Movie extends REST { }
 class Showtime extends REST { }
