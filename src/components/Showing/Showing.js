@@ -200,23 +200,6 @@ export default class Showing extends Component {
     this.toggle();
     console.log('booking info', bookingInfo);
 
-    /* let modalData = {
-           ({
-            bookingNum: bookingInfo.bookingNum,
-            seats: bookingInfo.seats,
-            auditorium: this.props.auditorium[0].name,
-            totalPrice: bookingInfo.totalPrice,
-            film: bookingInfo.showTimeDetails.film
-          })
-
-        } */
-
-    //console.log(modalData);
-    //this.state.modal = new Modal(modalData);
-
-    /* this.modal = new Modal(modalData);
-        this.render();
-        $(this.baseEl).find('#bookingModal').modal({ show: true }); */
   }
 
   addOne = e => {
@@ -250,14 +233,34 @@ export default class Showing extends Component {
 
   selectBestSeats() {
     let amount = this.countAll;
-    let selected = this.props.auditorium[0].bestSeats.slice(0, amount);
+    let selected = this.props.auditorium[0].bestSeats;
+    console.log('best seats', selected);
+
+    for( let number of selected) {
+      if(amount === 0) {
+        break;
+      }
+      if(this.seatsBySeatNumber[number].booked) {
+        console.log(this.seatsBySeatNumber[number]);
+        continue;
+      }
+      amount--;
+      this.seatsBySeatNumber[number].toBeBooked = true;
+      if (!this.state.chosenSeats.includes(this.seatsBySeatNumber[number])) {
+        this.state.chosenSeats.push(this.seatsBySeatNumber[number]);
+      }
+      
+    }
+
+
+    /* //let selected = this.props.auditorium[0].bestSeats.slice(0, amount);
     for (let number of selected) {
       console.log('number', number);
       this.seatsBySeatNumber[number].toBeBooked = true;
       if (!this.state.chosenSeats.includes(this.seatsBySeatNumber[number])) {
         this.state.chosenSeats.push(this.seatsBySeatNumber[number]);
       }
-    }
+    } */
     this.setState(state => this);
   }
 
