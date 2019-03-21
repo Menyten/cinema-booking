@@ -27,6 +27,7 @@ export default class Showing extends Component {
       individualSeats: false,
     }
     this.listenForSeatsChosen();
+    this.compareSocketSeatsWithAudiotirumSeats = this.compareSocketSeatsWithAudiotirumSeats.bind(this);
     this.fullPriceAdult = 0;
     this.fullPriceChild = 0;
     this.fullPriceOld = 0;
@@ -40,6 +41,7 @@ export default class Showing extends Component {
     this.countTotalPrice();
     this.seatsBySeatNumber = {};
     this.seatLayout = this.createSeatLayout();
+    this.socketBookedSeats = [];
   }
 
 
@@ -108,21 +110,7 @@ export default class Showing extends Component {
       } else {
         this.seatsBySeatNumber[clickedSeat.seatNum].toBeBooked = true;
         this.setState({ chosenSeats: [...this.state.chosenSeats, clickedSeat] });
-        /* this.setState(prevState => {
-          return { chosenSeats: prevState.chosenSeats.concat([clickedSeat]) }
-        }); */
       }
-
-
-      /* if (this.state.chosenSeats.includes(clickedSeat)) {
-        this.setState(prevState => { return { chosenSeats: prevState.chosenSeats.filter(seat => seat !== clickedSeat) } })
-      } else {
-        console.log('currentTarget', e.currentTarget);
-        console.log(clickedSeat)
-        this.setState(prevState => {
-          return { chosenSeats: prevState.chosenSeats.concat([clickedSeat]) }
-        })
-      } */
     }
   }
 
@@ -199,14 +187,31 @@ export default class Showing extends Component {
   updateChosenSeatsSocket() {
     App.socket.emit('choosing seats', {
       chosenSeats: this.state.chosenSeats,
-      showing:  this.props.showtime._id
+      showing: this.props.showtime._id
     })
   }
 
   listenForSeatsChosen() {
     App.socket.on('seats chosen', message => {
-      console.log(message)
+      this.socketBookedSeats = [...this.socketBookedSeats, message.chosenSeats[0]];
+      this.compareSocketSeatsWithAudiotirumSeats();
     })
+  }
+
+  compareSocketSeatsWithAudiotirumSeats() {
+    for (let socketSeat of this.socketBookedSeats) {
+      for (let seat in this.seatsBySeatNumber) {
+        console.log(socketSeat)
+        console.log(seat)
+        if(socketSeat.seatNum === this.seatsBySeatNumber[seat].seatNum) {
+          this.seatsBySeatNumber[seat].toBeBooked = false;
+          this.seatsBySeatNumber[seat].booked = true;
+          console.log('WHGIEHRGIEHRFJKWHGERHUJGHJ');
+          console.log(this.seatsBySeatNumber);
+          return;
+        }
+      }
+    }
   }
 
   removeOne = e => {
