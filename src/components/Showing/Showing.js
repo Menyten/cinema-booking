@@ -42,6 +42,7 @@ export default class Showing extends Component {
     this.seatsBySeatNumber = {};
     this.seatLayout = this.createSeatLayout();
     this.socketBookedSeats = [];
+    this.index = 0;
   }
 
 
@@ -193,25 +194,30 @@ export default class Showing extends Component {
 
   listenForSeatsChosen() {
     App.socket.on('seats chosen', message => {
-      this.socketBookedSeats = [...this.socketBookedSeats, message.chosenSeats[0]];
+      this.socketBookedSeats = [...this.socketBookedSeats, message.chosenSeats[this.index]];
+      this.index++;
+      console.log(message.chosenSeats[0], 'ARREYEN FRÅN LISTEN')
+      console.log(message.chosenSeats[1], 'ARREYEN FRÅN LISTEN')
       this.compareSocketSeatsWithAudiotirumSeats();
     })
+    
   }
 
   compareSocketSeatsWithAudiotirumSeats() {
     for (let socketSeat of this.socketBookedSeats) {
       for (let seat in this.seatsBySeatNumber) {
-        console.log(socketSeat)
-        console.log(seat)
-        if(socketSeat.seatNum === this.seatsBySeatNumber[seat].seatNum) {
+        if (socketSeat.seatNum === this.seatsBySeatNumber[seat].seatNum) {
           this.seatsBySeatNumber[seat].toBeBooked = false;
           this.seatsBySeatNumber[seat].booked = true;
           console.log('WHGIEHRGIEHRFJKWHGERHUJGHJ');
+          console.log(socketSeat)
+          console.log(seat)
           console.log(this.seatsBySeatNumber);
-          return;
+
         }
       }
     }
+    this.setState(state => this);
   }
 
   removeOne = e => {

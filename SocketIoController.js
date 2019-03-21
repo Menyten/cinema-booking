@@ -16,7 +16,7 @@ module.exports = class SocketIoController {
       })
       socket.on('choosing seats', message => {
         console.log(message);
-        this.io.emit('seats chosen', message);
+        socket.broadcast.emit('seats chosen', message);
       })
     });
   }
