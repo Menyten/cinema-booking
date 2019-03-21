@@ -5,6 +5,7 @@ import Seat from '../Seat';
 import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
 import './showing.scss';
 import REST from "../../REST";
+import App from '../../App';
 
 class Booking extends REST { }
 class Login extends REST {
@@ -25,6 +26,7 @@ export default class Showing extends Component {
       bookingInfo: {},
       individualSeats: false,
     }
+    this.listenForSeatsChosen();
     this.fullPriceAdult = 0;
     this.fullPriceChild = 0;
     this.fullPriceOld = 0;
@@ -188,9 +190,23 @@ export default class Showing extends Component {
       this.seatsBySeatNumber[number].toBeBooked = true;
       if (!this.state.chosenSeats.includes(this.seatsBySeatNumber[number])) {
         this.state.chosenSeats.push(this.seatsBySeatNumber[number]);
+        this.updateChosenSeatsSocket();
       }
     }
     this.setState(state => this)
+  }
+
+  updateChosenSeatsSocket() {
+    App.socket.emit('choosing seats', {
+      chosenSeats: this.state.chosenSeats,
+      showing:  this.props.showtime._id
+    })
+  }
+
+  listenForSeatsChosen() {
+    App.socket.on('seats chosen', message => {
+      console.log(message)
+    })
   }
 
   removeOne = e => {
@@ -301,18 +317,18 @@ export default class Showing extends Component {
           </Col>
         </Row>
 
-          <Modal className = "text-light"isOpen={this.state.modal} toggle={this.toggle} >
-            <ModalHeader toggle={this.toggle}> Bokningsnummer: {this.state.bookingInfo.bookingNum}</ModalHeader>
-            <ModalBody>
-              <p><i className="fas fa-door-open"></i> Salong: {this.props.auditorium[0].name} </p>
-              <p><i className="fas fa-film"></i> Film: {this.props.showtime.film}</p>
-              <p><i className="fas fa-couch"></i> Platser:{this.state.bookingInfo.seats} </p>
-              <p><i className="fas fa-coins"></i> Pris: {this.state.bookingInfo.totalPrice}kr</p>
-            </ModalBody>
-            <ModalFooter>
-              <Button type="button" onClick={this.toggle}>Close</Button>
-            </ModalFooter>
-          </Modal>
+        <Modal className="text-light" isOpen={this.state.modal} toggle={this.toggle} >
+          <ModalHeader toggle={this.toggle}> Bokningsnummer: {this.state.bookingInfo.bookingNum}</ModalHeader>
+          <ModalBody>
+            <p><i className="fas fa-door-open"></i> Salong: {this.props.auditorium[0].name} </p>
+            <p><i className="fas fa-film"></i> Film: {this.props.showtime.film}</p>
+            <p><i className="fas fa-couch"></i> Platser:{this.state.bookingInfo.seats} </p>
+            <p><i className="fas fa-coins"></i> Pris: {this.state.bookingInfo.totalPrice}kr</p>
+          </ModalBody>
+          <ModalFooter>
+            <Button type="button" onClick={this.toggle}>Close</Button>
+          </ModalFooter>
+        </Modal>
 
       </Container>
     )

@@ -10,9 +10,13 @@ module.exports = class SocketIoController {
   listenToSocketConnections() {
     console.log('HEEEEEJ')
     this.io.on('connection', socket => {
-      console.log('A NEW CLIENT CONNECTED YOU FUCK!')
+      console.log('A NEW CLIENT CONNECTED')
       socket.on('disconnect', () => {
-        console.log('A CLIENT DISCONNECTED YOU FUCK!')
+        console.log('A CLIENT DISCONNECTED')
+      })
+      socket.on('choosing seats', message => {
+        console.log(message);
+        socket.emit('seats chosen', message);
       })
     });
   }
