@@ -8,6 +8,7 @@ import CurrentShowsPage from './components/CurrentShowsPage';
 import MovieInfo from './components/MovieInfo';
 import Showing from './components/Showing';
 import NavBar from './components/NavBar';
+import MovieToplist from './components/MovieToplist';
 import MyBookings from './components/MyBookings';
 // import CurrentBookings from './components/CurrentBookings';
 import REST from './REST'
@@ -113,6 +114,7 @@ class App extends Component {
             <Route exact path={`/film/${movie._id}`} render={() => <MovieInfo movie={movie} />} key={movie._id} />
           ))
         }
+        < Route exact path='/movie-toplist' component={MovieToplist} />
       </div >
     </Router >;
   }

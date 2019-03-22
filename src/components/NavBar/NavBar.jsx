@@ -83,6 +83,9 @@ class NavBar extends Component {
               <NavItem>
                 <NavLink to='/showtime' className='nav-link headlines'>Boka Biljetter</NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink to='/movie-toplist' className='nav-link headlines'>Topplista</NavLink>
+                </NavItem>
               {this.state.loggedIn ? <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleUser}>
                 <DropdownToggle caret>
                   {this.props.user.email}
