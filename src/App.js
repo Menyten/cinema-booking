@@ -92,7 +92,7 @@ class App extends Component {
   render() {
     return <Router>
       <div className="App">
-        <Header user={this.state.user} logout={this.logout} />
+        <Header user={this.state.user} logout={this.logout} allUsers={this.state.userAdmin} />
         <Route exact path='/' component={Startpage} />
         <Route exact path='/login' render={() => <LoginPage setUser={this.setUser} allUsers={this.state.userAdmin} />} />
         <Route exact path='/AdminPage' render={() => <AdminPage allUsers={this.state.userAdmin} movies={this.state.movies} showtimes={this.state.showtimes} />} />
