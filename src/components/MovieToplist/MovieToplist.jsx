@@ -66,7 +66,7 @@ class MovieTopList extends Component {
                     {movie.movie}
                   </Col>
                   <Col key={index + 1000} className="text-toplist">
-                    {movie.count}
+                    {movie.count + 'st bokningar'}
                   </Col>
                 </Row>
               </Col>
