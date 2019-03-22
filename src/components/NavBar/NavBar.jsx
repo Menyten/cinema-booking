@@ -85,18 +85,22 @@ class NavBar extends Component {
               </NavItem>
               <NavItem>
                 <NavLink to='/movie-toplist' className='nav-link headlines'>Topplista</NavLink>
-                </NavItem>
-              {this.state.loggedIn ? <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleUser}>
-                <DropdownToggle caret>
-                  {this.props.user.email} {this.props.allUsers.admin === true ? <NavLink to='/AdminPage'><i className="fas fa-user-cog authIcon"></i> </NavLink>: ''}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header><Button onClick={(event) => { this.props.logout(); this.logoutRoute();}}>Logga Ut</Button></DropdownItem>
-                </DropdownMenu>
-              </Dropdown> : <div className="loggedInDiv">Inte inloggad<i className="fas fa-info-circle icon-BC" id="Popover1" type="button">
-                <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggleUserInfo}>
-                  <PopoverBody>OBS! Tänk på att om du inte är inloggad kommer du inte kunna se din bokningshistorik, registrera dig gärna för att kunna se detta samt att du kan ta del av exklusiva erbjudanden! </PopoverBody>
-                </Popover></i></div>}
+              </NavItem>
+              {this.state.loggedIn ?
+                <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleUser}>
+                  <DropdownToggle caret>
+                    {this.props.user.email} {this.props.allUsers.admin === true ? <NavLink to='/AdminPage'><i className="fas fa-user-cog authIcon"></i> </NavLink> : ''}
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <DropdownItem header><p onClick={(event) => { this.props.logout(); this.logoutRoute(); }}>Logga Ut</p></DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+                :
+                <div className="loggedInDiv nav-link headlines">Inte inloggad<i className="fas fa-info-circle icon-BC" id="Popover1" type="button">
+                  <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggleUserInfo}>
+                    <PopoverBody>OBS! Tänk på att om du inte är inloggad kommer du inte kunna se din bokningshistorik, registrera dig gärna för att kunna se detta samt att du kan ta del av exklusiva erbjudanden! </PopoverBody>
+                  </Popover></i>
+                </div>}
             </Nav>
           </Collapse>
         </Navbar>

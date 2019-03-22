@@ -3,8 +3,10 @@
   -webkit-box-shadow: 1px 4px 36px 4px rgba(118, 24, 24, 0.74);
   -moz-box-shadow: 1px 4px 36px 4px rgba(118, 24, 24, 0.74);
   box-shadow: 1px 4px 36px 4px rgba(118, 24, 24, 0.74);
-  .headlines {
+  .headlines,
+  p {
     color: #f2f2f2 !important;
+    cursor: pointer;
 
     &::after {
       content: "";
