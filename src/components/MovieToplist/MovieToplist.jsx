@@ -19,11 +19,9 @@ class MovieTopList extends Component {
     let bookings = await Booking.find(
       `.find().populate('showTimeDetails').exec()`
     );
-    console.log(bookings);
     let movieCount = {};
     for (let booking of bookings) {
       if (booking.showTimeDetails == null) {
-        console.log(booking);
         continue;
       }
       let title = booking.showTimeDetails.film;
