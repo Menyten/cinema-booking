@@ -449,7 +449,7 @@ class AdminPage extends Component {
               </Modal>
             </div>
           </Container>
-          : <p>Du är inte admin! Bra försök dock!</p>}
+          : <p className="auth">åtkomst nekad!</p>}
       </Container>
     )
   }
