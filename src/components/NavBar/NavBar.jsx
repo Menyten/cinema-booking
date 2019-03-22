@@ -88,7 +88,7 @@ class NavBar extends Component {
                 </NavItem>
               {this.state.loggedIn ? <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleUser}>
                 <DropdownToggle caret>
-                  {this.props.user.email}
+                  {this.props.user.email} {this.props.allUsers.admin === true ? <NavLink to='/AdminPage'><i className="fas fa-user-cog authIcon"></i> </NavLink>: ''}
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem header><Button onClick={(event) => { this.props.logout(); this.logoutRoute();}}>Logga Ut</Button></DropdownItem>

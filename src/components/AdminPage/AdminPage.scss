@@ -65,3 +65,18 @@ td {
 .adminTextSize {
   font-weight: bold;
 }
+
+.auth {
+  color: #761818;
+  text-transform: uppercase;
+  margin-top: 100px;
+  text-align: center;
+  font-size: 90px;
+  -webkit-box-shadow: 0px 0px 23px 1px rgba(118,24,24,1);
+  -moz-box-shadow: 0px 0px 23px 1px rgba(118,24,24,1);
+  box-shadow: 0px 0px 23px 1px rgba(118,24,24,1);
+}
+
+.authIcon {
+  color: #761818;
+}

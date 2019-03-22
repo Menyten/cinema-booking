@@ -28,7 +28,6 @@ class MyBookings extends React.Component {
     if (!user._id) {
       return;
     }
-    console.log("user", user);
     let bookings = await Booking.find(
       `.find({userId: "${user._id}"}).populate('showTimeDetails').exec()`
     );
@@ -50,7 +49,6 @@ class MyBookings extends React.Component {
     this.setState({
       currentBookings: bookings.filter(booking => {
         let date = convertDate(booking);
-        console.log("the converted date",date)
         return date > new Date();
       })
     });
@@ -58,7 +56,6 @@ class MyBookings extends React.Component {
     this.setState({
       bookingHistory: bookings.filter(booking => {
         let date = convertDate(booking);
-        console.log("the another converted date",date)
         return date < new Date();
       })
     });

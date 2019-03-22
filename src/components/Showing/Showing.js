@@ -91,26 +91,17 @@ export default class Showing extends Component {
     let seats = [];
     let row = 1;
     let seatNum = 1;
-    console.log(
-      'this.props.auditorium[0].seatsPerRow',
-      this.props.auditorium[0].seatsPerRow.length
-    );
     for (let numberOfSeatsInTheRow of this.props.auditorium[0].seatsPerRow) {
       let seatsInRow = [];
       while (seatsInRow.length < numberOfSeatsInTheRow) {
         let seat = { row: row, seatNum: seatNum };
         seatsInRow.push(seat);
         this.seatsBySeatNumber[seatNum] = seat;
-        console.log(
-          'this.seatsBySeatNumber[seatNum]',
-          this.seatsBySeatNumber[seatNum]
-        );
         seatNum++;
       }
       seats.push(seatsInRow);
       row++;
     }
-    console.log('seat', seats);
 
     this.seatLayout = await this.markBookedSeats(seats);
 
@@ -124,7 +115,6 @@ export default class Showing extends Component {
   }
 
   toggleIndividualTrueOrFalse() {
-    console.log('hej');
     !this.state.individualSeats
       ? this.setState({
           individualSeats: true
@@ -155,7 +145,6 @@ export default class Showing extends Component {
       if (this.state.chosenSeats.length) {
         for (let seat in this.state.chosenSeats) {
           if (this.state.chosenSeats[seat].seatNum == clickedSeat.seatNum) {
-            console.log(this.state.chosenSeats[seat].seatNum);
             this.seatsBySeatNumber[clickedSeat.seatNum].toBeBooked = false;
             this.setState({
               chosenSeats: this.state.chosenSeats.filter(
@@ -178,7 +167,6 @@ export default class Showing extends Component {
 
   async createBooking() {
     let userId = await Login.find();
-    console.log('user Id', userId);
     const booking = await new Booking({
       showTimeDetails: this.props.showtime._id,
       userId: userId,
@@ -188,12 +176,10 @@ export default class Showing extends Component {
     let bookingInfo = await booking.save();
     this.setState({ bookingInfo });
     this.toggle();
-    console.log('booking info', bookingInfo);
 
   }
 
   addOne = e => {
-    console.log('heeej');
     if (
       this.state.countAdult + this.state.countKid + this.state.countRetired >=
       8
@@ -224,14 +210,12 @@ export default class Showing extends Component {
   selectBestSeats() {
     let amount = this.countAll;
     let selected = this.props.auditorium[0].bestSeats;
-    console.log('best seats', selected);
 
     for( let number of selected) {
       if(amount === 0) {
         break;
       }
       if(this.seatsBySeatNumber[number].booked) {
-        console.log(this.seatsBySeatNumber[number]);
         continue;
       }
       amount--;
@@ -246,7 +230,6 @@ export default class Showing extends Component {
 
     /* //let selected = this.props.auditorium[0].bestSeats.slice(0, amount);
     for (let number of selected) {
-      console.log('number', number);
       this.seatsBySeatNumber[number].toBeBooked = true;
       if (!this.state.chosenSeats.includes(this.seatsBySeatNumber[number])) {
         this.state.chosenSeats.push(this.seatsBySeatNumber[number]);
@@ -267,8 +250,6 @@ export default class Showing extends Component {
     App.socket.on('seats chosen', message => {
       this.socketBookedSeats = [...this.socketBookedSeats, message.chosenSeats[this.index]];
       this.index++;
-      console.log(message.chosenSeats[0], 'ARREYEN FRÅN LISTEN')
-      console.log(message.chosenSeats[1], 'ARREYEN FRÅN LISTEN')
       this.compareSocketSeatsWithAudiotirumSeats();
     })
     
@@ -280,10 +261,6 @@ export default class Showing extends Component {
         if (socketSeat.seatNum === this.seatsBySeatNumber[seat].seatNum) {
           this.seatsBySeatNumber[seat].toBeBooked = false;
           this.seatsBySeatNumber[seat].booked = true;
-          console.log('WHGIEHRGIEHRFJKWHGERHUJGHJ');
-          console.log(socketSeat)
-          console.log(seat)
-          console.log(this.seatsBySeatNumber);
 
         }
       }

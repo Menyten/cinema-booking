@@ -92,9 +92,7 @@ class AdminPage extends Component {
     });
 
     this.movieShowtime = await Showtime.find(`.find({film:"${this.state.title}"}).populate('auditorium.name').exec()`);
-    console.log(this.movieShowtime, 'SHOWTIMESEN INNAN KLICKEVENTET')
     await this.movieSelect(this.movieShowtime);
-    console.log(this.movieShowtime, 'FILMERNAS SHOWTIMES')
   };
 
   onDismiss() {
@@ -104,7 +102,6 @@ class AdminPage extends Component {
   async deleteShowtime(event) {
     let delShowtime = event.currentTarget.value;
     this.infoShowtime = await Showtime.find(`.find({_id:"${delShowtime}"})`);
-    console.log(this.infoShowtime)
 
     this.delShowtimeTitle = this.infoShowtime[0].film;
     this.delShowtimeDate = this.infoShowtime[0].date;
@@ -122,7 +119,6 @@ class AdminPage extends Component {
   async changeShowtime(event) {
     let editShowtime = event.currentTarget.value;
     this.editThisShowtime = await Showtime.find(`.find({_id:"${editShowtime}"})`);
-    console.log(this.editThisShowtime)
     let showtimeId = this.editThisShowtime;
     this.editTitle = this.editThisShowtime[0].film;
     this.editDate = this.editThisShowtime[0].date;
@@ -141,10 +137,6 @@ class AdminPage extends Component {
 
   async saveEditedShowtime() {
     let { auditorium, time, date } = this.state;
-    console.log(auditorium,'bara auditorium')
-    console.log(this.state.auditorium,'AUDITORIUMET??');
-    console.log(this.state.time, 'TIDen??')
-    console.log(this.state.date, 'DATE???')
     let showtimeId = this.saveShowtime[0][0]._id;
     let showtimeTitle = this.saveShowtime[0][0].film;
 
@@ -196,14 +188,12 @@ class AdminPage extends Component {
     });
 
     this.getNewData(title);
-    console.log(newAddedShowtime);
   }
 
   async getNewData(showtimeTitle) {
     this.showtimes.length = 0;
     let newTitle = showtimeTitle;
     this.newData = await Showtime.find(`.find({film:"${newTitle}"})`);
-    console.log(this.newData, 'NEWDATAAAAA');
     await this.movieSelect(this.newData);
     this.showtimes.push(this.newData);
     this.setState({
@@ -459,7 +449,7 @@ class AdminPage extends Component {
               </Modal>
             </div>
           </Container>
-          : <p>Du är inte admin! Bra försök dock!</p>}
+          : <p className="auth">åtkomst nekad!</p>}
       </Container>
     )
   }
