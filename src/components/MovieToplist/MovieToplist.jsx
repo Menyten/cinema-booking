@@ -54,6 +54,7 @@ class MovieTopList extends Component {
       return <div />
     }
     return <Container className="container-toplist">
+    <div className="frontParagraph movieToplistInfo">Topplista Filmer</div>
         {this.toplist.map((movie, index) => {
           return <Row key={index + 342786}>
               <Col key={index + 10}>
