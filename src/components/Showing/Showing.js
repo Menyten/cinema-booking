@@ -4,7 +4,8 @@ import Auditorium from '../Auditorium';
 import Seat from '../Seat';
 import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
 import './showing.scss';
-import REST from '../../REST';
+import REST from "../../REST";
+import App from '../../App';
 
 class Booking extends REST {}
 class Login extends REST {
@@ -23,8 +24,10 @@ export default class Showing extends Component {
       countKid: 0,
       countRetired: 0,
       bookingInfo: {},
-      individualSeats: false
-    };
+      individualSeats: false,
+    }
+    this.listenForSeatsChosen();
+    this.compareSocketSeatsWithAudiotirumSeats = this.compareSocketSeatsWithAudiotirumSeats.bind(this);
     this.fullPriceAdult = 0;
     this.fullPriceChild = 0;
     this.fullPriceOld = 0;
@@ -42,6 +45,8 @@ export default class Showing extends Component {
     this.seatLayout = [];
     this.takenSeats = [];
     this.createSeatLayout();
+    this.socketBookedSeats = [];
+    this.index = 0;
   }
 
   async markBookedSeats(seats) {
@@ -166,23 +171,8 @@ export default class Showing extends Component {
         }
       } else {
         this.seatsBySeatNumber[clickedSeat.seatNum].toBeBooked = true;
-        this.setState({
-          chosenSeats: [...this.state.chosenSeats, clickedSeat]
-        });
-        /* this.setState(prevState => {
-                  return { chosenSeats: prevState.chosenSeats.concat([clickedSeat]) }
-                }); */
+        this.setState({ chosenSeats: [...this.state.chosenSeats, clickedSeat] });
       }
-
-      /* if (this.state.chosenSeats.includes(clickedSeat)) {
-              this.setState(prevState => { return { chosenSeats: prevState.chosenSeats.filter(seat => seat !== clickedSeat) } })
-            } else {
-              console.log('currentTarget', e.currentTarget);
-              console.log(clickedSeat)
-              this.setState(prevState => {
-                return { chosenSeats: prevState.chosenSeats.concat([clickedSeat]) }
-              })
-            } */
     }
   }
 
@@ -248,6 +238,7 @@ export default class Showing extends Component {
       this.seatsBySeatNumber[number].toBeBooked = true;
       if (!this.state.chosenSeats.includes(this.seatsBySeatNumber[number])) {
         this.state.chosenSeats.push(this.seatsBySeatNumber[number]);
+        this.updateChosenSeatsSocket();
       }
       
     }
@@ -259,8 +250,44 @@ export default class Showing extends Component {
       this.seatsBySeatNumber[number].toBeBooked = true;
       if (!this.state.chosenSeats.includes(this.seatsBySeatNumber[number])) {
         this.state.chosenSeats.push(this.seatsBySeatNumber[number]);
+        this.updateChosenSeatsSocket();
       }
     } */
+    this.setState(state => this);
+  }
+
+  updateChosenSeatsSocket() {
+    App.socket.emit('choosing seats', {
+      chosenSeats: this.state.chosenSeats,
+      showing: this.props.showtime._id
+    })
+  }
+
+  listenForSeatsChosen() {
+    App.socket.on('seats chosen', message => {
+      this.socketBookedSeats = [...this.socketBookedSeats, message.chosenSeats[this.index]];
+      this.index++;
+      console.log(message.chosenSeats[0], 'ARREYEN FRÅN LISTEN')
+      console.log(message.chosenSeats[1], 'ARREYEN FRÅN LISTEN')
+      this.compareSocketSeatsWithAudiotirumSeats();
+    })
+    
+  }
+
+  compareSocketSeatsWithAudiotirumSeats() {
+    for (let socketSeat of this.socketBookedSeats) {
+      for (let seat in this.seatsBySeatNumber) {
+        if (socketSeat.seatNum === this.seatsBySeatNumber[seat].seatNum) {
+          this.seatsBySeatNumber[seat].toBeBooked = false;
+          this.seatsBySeatNumber[seat].booked = true;
+          console.log('WHGIEHRGIEHRFJKWHGERHUJGHJ');
+          console.log(socketSeat)
+          console.log(seat)
+          console.log(this.seatsBySeatNumber);
+
+        }
+      }
+    }
     this.setState(state => this);
   }
 
@@ -431,42 +458,19 @@ export default class Showing extends Component {
           </Col>{' '}
         </Row>
 
-        <Modal
-          className="text-light"
-          isOpen={this.state.modal}
-          toggle={this.toggle}
-        >
-          <ModalHeader toggle={this.toggle}>
-            {' '}
-            Bokningsnummer: {this.state.bookingInfo.bookingNum}{' '}
-          </ModalHeader>{' '}
+        <Modal className="text-light" isOpen={this.state.modal} toggle={this.toggle} >
+          <ModalHeader toggle={this.toggle}> Bokningsnummer: {this.state.bookingInfo.bookingNum}</ModalHeader>
           <ModalBody>
-            <p>
-              {' '}
-              <i className="fas fa-door-open"> </i> Salong:{' '}
-              {this.props.auditorium[0].name}{' '}
-            </p>
-            <p>
-              {' '}
-              <i className="fas fa-film"> </i> Film: {this.props.showtime.film}
-            </p>
-            <p>
-              {' '}
-              <i className="fas fa-couch"> </i> Platser:{this.state.bookingInfo.seats}{' '}
-            </p>
-            <p>
-              {' '}
-              <i className="fas fa-coins"> </i> Pris:{' '}
-              {this.state.bookingInfo.totalPrice}kr
-            </p>
-          </ModalBody>{' '}
+            <p><i className="fas fa-door-open"></i> Salong: {this.props.auditorium[0].name} </p>
+            <p><i className="fas fa-film"></i> Film: {this.props.showtime.film}</p>
+            <p><i className="fas fa-couch"></i> Platser:{this.state.bookingInfo.seats} </p>
+            <p><i className="fas fa-coins"></i> Pris: {this.state.bookingInfo.totalPrice}kr</p>
+          </ModalBody>
           <ModalFooter>
-            <Button type="button" onClick={this.toggle}>
-              {' '}
-              Close{' '}
-            </Button>{' '}
-          </ModalFooter>{' '}
+            <Button type="button" onClick={this.toggle}>Close</Button>
+          </ModalFooter>
         </Modal>
+
       </Container>
     );
   }

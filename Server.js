@@ -7,6 +7,8 @@ const LoginHandler = require('./LoginHandler');
 const settings = require('./settings.json');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const http = require('http');
+const SocketIoController = require('./SocketIoController');
 
 module.exports = class Server {
   constructor() {
@@ -73,8 +75,10 @@ module.exports = class Server {
       res.json({ url: req.url, ok: true });
     });
 
-    app.listen(3001);
-
+    const server = http.Server(app);
+    server.listen(3001, () => console.log('Listening on port 3001'));
+    
+    new SocketIoController(server);
   }
 
 }
