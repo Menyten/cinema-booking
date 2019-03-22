@@ -238,6 +238,7 @@ export default class Showing extends Component {
       this.seatsBySeatNumber[number].toBeBooked = true;
       if (!this.state.chosenSeats.includes(this.seatsBySeatNumber[number])) {
         this.state.chosenSeats.push(this.seatsBySeatNumber[number]);
+        this.updateChosenSeatsSocket();
       }
       
     }
