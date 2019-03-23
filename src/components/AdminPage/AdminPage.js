@@ -379,10 +379,9 @@ class AdminPage extends Component {
                     </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        onChange={this.addingNewShowtime}
-                        name="dateAdd"
+                        type='date'
+                        onChange={e => this.setState({ dateAdd: new Date(e.currentTarget.value).toISOString() })}
                         className="underline-styling"
-                        placeholder="2019-01-01"
                       />
                     </InputGroup>
                   </div>
@@ -460,16 +459,10 @@ class AdminPage extends Component {
                       />
                     </InputGroup>
                     <InputGroup className="input-box">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText className="input-styling">
-                          Datum
-                    </InputGroupText>
-                      </InputGroupAddon>
                       <Input
-                        onChange={this.editingShowtime}
-                        name="date"
+                        type='date'
+                        onChange={e => this.setState({ date: new Date(e.currentTarget.value).toISOString() })}
                         className="underline-styling"
-                        placeholder={this.editDate}
                       />
                     </InputGroup>
                   </div>
