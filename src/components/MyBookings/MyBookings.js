@@ -28,35 +28,19 @@ class MyBookings extends React.Component {
     if (!user._id) {
       return;
     }
-    let bookings = await Booking.find(
-      `.find({userId: "${user._id}"}).populate('showTimeDetails').exec()`
-    );
-    this.setState({ booking: "HRELLO" });
-
-    function convertDate(booking) {
-      let s = booking.showTimeDetails.date;
-     
-      let date = s.split("/")[0];
-      let month = parseInt(s.split("/")[1]);
-      let year = new Date().getFullYear();
-      let time = booking.showTimeDetails.time;
-      return new Date(year + " " + month + " " + date + " " + time);
-    }
-
-    // this.currentBookings = bookings.filter(booking => convertDate(booking) > new Date());
-    // this.bookingHistory = bookings.filter(booking => convertDate(booking) < new Date());
+    let bookings = await Booking.find(`.find({userId: "${user._id}"}).populate('showTimeDetails').exec()`);
 
     this.setState({
       currentBookings: bookings.filter(booking => {
-        let date = convertDate(booking);
-        return date > new Date();
+        let date = booking.showTimeDetails.date;
+        return date > new Date().toISOString();
       })
     });
 
     this.setState({
       bookingHistory: bookings.filter(booking => {
-        let date = convertDate(booking);
-        return date < new Date();
+        let date = booking.showTimeDetails.date;
+        return date < new Date().toISOString();
       })
     });
   }
@@ -82,7 +66,7 @@ class MyBookings extends React.Component {
                 <th scope="row">{this.rowNum}</th>
                 <td>{booking.bookingNum}</td>
                 <td>{booking.showTimeDetails.film}</td>
-                <td>{booking.showTimeDetails.date}</td>
+                <td>{booking.showTimeDetails.date.slice(0, 10)}</td>
                 <td>{booking.showTimeDetails.time}</td>
                 <td>{booking.seats.join(",")}</td>
                 <td>{booking.totalPrice}</td>

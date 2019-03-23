@@ -24,6 +24,7 @@ import REST from '../../REST';
 
 class Movie extends REST { }
 class Showtime extends REST { }
+class Auditorium extends REST { }
 
 class AdminPage extends Component {
   constructor(props) {
@@ -40,6 +41,8 @@ class AdminPage extends Component {
     this.toggleAddShowtimeModal = this.toggleAddShowtimeModal.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
     this.saveEditedShowtime = this.saveEditedShowtime.bind(this);
+    this.generateShows = this.generateShows.bind(this);
+    this.shuffleArr = this.shuffleArr.bind(this);
 
     this.state = {
       isOpen: false,
@@ -47,7 +50,7 @@ class AdminPage extends Component {
       showtimes: [],
       selectedMovie: false,
       selectedValue: "",
-      
+
 
     }
 
@@ -56,7 +59,37 @@ class AdminPage extends Component {
     this.saveShowtime = [];
   }
 
+  async generateShows() {
+    let date = new Date();
+    let movies = ["The Greatest Showman", "Bird Box", "A Star Is Born", "Me Before You", "Armageddon"];
+    let auditorium = await Auditorium.find();
 
+    for (let i = 0; i < 84; i++) {
+      if (i % 3 == 0) {
+        date.setDate(date.getDate() + 1);
+        movies = ["The Greatest Showman", "Bird Box", "A Star Is Born", "Me Before You", "Armageddon"];
+        auditorium = await Auditorium.find();
+      }
+
+      let showtime = new Showtime({
+        "auditorium": auditorium.pop()._id,
+        "film": this.shuffleArr(movies).pop(),
+        "date": date,
+        "time": 17 + Math.floor(Math.random() * 3) + ':' + (Math.round(Math.random() < 0.5 ? 15 : 45))
+      });
+      console.log(await showtime.save());
+    }
+  }
+
+  shuffleArr(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
+  }
 
   async componentDidMount() {
     this.movie = await Movie.find();
@@ -110,10 +143,10 @@ class AdminPage extends Component {
     this.deletedShowtime = await Showtime.find(
       `.findOneAndDelete({_id:"${delShowtime}"})`
     );
-     
+
     this.setState({ modal: true });
     this.getNewData(this.delShowtimeTitle)
-    
+
   }
 
   async changeShowtime(event) {
@@ -212,13 +245,13 @@ class AdminPage extends Component {
             <React.Fragment key={listitem._id}>
               <div className="view-select" />
               <Row className="adminShowtimes">
-                <Col lg="8">
+                <Col lg="10">
                   <Table className="adminviewings-table">
                     <tbody>
                       <tr>
                         <td>{listitem.film} </td>
                         <td>{listitem.auditorium} </td>
-                        <td>{listitem.date} </td>
+                        <td>{listitem.date.slice(0, 10)} </td>
                         <td>{listitem.time} </td>
                       </tr>
                     </tbody>
@@ -266,6 +299,9 @@ class AdminPage extends Component {
             <h4 className="frontParagraph adminText adminTextSize">Lilla Salongen (ID): 5c6a8a173a65501db0956331 </h4>
             <h4 className="frontParagraph adminText adminTextSize">Stora Salongen (ID): 5c6a8a173a65501db0956330 </h4>
             <Row className="adminMovies">
+              <Col md="12 mt-3">
+                <Button className='adminChoseMovieButton' onClick={this.generateShows}>Generera visningar</Button>
+              </Col>
               <Col md="12 mt-3">
                 <ButtonDropdown
                   className="dropbutton-style"
