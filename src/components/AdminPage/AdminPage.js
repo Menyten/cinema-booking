@@ -295,9 +295,6 @@ class AdminPage extends Component {
           <Container>
             <h1 className="frontParagraph adminText mt-3">Välkommen till Adminsidan</h1>
             <h4 className="frontParagraph adminText mt-1">Här kan du ändra, lägga till eller ta bort visningar</h4>
-            <h4 className="frontParagraph adminText adminTextSize">VIP Salongen (ID): 5c6a8a173a65501db0956332 </h4>
-            <h4 className="frontParagraph adminText adminTextSize">Lilla Salongen (ID): 5c6a8a173a65501db0956331 </h4>
-            <h4 className="frontParagraph adminText adminTextSize">Stora Salongen (ID): 5c6a8a173a65501db0956330 </h4>
             <Row className="adminMovies">
               <Col md="12 mt-3">
                 <Button className='adminChoseMovieButton' onClick={this.generateShows}>Generera visningar</Button>
@@ -352,12 +349,19 @@ class AdminPage extends Component {
                           Salong
                     </InputGroupText>
                       </InputGroupAddon>
-                      <Input
-                        onChange={this.addingNewShowtime}
-                        name="salongAdd"
-                        className="underline-styling"
-                        placeholder="Välj ID på salongen"
-                      />
+                      <label>
+                        <Input
+                          onChange={this.addingNewShowtime}
+                          name="salongAdd"
+                          className="underline-styling"
+                          placeholder="Välj din salongen"
+                          list="auditoriumChoice"
+                        /></label>
+                      <datalist id="auditoriumChoice">
+                        <option value="Lilla Salongen" />
+                        <option value="Stora Salongen" />
+                        <option value="VIP Salongen" />
+                      </datalist>
                     </InputGroup>
                     <InputGroup className="input-box">
                       <InputGroupAddon addonType="prepend">
@@ -438,12 +442,19 @@ class AdminPage extends Component {
                           Salong
                     </InputGroupText>
                       </InputGroupAddon>
-                      <Input
-                        onChange={this.editingShowtime}
-                        name="auditorium"
-                        className="underline-styling"
-                        placeholder={this.editAudit}
-                      />
+                      <label>
+                        <Input
+                          onChange={this.editingShowtime}
+                          name="auditorium"
+                          className="underline-styling"
+                          placeholder={this.editAudit}
+                          list="auditoriumChoice"
+                        /></label>
+                      <datalist id="auditoriumChoice">
+                        <option value="Lilla Salongen" />
+                        <option value="Stora Salongen" />
+                        <option value="VIP Salongen" />
+                      </datalist>
                     </InputGroup>
                     <InputGroup className="input-box">
                       <InputGroupAddon addonType="prepend">

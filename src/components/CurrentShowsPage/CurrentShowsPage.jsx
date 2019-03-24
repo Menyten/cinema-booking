@@ -4,9 +4,7 @@ import Movie from '../Movie';
 import './currentshowspage.scss';
 
 class CurrentShowsPage extends Component {
-  constructor(props) {
-    super(props);
-  }
+  
   render() {
     const { movies, showtimes } = this.props;
     return (

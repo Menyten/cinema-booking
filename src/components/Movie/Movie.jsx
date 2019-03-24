@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 import './movie.scss';
 
 class Movie extends Component {
-  constructor(props) {
-    super(props);
-  }
+ 
   render() {
     const { movieInfo: { title, image, _id }, showtimes } = this.props;
     return (
@@ -19,7 +17,7 @@ class Movie extends Component {
           </ Link>
         </Col>
         <Col xs='12' lg='4'>
-          <img className='img-fluid' src={require(`../../../public${image[1]}`)} />
+          <img alt='Bacon' className='img-fluid' src={require(`../../../public${image[1]}`)} />
         </Col>
         <Col className='mt-3 mt-sm-3 mt-md-0' xs='12' lg='8'>
           {showtimes.filter(showtime => showtime.film.toLowerCase().includes(title.toLowerCase())).map(showtime => (
