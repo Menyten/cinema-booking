@@ -3,10 +3,6 @@ import NavBar from '../NavBar';
 
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-  }
-
 
   render() {
 
@@ -16,7 +12,7 @@ class Header extends Component {
 
     return (
       <header className="App-header">
-        <NavBar user={user} logout={logout} allUsers={allUsers}/>
+        <NavBar user={user} logout={logout} allUsers={allUsers} />
       </header>
     );
   }

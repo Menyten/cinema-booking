@@ -52,7 +52,7 @@ class MovieInfo extends Component {
             </Col>
 
             <Col md='6' className="img-col" alt="">
-              <img src={this.props.movie.image[0]} />
+              <img src={this.props.movie.image[0]} alt='Movie'/>
               <Col className="desc">
                 <p>{this.props.movie.reviews[0].quote} - <i>{this.props.movie.reviews[0].source}</i> </p>
                  <span className="fa fa-star checked"></span>

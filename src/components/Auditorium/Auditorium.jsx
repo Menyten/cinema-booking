@@ -3,11 +3,6 @@ import Seat from '../Seat';
 import React, { Component } from 'react';
 
 class Auditorium extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-
 
   render() {
     const { auditorium, seatLayout, seatClick, individualSeats } = this.props;
