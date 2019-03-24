@@ -1,0 +1,82 @@
+.adminText {
+  text-align: center;
+}
+
+.adminButton {
+  background: #761818 !important;
+  border-color: #f2f2f2 !important;
+}
+
+.movieDiv {
+  text-align: center;
+  border: 1px solid #f2f2f2;
+  border-radius: 11px;
+}
+
+.adminMovies {
+  justify-content: center;
+  text-align: center;
+
+}
+
+.adminChoseMovieButton {
+  background-color: #761818 !important;
+  border: 1px solid #f2f2f2 !important; 
+  border-radius: 14px !important;
+}
+
+.adminDropdownMenu {
+  width: 100%;
+}
+
+.adminListItem {
+  background-color: #761818 !important;
+
+  &:hover {
+    color: #f2f2f2 !important;
+  }
+}
+
+td {
+  color: #f2f2f2;
+}
+
+.adminShowtimes {
+  justify-content: center;
+  text-align: center;
+}
+
+.deleteAndAddButton {
+  margin-bottom: 10px;
+}
+
+.modal-content {
+  background: #761818 !important;
+}
+
+.modal-header {
+  color: #f2f2f2 !important;
+}
+
+.title-style-modal {
+  color: #f2f2f2 !important;
+}
+
+.adminTextSize {
+  font-weight: bold;
+}
+
+.auth {
+  color: #761818;
+  text-transform: uppercase;
+  margin-top: 100px;
+  text-align: center;
+  font-size: 90px;
+  -webkit-box-shadow: 0px 0px 23px 1px rgba(118,24,24,1);
+  -moz-box-shadow: 0px 0px 23px 1px rgba(118,24,24,1);
+  box-shadow: 0px 0px 23px 1px rgba(118,24,24,1);
+}
+
+.authIcon {
+  color: #761818;
+}

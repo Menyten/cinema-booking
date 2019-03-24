@@ -1,0 +1,140 @@
+.bookButton {
+  margin-top: 15px !important;
+  font-family: Arial !important,
+  Helvetica !important,
+  sans-serif !important;
+  text-transform: uppercase !important;
+  width: 153px !important;
+  height: 40px !important;
+  border-radius: 80px !important;
+  font-size: 12px !important;
+  color: #761818 !important;
+  border: 3px solid #761818 !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  transition: .3s !important;
+  position: relative !important;
+  cursor: pointer !important;
+
+  &:before {
+    content: '' !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #761818 !important;
+    position: absolute !important;
+    opacity: .5 !important;
+    top: -100% !important;
+    left: 0 !important;
+    z-index: -1 !important;
+    transition: .3s !important;
+
+  }
+
+  &:after {
+    content: '' !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #761818 !important;
+    position: absolute !important;
+    top: -100% !important;
+    left: 0 !important;
+    z-index: -1 !important;
+    transition: .3s !important;
+    transition-delay: .2s !important;
+
+  }
+
+  &:hover {
+    color: #181a1c !important;
+    font-weight: bold !important;
+  }
+
+  &:hover:before {
+    top: 0 !important;
+  }
+
+  &:hover:after {
+    top: 0 !important;
+  }
+
+  &:focus {
+    outline: 0px auto -webkit-focus-ring-color !important;
+  }
+}
+
+.individualButton {
+  margin-top: 15px !important;
+  font-family: Arial,
+  Helvetica,
+  sans-serif !important;
+  text-transform: uppercase !important;
+  width: 153px !important;
+  height: 40px !important;
+  border-radius: 80px !important;
+  font-size: 12px !important;
+  color: #761818 !important;
+  border: 3px solid #761818 !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  transition: .3s !important;
+  position: relative !important;
+  cursor: pointer !important;
+
+  &:before {
+    content: '' !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #761818 !important;
+    position: absolute !important;
+    opacity: .5 !important;
+    top: -100% !important;
+    left: 0 !important;
+    z-index: -1 !important;
+    transition: .3s !important;
+
+  }
+
+  &:after {
+    content: '' !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #761818 !important;
+    position: absolute !important;
+    top: -100% !important;
+    left: 0 !important;
+    z-index: -1 !important;
+    transition: .3s !important;
+    transition-delay: .2s !important;
+
+  }
+
+  &:hover {
+    color: #181a1c;
+    font-weight: bold;
+  }
+
+  &:hover:before {
+    top: 0 !important;
+  }
+
+  &:hover:after {
+    top: 0 !important;
+  }
+
+  &:focus {
+    outline: 0px auto -webkit-focus-ring-color !important;
+  }
+}
+
+.passwordColor {
+  color: #761818 !important;
+}
+
+.emailColor {
+  color: #761818 !important;
+}
+
+.icon-BC {
+  background-color: #761818 !important;
+  margin-left: 5px;
+}
