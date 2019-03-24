@@ -24,6 +24,7 @@ import REST from '../../REST';
 
 class Movie extends REST { }
 class Showtime extends REST { }
+class Auditorium extends REST { }
 
 class AdminPage extends Component {
   constructor(props) {
@@ -61,18 +62,17 @@ class AdminPage extends Component {
   async generateShows() {
     let date = new Date();
     let movies = ["The Greatest Showman", "Bird Box", "A Star Is Born", "Me Before You", "Armageddon"];
-    // let auditorium = await Auditorium.find();
-    let auditorium = ['Lilla Salongen', 'Stora Salongen', 'VIP Salongen'];
+    let auditorium = await Auditorium.find();
 
     for (let i = 0; i < 84; i++) {
       if (i % 3 === 0) {
         date.setDate(date.getDate() + 1);
         movies = ["The Greatest Showman", "Bird Box", "A Star Is Born", "Me Before You", "Armageddon"];
-        auditorium = ['Lilla Salongen', 'Stora Salongen', 'VIP Salongen'];
+        auditorium = await Auditorium.find();
       }
 
       let showtime = new Showtime({
-        "auditorium": auditorium.pop(),
+        "auditorium": auditorium.pop()._id,
         "film": this.shuffleArr(movies).pop(),
         "date": date,
         "time": 17 + Math.floor(Math.random() * 3) + ':' + (Math.round(Math.random() < 0.5 ? 15 : 45))
@@ -173,7 +173,7 @@ class AdminPage extends Component {
     let showtimeId = this.saveShowtime[0][0]._id;
     let showtimeTitle = this.saveShowtime[0][0].film;
 
-    await Showtime.find(`.findOneAndReplace({_id:'${showtimeId}' },
+    let saveThisShowtime = await Showtime.find(`.findOneAndReplace({_id:'${showtimeId}' },
         {  "$set": {
           "date": '${date}',
           "auditorium": '${auditorium}',
@@ -263,8 +263,8 @@ class AdminPage extends Component {
                       role="img"
                       className="view-delete deleteAndAddButton"
                     >
-                      <span role='img' aria-label='lala'>❌</span>
-                    </button>
+                      ❌
+                  </button>
                     <button
                       value={listitem._id}
                       onClick={this.changeShowtime}
@@ -442,12 +442,19 @@ class AdminPage extends Component {
                           Salong
                     </InputGroupText>
                       </InputGroupAddon>
-                      <Input
-                        onChange={this.editingShowtime}
-                        name="auditorium"
-                        className="underline-styling"
-                        placeholder={this.editAudit}
-                      />
+                      <label>
+                        <Input
+                          onChange={this.editingShowtime}
+                          name="auditorium"
+                          className="underline-styling"
+                          placeholder={this.editAudit}
+                          list="auditoriumChoice"
+                        /></label>
+                      <datalist id="auditoriumChoice">
+                        <option value="Lilla Salongen" />
+                        <option value="Stora Salongen" />
+                        <option value="VIP Salongen" />
+                      </datalist>
                     </InputGroup>
                     <InputGroup className="input-box">
                       <InputGroupAddon addonType="prepend">
