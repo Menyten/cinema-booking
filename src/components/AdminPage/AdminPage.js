@@ -65,7 +65,7 @@ class AdminPage extends Component {
     let auditorium = await Auditorium.find();
 
     for (let i = 0; i < 84; i++) {
-      if (i % 3 == 0) {
+      if (i % 3 === 0) {
         date.setDate(date.getDate() + 1);
         movies = ["The Greatest Showman", "Bird Box", "A Star Is Born", "Me Before You", "Armageddon"];
         auditorium = await Auditorium.find();
@@ -205,7 +205,7 @@ class AdminPage extends Component {
 
   async saveNewShowtime() {
     let { title, timeAdd, salongAdd, dateAdd } = this.state;
-    let toBeAdded = await Showtime.find(`.find({film:"${title}"})`);
+    //let toBeAdded = await Showtime.find(`.find({film:"${title}"})`);
 
     let newAddedShowtime = await new Showtime({
       film: title,

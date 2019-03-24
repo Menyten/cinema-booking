@@ -51,7 +51,7 @@ class MovieInfo extends Component {
               </Col>
             </Col>
 
-            <Col md='6' className="img-col">
+            <Col md='6' className="img-col" alt="">
               <img src={this.props.movie.image[0]} />
               <Col className="desc">
                 <p>{this.props.movie.reviews[0].quote} - <i>{this.props.movie.reviews[0].source}</i> </p>

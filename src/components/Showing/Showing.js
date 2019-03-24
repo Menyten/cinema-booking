@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Auditorium from '../Auditorium';
-import Seat from '../Seat';
 import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
 import './showing.scss';
 import REST from "../../REST";
@@ -75,7 +74,7 @@ export default class Showing extends Component {
 
     for (const seatRow of seats) {
       for (const seat of seatRow) {
-        if (this.takenSeats.indexOf(seat.seatNum) == -1) {
+        if (this.takenSeats.indexOf(seat.seatNum) === -1) {
           continue;
         } else {
           seat.booked = true;
@@ -144,7 +143,7 @@ export default class Showing extends Component {
 
       if (this.state.chosenSeats.length) {
         for (let seat in this.state.chosenSeats) {
-          if (this.state.chosenSeats[seat].seatNum == clickedSeat.seatNum) {
+          if (this.state.chosenSeats[seat].seatNum === clickedSeat.seatNum) {
             this.seatsBySeatNumber[clickedSeat.seatNum].toBeBooked = false;
             this.setState({
               chosenSeats: this.state.chosenSeats.filter(

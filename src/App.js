@@ -13,14 +13,12 @@ import MyBookings from './components/MyBookings';
 // import CurrentBookings from './components/CurrentBookings';
 import REST from './REST'
 import AdminPage from './components/AdminPage';
-import { Container, Row, Col } from 'reactstrap';
 import io from 'socket.io-client';
 
 class Movie extends REST { }
 class Showtime extends REST { }
 class Auditorium extends REST { }
 class User extends REST { }
-class Booking extends REST { }
 class Login extends REST {
   async delete() {
     this._id = 1;

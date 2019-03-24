@@ -12,7 +12,6 @@ import {
   DropdownMenu,
   DropdownItem,
   Dropdown,
-  Button,
   Popover,
   PopoverBody
 } from 'reactstrap';

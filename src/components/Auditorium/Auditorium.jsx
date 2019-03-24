@@ -23,7 +23,6 @@ class Auditorium extends Component {
                 seatNum={seat.seatNum}
                 key={seat.seatNum}
                 toBeBooked={seat.toBeBooked}
-                booked={seat.booked}
                 seatClick={seatClick}
                 individualSeats={individualSeats}
               />
