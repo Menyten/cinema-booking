@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let showtimeSchema = new Schema({
-  "auditorium": { type: Schema.Types.ObjectId, ref: 'Auditorium' },
+  "auditorium": String,
   "film": String,
   "date": Date,
   "time": String

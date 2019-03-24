@@ -295,9 +295,6 @@ class AdminPage extends Component {
           <Container>
             <h1 className="frontParagraph adminText mt-3">Välkommen till Adminsidan</h1>
             <h4 className="frontParagraph adminText mt-1">Här kan du ändra, lägga till eller ta bort visningar</h4>
-            <h4 className="frontParagraph adminText adminTextSize">VIP Salongen (ID): 5c6a8a173a65501db0956332 </h4>
-            <h4 className="frontParagraph adminText adminTextSize">Lilla Salongen (ID): 5c6a8a173a65501db0956331 </h4>
-            <h4 className="frontParagraph adminText adminTextSize">Stora Salongen (ID): 5c6a8a173a65501db0956330 </h4>
             <Row className="adminMovies">
               <Col md="12 mt-3">
                 <Button className='adminChoseMovieButton' onClick={this.generateShows}>Generera visningar</Button>
@@ -352,138 +349,145 @@ class AdminPage extends Component {
                           Salong
                     </InputGroupText>
                       </InputGroupAddon>
-                      <Input
-                        onChange={this.addingNewShowtime}
-                        name="salongAdd"
-                        className="underline-styling"
-                        placeholder="Välj ID på salongen"
-                      />
+                      <label>
+                        <Input
+                          onChange={this.addingNewShowtime}
+                          name="salongAdd"
+                          className="underline-styling"
+                          placeholder="Välj din salongen"
+                          list="auditoriumChoice"
+                        /></label>
+                      <datalist id="auditoriumChoice">
+                        <option value="Lilla Salongen"/>
+                        <option value="Stora Salongen"/>
+                        <option value="VIP Salongen"/>
+                      </datalist>
                     </InputGroup>
-                    <InputGroup className="input-box">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText className="input-styling">
-                          Tid
+                        <InputGroup className="input-box">
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText className="input-styling">
+                              Tid
                     </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        onChange={this.addingNewShowtime}
-                        name="timeAdd"
-                        className="underline-styling"
-                        placeholder="13:00"
-                      />
-                    </InputGroup>
-                    <InputGroup className="input-box">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText className="input-styling">
-                          Datum
+                          </InputGroupAddon>
+                          <Input
+                            onChange={this.addingNewShowtime}
+                            name="timeAdd"
+                            className="underline-styling"
+                            placeholder="13:00"
+                          />
+                        </InputGroup>
+                        <InputGroup className="input-box">
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText className="input-styling">
+                              Datum
                     </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        type='date'
-                        onChange={e => this.setState({ dateAdd: new Date(e.currentTarget.value).toISOString() })}
-                        className="underline-styling"
-                      />
-                    </InputGroup>
+                          </InputGroupAddon>
+                          <Input
+                            type='date'
+                            onChange={e => this.setState({ dateAdd: new Date(e.currentTarget.value).toISOString() })}
+                            className="underline-styling"
+                          />
+                        </InputGroup>
                   </div>
                 </ModalBody>
-                <ModalFooter className="inputmodalstyle">
-                  <Button color="primary" onClick={this.saveNewShowtime}>
-                    Spara
+                    <ModalFooter className="inputmodalstyle">
+                      <Button color="primary" onClick={this.saveNewShowtime}>
+                        Spara
               </Button>{" "}
-                  <Button color="secondary" onClick={this.onDismiss}>
-                    Cancel
+                      <Button color="secondary" onClick={this.onDismiss}>
+                        Cancel
               </Button>
-                </ModalFooter>
+                    </ModalFooter>
               </Modal>
             </div>
 
-            <Modal
-              isOpen={this.state.modal}
-              toggle={this.toggle}
-              className="delete-modal"
-            >
-              <ModalHeader className="delete-modal" toggle={this.toggle}>
-                Raderad visning
+                <Modal
+                  isOpen={this.state.modal}
+                  toggle={this.toggle}
+                  className="delete-modal"
+                >
+                  <ModalHeader className="delete-modal" toggle={this.toggle}>
+                    Raderad visning
           </ModalHeader>
-              <ModalBody className="delete-modal">
-                <p className="deletedView-text"> Titel: {this.delShowtimeTitle}</p>
-                <p className="deletedView-text"> Datum: {this.delShowtimeDate}</p>
-                <p className="deletedView-text"> Tid: {this.delShowtimeTime}</p>
-              </ModalBody>
-              <ModalFooter className="delete-modal">
-                <Button color="primary" onClick={this.onDismiss}>
-                  Stäng
+                  <ModalBody className="delete-modal">
+                    <p className="deletedView-text"> Titel: {this.delShowtimeTitle}</p>
+                    <p className="deletedView-text"> Datum: {this.delShowtimeDate}</p>
+                    <p className="deletedView-text"> Tid: {this.delShowtimeTime}</p>
+                  </ModalBody>
+                  <ModalFooter className="delete-modal">
+                    <Button color="primary" onClick={this.onDismiss}>
+                      Stäng
             </Button>
-              </ModalFooter>
-            </Modal>
+                  </ModalFooter>
+                </Modal>
 
-            <div>
-              <Modal
-                className="inputmodalstyle"
-                isOpen={this.state.inputModal}
-                toggle={this.toggleInput}
-              >
-                <ModalHeader className="inputmodalstyle" toggle={this.toggleInput}>
-                  Redigera visning
+                <div>
+                  <Modal
+                    className="inputmodalstyle"
+                    isOpen={this.state.inputModal}
+                    toggle={this.toggleInput}
+                  >
+                    <ModalHeader className="inputmodalstyle" toggle={this.toggleInput}>
+                      Redigera visning
             </ModalHeader>
-                <ModalBody className="inputmodalstyle">
-                  <div>
-                    <p className="title-style-modal">
-                      Redigera visning för filmen
+                    <ModalBody className="inputmodalstyle">
+                      <div>
+                        <p className="title-style-modal">
+                          Redigera visning för filmen
                   <br /> {this.editTitle}
-                    </p>
-                    <InputGroup className="input-box">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText className="input-styling">
-                          Salong
+                        </p>
+                        <InputGroup className="input-box">
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText className="input-styling">
+                              Salong
                     </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        onChange={this.editingShowtime}
-                        name="auditorium"
-                        className="underline-styling"
-                        placeholder={this.editAudit}
-                      />
-                    </InputGroup>
-                    <InputGroup className="input-box">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText className="input-styling">
-                          Tid
+                          </InputGroupAddon>
+                          <Input
+                            onChange={this.editingShowtime}
+                            name="auditorium"
+                            className="underline-styling"
+                            placeholder={this.editAudit}
+                          />
+                        </InputGroup>
+                        <InputGroup className="input-box">
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText className="input-styling">
+                              Tid
                     </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        onChange={this.editingShowtime}
-                        name="time"
-                        className="underline-styling"
-                        placeholder={this.editTime}
-                      />
-                    </InputGroup>
-                    <InputGroup className="input-box">
-                      <Input
-                        type='date'
-                        onChange={e => this.setState({ date: new Date(e.currentTarget.value).toISOString() })}
-                        className="underline-styling"
-                      />
-                    </InputGroup>
-                  </div>
-                </ModalBody>
-                <ModalFooter className="inputmodalstyle">
-                  <Button color="primary" onClick={this.saveEditedShowtime}>
-                    Spara
+                          </InputGroupAddon>
+                          <Input
+                            onChange={this.editingShowtime}
+                            name="time"
+                            className="underline-styling"
+                            placeholder={this.editTime}
+                          />
+                        </InputGroup>
+                        <InputGroup className="input-box">
+                          <Input
+                            type='date'
+                            onChange={e => this.setState({ date: new Date(e.currentTarget.value).toISOString() })}
+                            className="underline-styling"
+                          />
+                        </InputGroup>
+                      </div>
+                    </ModalBody>
+                    <ModalFooter className="inputmodalstyle">
+                      <Button color="primary" onClick={this.saveEditedShowtime}>
+                        Spara
               </Button>{" "}
-                  <Button color="secondary" onClick={this.onDismiss}>
-                    Cancel
+                      <Button color="secondary" onClick={this.onDismiss}>
+                        Cancel
               </Button>
-                </ModalFooter>
-              </Modal>
-            </div>
+                    </ModalFooter>
+                  </Modal>
+                </div>
           </Container>
-          : <p className="auth">åtkomst nekad!</p>}
+              : <p className="auth">åtkomst nekad!</p>}
       </Container>
-    )
-  }
-
-
-}
-
+            )
+          }
+        
+        
+        }
+        
 export default AdminPage;
